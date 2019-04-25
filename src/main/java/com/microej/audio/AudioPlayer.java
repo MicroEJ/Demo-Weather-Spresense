@@ -100,14 +100,14 @@ public class AudioPlayer {
 	}
 
 	private static double convertVolumeToOutput(double volume) {
-		double result = GainToDb(volume*(LOW_DB_GAIN_1_PER_CENT));
+		double result = GainToDb(volume*(LOW_DB_GAIN_1_PER_CENT)/100);
 		System.out.println("AudioPlayer.convertVolumeToOutput() volume=" + volume);
 		System.out.println("AudioPlayer.convertVolumeToOutput() result=" + result);
 		return result;
 	}
 
 	private static double DbToGain(double db) {
-		double result = Math.pow(10, db/10);
+		double result = 100*Math.pow(10, db/20);
 		System.out.println("AudioPlayer.DbToGain() db=" + db);
 		System.out.println("AudioPlayer.DbToGain() result=" + result);
 		return result;
