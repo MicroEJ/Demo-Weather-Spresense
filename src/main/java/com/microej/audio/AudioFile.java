@@ -9,9 +9,13 @@ package com.microej.audio;
 import ej.sni.SNI;
 
 /**
- *
+ * Class representing an audio file
  */
 public class AudioFile {
+	/**
+	 * Audio Codec
+	 * Format of the file
+	 */
 	public enum AudioCodec {
 		MP3(0),
 		/** WAV */
@@ -33,7 +37,10 @@ public class AudioFile {
 		}
 		private final int m_value;
 	}
-
+	/**
+	 * Enum representing the bit length
+	 * value function allow access to the integer value of the enum
+	 */
 	public enum BitLength {
 		BITLENGTH_16(16),
 		BITLENGTH_24(24),
@@ -47,7 +54,10 @@ public class AudioFile {
 		}
 		private final int m_value;
 	}
-
+	/**
+	 * Sampling rate in Hz represented by an enum
+	 * value function allow access to the integer value of the enum
+	 */
 	public enum SamplingRate  {
 		/* Auto */
 		SAMPLINGRATE_AUTO(0),
@@ -90,7 +100,9 @@ public class AudioFile {
 		}
 		private final int m_value;
 	}
-
+	/**
+	 * Enum defining the audio channel
+	 */
 	public enum AudioChannel {
 		AS_CHANNEL_MONO(1),
 		/** STEREO (2ch) */
@@ -111,6 +123,19 @@ public class AudioFile {
 		private final int m_value;
 	}
 
+	/**
+	 * Construct an AudioFile
+	 * @param name_args
+	 * 		Filename
+	 * @param channel_args
+	 * 		AudioChannel selected
+	 * @param bit_length_args
+	 * 		ButLength of the audio file
+	 * @param sampling_rate_length
+	 * 		Sampling rate in Hz
+	 * @param codec_args
+	 * 		Format of encoded audio
+	 */
 	public AudioFile(String name_args, AudioChannel channel_args, BitLength bit_length_args, SamplingRate sampling_rate_length, AudioCodec codec_args) {
 		name = name_args;
 		channel = channel_args;
@@ -119,6 +144,11 @@ public class AudioFile {
 		codec = codec_args;
 	}
 
+	/**
+	 * Play the file for the given duration
+	 * @param duration
+	 * 		in seconds
+	 */
 	public void play(int duration) {
 		int filename_length = this.name.length();
 		byte[] filename = new byte[filename_length+1];

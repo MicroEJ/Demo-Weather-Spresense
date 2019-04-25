@@ -34,7 +34,7 @@ public class GnssManager {
 
 	/**
 	 *	Call switchOff methods using static instance of GnssManagerImpl
-	 * Switch positioning off
+	 *  Switch positioning off
 	 */
 	public static void switchOff() {
 		gnssManagerInstance.switchOff();

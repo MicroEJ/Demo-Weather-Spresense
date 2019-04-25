@@ -7,10 +7,9 @@
 package com.microej.gnss;
 
 /**
- *
+ * Class defining native function for gnss functionality
  */
 public class GnssMicroEJNative {
-	// Read decoded data
 	public static native double GNSS_getLattitude();
 	public static native double GNSS_getLongitude();
 	public static native int GNSS_getTimeHours();

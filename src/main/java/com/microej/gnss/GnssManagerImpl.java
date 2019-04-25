@@ -63,7 +63,8 @@ public class GnssManagerImpl {
 	 * Write the native position data received to the LocalizationData attributes
 	 * If data is invalid set the CoordinateType to INVALID and data to 0.0
 	 *
-	 * @param None
+	 * @param isValid
+	 *		boolean indicating if the localization data is valid or not
 	 */
 	private void updatePositionDatas(boolean isValid) {
 		if(isValid) {
