@@ -90,7 +90,7 @@ public class AudioPlayer {
 	 */
 	public static void setVolume(double volume) {
 		audioVolume = volume;
-		audioOutput = convertVolumeToOutput(volume);
+		audioOutput = convertVolumeToOutput(audioVolume);
 		outputState = AudioOutputState.SOUND_ON;
 		AudioPlayerNative.setOutputLevel(audioOutput);
 	}
@@ -154,10 +154,13 @@ public class AudioPlayer {
 	 * 		Volume in percentage
 	 */
 	private static double convertOutputToVolume(double db) {
-		if(db < LOW_DB_GAIN_1_PER_CENT) {
-			// Error
+		if(db <=  MIN_DB) {
+			db = MIN_DB;
+		} else if(db >= MAX_DB) {
+			db = MAX_DB;
 		}
 		double result = DbToGain(db) / (LOW_DB_GAIN_1_PER_CENT);
+		result = result / LINEAR_RESCALING_FACTOR;
 		System.out.println("AudioPlayer.convertOutputToVolume() db=" + db);
 		System.out.println("AudioPlayer.convertOutputToVolume() result=" + result);
 		return result;
@@ -170,7 +173,13 @@ public class AudioPlayer {
 	 * 		gain value in decibel
 	 */
 	private static double convertVolumeToOutput(double volume) {
-		double result = GainToDb(volume*(LOW_DB_GAIN_1_PER_CENT)/100);
+		// Multiply by 2 because starting from -60dB means 100% is -20dB gain which can be still low. 200% re-scaled is around -13 dB
+		if(volume <= 1) {
+			volume = 1; // Minimum volume is 1 because 0 would mean mute
+		} else if(volume >= 100) {
+			volume = 100; // Maximum volume - may not be necessary as a volume over 100% is not absurd
+		}
+		double result = GainToDb(LINEAR_RESCALING_FACTOR*volume*(LOW_DB_GAIN_1_PER_CENT)/100);
 		System.out.println("AudioPlayer.convertVolumeToOutput() volume=" + volume);
 		System.out.println("AudioPlayer.convertVolumeToOutput() result=" + result);
 		return result;
@@ -207,8 +216,16 @@ public class AudioPlayer {
 	private static double audioVolume;
 	// Output in DB
 	private static double audioOutput;
-	private static AudioOutputState outputState = AudioOutputState.SOUND_ON;
-	private final static double LOW_DB_GAIN_1_PER_CENT = AudioPlayer.DbToGain(-60);
 	private static PlayList playList;
+	private static AudioOutputState outputState = AudioOutputState.SOUND_ON;
 
+	// Constant for calculating a linear scale from DB
+	// Arbitrary choice to set 1% of the volume linear scale to -60 dB
+	private static final double MIN_DB= -60;
+	// 0-100% scale is done by calculating the linear augmentation to a decibel increased compared to MIN_DB. This means that 100% will always be MIN_DB+40dB.
+	// If that is still too low for you want to rescale the linear scale
+	private static final int LINEAR_RESCALING_FACTOR = 2;
+	private static final double MAX_DB = AudioPlayer.convertVolumeToOutput(100);
+	// Gain value defined as 1% to calculate linear scale
+	private static final double LOW_DB_GAIN_1_PER_CENT = AudioPlayer.DbToGain(MIN_DB);
 }
