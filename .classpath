@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src/main/java"/>
+	<classpathentry kind="src" path="src/main/resources"/>
+	<classpathentry kind="lib" path="C:/Users/rcaillaud/.ivy2/cache-cross/ej.library.runtime/property-loader/jars/property-loader-3.0.1.jar"/>
+	<classpathentry kind="lib" path="C:/Users/rcaillaud/.ivy2/cache-cross/ej.library.runtime/service/jars/service-1.0.0.jar"/>
+	<classpathentry kind="var" path="BON-1.3"/>
+	<classpathentry kind="var" path="EDC-1.2"/>
+	<classpathentry kind="var" path="SNI-1.3"/>
+	<classpathentry kind="var" path="SP-2.0"/>
+	<classpathentry kind="lib" path="C:/Users/rcaillaud/.ivy2/cache-cross/ej.library.runtime/components/jars/components-3.2.3.jar"/>
+	<classpathentry kind="var" path="MICROUI-2.2"/>
+	<classpathentry kind="lib" path="C:/Users/rcaillaud/.ivy2/cache-cross/ej.library.runtime/basictool/jars/basictool-1.2.2.jar"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>
