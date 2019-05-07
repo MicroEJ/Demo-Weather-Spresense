@@ -1,6 +1,9 @@
-# Copyright 2016 IS2T. All rights reserved.
-# For demonstration purpose only.
-# IS2T PROPRIETARY. Use is subject to license terms.
+# Copyright 2019 Sony Corp. All rights reserved.
+# This Software has been designed by MicroEJ Corp and all rights have been transferred to Sony Corp.
+# Sony Corp. has granted MicroEJ the right to sub-licensed this Software under the enclosed license terms.
 
 # message font
-fonts/microej_system_font.ejf::4
+fonts/SourceSansPro-Bold_capitalHeight_20px_out_39px.ejf::4
+fonts/SourceSansPro-Bold_capitalHeight_48px_out_91px.ejf::4
+fonts/SourceSansPro-ExtraLight_capitalHeight_14px_out_25px.ejf::4
+fonts/SourceSansPro-ExtraLight_capitalHeight_7px_out_14px.ejf::4
