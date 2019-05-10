@@ -7,6 +7,9 @@
  */
 package com.microej.example.hello;
 
+import com.microej.example.hello.style.StylePopulator;
+import com.microej.example.hello.widget.MainFrame;
+
 import ej.microui.MicroUI;
 import ej.widget.StyledDesktop;
 import ej.widget.StyledPanel;
@@ -16,8 +19,8 @@ import ej.widget.StyledPanel;
  */
 public class HelloWorld {
 	public static void main(String[] args) {
-		StylePopulator.populate();
 		MicroUI.start();
+		StylePopulator.populate();
 
 		StyledDesktop desktop = new StyledDesktop();
 		StyledPanel panel = new StyledPanel();

@@ -3,7 +3,15 @@
 # Sony Corp. has granted MicroEJ the right to sub-licensed this Software under the enclosed license terms.
 
 # message font
-fonts/SourceSansPro-Bold_capitalHeight_20px_out_39px.ejf::4
-fonts/SourceSansPro-Bold_capitalHeight_48px_out_91px.ejf::4
-fonts/SourceSansPro-ExtraLight_capitalHeight_14px_out_25px.ejf::4
-fonts/SourceSansPro-ExtraLight_capitalHeight_7px_out_14px.ejf::4
+
+# %:0-9A-Za-z
+fonts/pixel_r_8_15px.ejf:0x25,0x2D,0x30-0x3A,0x41-0x7A:4
+
+# (f)(c) 0-9A-Za-z
+fonts/Roboto_cond_b_it_13-22px.ejf:0x3-0x4,0x30-0x3A,0x41-0x7A:4
+
+# (am)(pm)(h).:0-9
+fonts/Roboto_cond_r_it_10-20px.ejf:0x1-0x3,0x2E,0x30-0x3A:4
+
+# (F)(C)0-9
+fonts/Source_r_it_32-60px.ejf:0x1-0x2,0x30-0x39:4

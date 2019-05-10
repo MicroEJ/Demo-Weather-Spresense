@@ -7,6 +7,8 @@
  */
 package com.microej.example.hello;
 
+import com.microej.example.hello.style.Colors;
+
 import ej.bon.Util;
 
 /**
@@ -16,7 +18,6 @@ public class Model {
 
 	private static long currentTime = Util.currentTimeMillis();
 
-	private static final long THRESHOLD = 1557230873442L;
 	private static long offset = 0;
 
 	private static final long SPEED = 59 * 50;
@@ -31,15 +32,15 @@ public class Model {
 	/**
 	 * @return
 	 */
-	public static String getLocation() {
-		return "Californie";
+	public static int getTemperature() {
+		return 72;
 	}
 
 	/**
 	 * @return
 	 */
-	public static int getTemperature() {
-		return 72;
+	public static int getCurrentColor() {
+		return Colors.CORAL;
 	}
 
 }
