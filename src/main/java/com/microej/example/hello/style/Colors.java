@@ -13,6 +13,7 @@ public final class Colors {
 	public static final int GREY = 0xB1BDC3;
 	public static final int WHITE = 0xFFFFFF;
 	public static final int CORAL = 0xEE502E;
+	public static final int BLACK = 0x000000;
 
 	private Colors() {
 	}

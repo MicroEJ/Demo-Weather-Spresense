@@ -15,8 +15,9 @@ import ej.mwt.Composite;
 import ej.style.Stylesheet;
 import ej.style.background.NoBackground;
 import ej.style.background.PlainBackground;
+import ej.style.background.SimpleRoundedPlainBackground;
 import ej.style.dimension.FixedDimension;
-import ej.style.outline.SimpleOutline;
+import ej.style.outline.ComplexOutline;
 import ej.style.selector.ClassSelector;
 import ej.style.selector.TypeOrSubtypeSelector;
 import ej.style.util.EditableStyle;
@@ -39,7 +40,7 @@ public class StylePopulator {
 		EditableStyle style = new EditableStyle();
 		style.setBackground(new MainBackground(Colors.GREY_LIGHT));
 		style.setBackgroundColor(Colors.WHITE);
-		style.setPadding(new SimpleOutline(DEFAULT_OUTLINE));
+		style.setPadding(new ComplexOutline(0, DEFAULT_OUTLINE, DEFAULT_OUTLINE, DEFAULT_OUTLINE));
 		stylesheet.addRule(new ClassSelector(ClassSelectors.MAINBACKGROUND), style);
 
 		style.clear();
@@ -63,13 +64,37 @@ public class StylePopulator {
 		style.clear();
 		style.setAlignment(GraphicsContext.HCENTER_VCENTER);
 		style.setDimension(
-				new FixedDimension(MainBackground.CIRCLE_DIAMETER, MainBackground.CIRCLE_DIAMETER - 2 * TOP_OFFSET));
+				new FixedDimension(MainBackground.CIRCLE_DIAMETER,
+						MainBackground.CIRCLE_DIAMETER - (2 * TOP_OFFSET) + DEFAULT_OUTLINE * 2));
 		stylesheet.addRule(new ClassSelector(ClassSelectors.CIRCLE), style);
+
+		style.clear();
+		style.setForegroundColor(Colors.BLACK);
+		style.setFontProfile(FontProfiles.MEDIUM_BOLD);
+		stylesheet.addRule(new ClassSelector(ClassSelectors.DAY), style);
+
+		style.clear();
+		style.setForegroundColor(Colors.BLACK);
+		style.setBackground(new SimpleRoundedPlainBackground(100) {
+			@Override
+			public boolean isTransparent() {
+				return false;
+			}
+		});
+		style.setFontProfile(FontProfiles.HUGE);
+		stylesheet.addRule(new ClassSelector(ClassSelectors.MAIN_TEMPERATURE), style);
+
+		style.clear();
+		style.setForegroundColor(Colors.GREY_LIGHT);
+		style.setFontProfile(FontProfiles.MEDIUM);
+		style.setMargin(new ComplexOutline(0, 0, 15, 0));
+		stylesheet.addRule(new ClassSelector(ClassSelectors.DETAIL_SUBLINE), style);
 
 		style.clear();
 		style.setBackground(NoBackground.NO_BACKGROUND);
 		stylesheet.addRule(new ClassSelector(ClassSelectors.NO_BACKGROUND), style);
 		stylesheet.addRule(new TypeOrSubtypeSelector(Composite.class), style);
+
 
 		style.clear();
 		style.setBackground(new PlainBackground());

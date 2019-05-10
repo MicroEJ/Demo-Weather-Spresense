@@ -20,7 +20,7 @@ public final class FontProfiles {
 	public static final FontProfile SMALL = new FontProfile(PIXEL, 15, Font.STYLE_PLAIN);
 	public static final FontProfile MEDIUM_BOLD = new FontProfile(ROBOTO, 22, Font.STYLE_BOLD);
 	public static final FontProfile MEDIUM = new FontProfile(ROBOTO, 20, Font.STYLE_PLAIN);
-	public static final FontProfile HUGHE = new FontProfile(SOURCE, 60, Font.STYLE_PLAIN);
+	public static final FontProfile HUGE = new FontProfile(SOURCE, 60, Font.STYLE_PLAIN);
 
 	private FontProfiles() {
 	}

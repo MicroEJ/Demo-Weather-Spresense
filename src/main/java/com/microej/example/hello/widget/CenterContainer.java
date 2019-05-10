@@ -12,7 +12,6 @@ import java.util.Iterator;
 import ej.mwt.MWT;
 import ej.mwt.Widget;
 import ej.style.Style;
-import ej.style.container.AlignmentHelper;
 import ej.style.container.Rectangle;
 import ej.widget.StyledComposite;
 
@@ -157,19 +156,10 @@ public class CenterContainer extends StyledComposite {
 		int spareHeight = boundsHeight-centerHeight;
 		center.setBounds(boundsX + spareWidth/2, boundsY+ spareHeight/2, centerWidth, centerHeight);
 		if(first!=null) {
-			setWidgetBounds(first, boundsX, boundsY, boundsHeight, spareWidth);
+			first.setBounds(boundsX, boundsY, spareWidth / 2, boundsHeight);
 		}
 		if(last!=null) {
-			setWidgetBounds(last, boundsX + spareWidth / 2 + centerWidth, boundsY, boundsHeight, spareWidth);
+			last.setBounds(boundsX + spareWidth / 2 + centerWidth, boundsY, spareWidth / 2, boundsHeight);
 		}
-	}
-
-	private void setWidgetBounds(Widget widget, int boundsX, int boundsY, int boundsHeight, int spareWidth) {
-		int preferredWidth = widget.getPreferredWidth();
-		int preferredHeight = widget.getPreferredHeight();
-		int alignment = getStyle().getAlignment();
-		int x = AlignmentHelper.computeXLeftCorner(preferredWidth, boundsX, spareWidth / 2, alignment);
-		int y = AlignmentHelper.computeYTopCorner(preferredHeight, boundsY, boundsHeight, alignment);
-		widget.setBounds(x, y, preferredWidth, preferredHeight);
 	}
 }

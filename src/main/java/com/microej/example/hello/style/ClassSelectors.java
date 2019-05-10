@@ -16,6 +16,9 @@ public final class ClassSelectors {
 	public static final String CIRCLE = "e";
 	public static final String DETAILS = "f";
 	public static final String TEST = "TEST";
+	public static final String DAY = "g";
+	public static final String DETAIL_SUBLINE = "h";
+	public static final String MAIN_TEMPERATURE = "i";
 
 	private ClassSelectors() {
 	}

@@ -29,18 +29,6 @@ public class HelloWorld {
 		panel.showFullScreen(desktop);
 	}
 
-	public static void pause(long delay) {
-		try {
-			Thread.sleep(delay);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
+	private HelloWorld() {
 	}
-
-	public HelloWorld() {
-	}
-
-	private final static int duration = 20;
-	private static int index = 0;
-	private static int test_async_cmd = 2;
 }
