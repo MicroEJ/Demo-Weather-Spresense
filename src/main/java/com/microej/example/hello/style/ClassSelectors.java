@@ -19,10 +19,10 @@ public final class ClassSelectors {
 	public static final String DAY = "g";
 	public static final String DATE_DETAILS = "h";
 	public static final String MAIN_TEMPERATURE = "i";
-	public static final String NEXT_HOUR = "j";
-	public static final String MEDIUM_HOUR = "k";
-	public static final String LAST_HOUR_HOUR = "l";
-	public static final String HOURLY_TEMPERATURE = "m";
+	public static final String TEMPERATURE = "j";
+	public static final String HOURLY_TEMPERATURE = "k";
+	public static final String ICON = "l";
+	public static final String WEATHER_VALUE = "m";
 
 	private ClassSelectors() {
 	}

@@ -11,6 +11,7 @@ import java.util.Calendar;
 import java.util.Date;
 
 import com.microej.example.hello.Model;
+import com.microej.example.hello.NLS;
 import com.microej.example.hello.Util;
 import com.microej.example.hello.style.ClassSelectors;
 
@@ -23,12 +24,10 @@ public class HourlyDetail extends Dock {
 	private final Label hour;
 	private final Label temperature;
 
-	public HourlyDetail(int offset, String temperatureClassSelector) {
+	public HourlyDetail(int offset) {
 		this.offset = offset;
 
 		temperature = new Label();
-		temperature.addClassSelector(ClassSelectors.DAY);
-		temperature.addClassSelector(temperatureClassSelector);
 		hour = new Label();
 		hour.addClassSelector(ClassSelectors.DATE_DETAILS);
 		addBottom(Util.addWrapper(hour));
@@ -39,10 +38,10 @@ public class HourlyDetail extends Dock {
 	public void update(long hour) {
 		Date date = new Date(hour + offset);
 		Util.update(temperature,
-				Util.addPadding(String.valueOf(Model.getTemperature(date)) + Model.getTemperatureSymbol()));
+				Util.addPadding(String.valueOf(Model.getTemperature(date)) + NLS.getTemperatureSymbol()));
 		Calendar calendar = Calendar.getInstance();
 		calendar.setTime(date);
 		Util.update(this.hour,
-				String.valueOf(Model.getHourFormat().format(date)) + Model.getHourSymbol(calendar.get(Calendar.AM_PM)));
+				String.valueOf(NLS.getHourFormat().format(date)) + NLS.getHourSymbol(calendar.get(Calendar.AM_PM)));
 	}
 }

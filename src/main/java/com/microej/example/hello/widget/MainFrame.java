@@ -9,7 +9,6 @@ package com.microej.example.hello.widget;
 
 import com.microej.example.hello.style.ClassSelectors;
 
-import ej.widget.basic.Label;
 import ej.widget.composed.Wrapper;
 import ej.widget.container.Dock;
 import ej.widget.container.Grid;
@@ -23,7 +22,7 @@ public class MainFrame extends Dock {
 	 *
 	 */
 	public MainFrame() {
-		WeatherWidget weatherWidget = new WeatherWidget();
+		WeatherAnimationWidget weatherWidget = new WeatherAnimationWidget();
 		weatherWidget.addClassSelector(ClassSelectors.TOPBACKGROUND);
 		addTop(weatherWidget);
 
@@ -32,10 +31,10 @@ public class MainFrame extends Dock {
 		dock.addClassSelector(ClassSelectors.DATA_FRAME);
 		dock.addTop(new DateDetails());
 		Grid grid = new Grid(true, 4);
-		grid.add(new Label("Lat"));
-		grid.add(new Label("Wind"));
-		grid.add(new Label("Humidity"));
-		grid.add(new Label("Sunrise"));
+		grid.add(new GPSWidget());
+		grid.add(new WindWidget());
+		grid.add(new HumidityWidget());
+		grid.add(new SunriseWidget());
 		grid.addClassSelector(ClassSelectors.WEATHER_DETAILS);
 		dock.setCenter(grid);
 		bottom.setWidget(dock);

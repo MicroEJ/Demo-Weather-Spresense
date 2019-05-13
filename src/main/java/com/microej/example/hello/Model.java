@@ -7,32 +7,20 @@
  */
 package com.microej.example.hello;
 
-import java.text.DateFormat;
-import java.text.DateFormatSymbols;
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Random;
 
 import com.microej.example.hello.style.Colors;
 
 import ej.bon.Util;
-import ej.util.text.EnglishDateFormatSymbols;
 
 /**
  *
  */
 public class Model {
 
-	private static final char AM = 0x1;
-	private static final char PM = 0x2;
-	private static final char H = 0x3;
-
-	private static final char FAR = 0x5;
-	private static final char CEL = 0x6;
-
-	private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("MM.dd.yyyy", getLocalSymbols());
-	private static final SimpleDateFormat HOUR_FORMAT = new SimpleDateFormat("hh", getLocalSymbols());
-	private static final SimpleDateFormat FULL_HOUR_FORMAT = new SimpleDateFormat("hh:mm", getLocalSymbols());
+	public static final int COUNT_OF_HOUR_VALUES = 3;
 
 	private static long currentTime = Util.currentTimeMillis();
 
@@ -55,35 +43,33 @@ public class Model {
 		return Colors.CORAL;
 	}
 
-	public static DateFormatSymbols getLocalSymbols() {
-		return EnglishDateFormatSymbols.getInstance();
-	}
-
-	public static DateFormat getDateFormat() {
-		return DATE_FORMAT;
-	}
-
-	public static DateFormat getFullHourFormat() {
-		return FULL_HOUR_FORMAT;
-	}
-
-	public static DateFormat getHourFormat() {
-		return HOUR_FORMAT;
-	}
-
-	public static char getTemperatureSymbol() {
-		return FAR;
-	}
-
-	public static char getHourSymbol(int AM_PM) {
-		if (AM_PM == Calendar.AM) {
-			return AM;
-		}
-		return PM;
-	}
-
 	public static int getTemperature(Date date) {
-		return getTemperature();
+		return getTemperature() + new Random().nextInt(10);
 	}
 
+	public static int getWind() {
+		return 30;
+	}
+
+	public static int getHumidity() {
+		return 50;
+	}
+
+	public static Date getSunrise() {
+		Calendar instance = Calendar.getInstance();
+		instance.setTimeInMillis(getCurrentTime());
+		instance.set(Calendar.HOUR_OF_DAY, 06);
+		instance.set(Calendar.MINUTE, 32);
+		return instance.getTime();
+	}
+
+	static float change = 0;
+	public static float getLatitude() {
+		change += 0.1f;
+		return -10.2561f + change;
+	}
+
+	public static float getLongitude() {
+		return 80.886188f + change;
+	}
 }

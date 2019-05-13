@@ -9,10 +9,15 @@ package com.microej.example.hello.style;
 
 public final class Images {
 
+	private static final String ICON = "icon-";
 	private static final String PNG = ".png";
 	private static final String IMAGES = "/images/";
 
 	public static final String LOGO = IMAGES + "microej" + PNG;
+	public static final String GPS = IMAGES + ICON + "gps" + PNG;
+	public static final String HUMIDITY = IMAGES + ICON + "humidity" + PNG;
+	public static final String SUNRISE = IMAGES + ICON + "sunrise" + PNG;
+	public static final String WIND = IMAGES + ICON + "wind" + PNG;
 
 	private Images() {
 	}

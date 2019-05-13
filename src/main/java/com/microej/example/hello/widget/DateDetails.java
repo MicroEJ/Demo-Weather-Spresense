@@ -11,6 +11,7 @@ import java.util.Calendar;
 import java.util.Date;
 
 import com.microej.example.hello.Model;
+import com.microej.example.hello.NLS;
 import com.microej.example.hello.Util;
 import com.microej.example.hello.style.ClassSelectors;
 
@@ -26,18 +27,17 @@ import ej.widget.container.Grid;
  */
 public class DateDetails extends CenterContainer implements Animation {
 
+	private static final int MILIS_IN_HOUR = 3600_000;
 	private final MaxSizeLabel day;
 	private final Label date;
 	private final Label mainTemperature;
 	private final Label hour;
-	private final HourlyDetail hourDetail1;
-	private final HourlyDetail hourDetail2;
-	private final HourlyDetail hourDetail3;
+	private final Grid newtHours;
 
 	public DateDetails() {
 		Dock dateDock = new Dock();
 		day = new MaxSizeLabel();
-		day.setWords(Model.getLocalSymbols().getWeekdays());
+		day.setWords(NLS.getLocalSymbols().getWeekdays());
 		day.addClassSelector(ClassSelectors.DAY);
 		dateDock.setCenter(Util.addWrapper(day));
 		date = new Label();
@@ -45,19 +45,16 @@ public class DateDetails extends CenterContainer implements Animation {
 		dateDock.addBottom(Util.addWrapper(date));
 		setFirst(dateDock);
 
-		Grid grid = new Grid(true, 3);
-		hourDetail1 = new HourlyDetail(2 * 3600_000, ClassSelectors.NEXT_HOUR);
-		hourDetail2 = new HourlyDetail(5 * 3600_000, ClassSelectors.MEDIUM_HOUR);
-		hourDetail3 = new HourlyDetail(8 * 3600_000, ClassSelectors.LAST_HOUR_HOUR);
-		grid.add(hourDetail1);
-		grid.add(hourDetail2);
-		grid.add(hourDetail3);
-		grid.addClassSelector(ClassSelectors.HOURLY_TEMPERATURE);
+		newtHours = new Grid(true, Model.COUNT_OF_HOUR_VALUES);
+		for (int i = 1; i <= Model.COUNT_OF_HOUR_VALUES; i++) {
+			newtHours.add(new HourlyDetail(3 * i * MILIS_IN_HOUR));
+		}
+		newtHours.addClassSelector(ClassSelectors.HOURLY_TEMPERATURE);
 
-		setLast(grid);
+		setLast(newtHours);
 		Dock centerDock = new Dock();
 		mainTemperature = new Label(
-				String.valueOf(Model.getTemperature()) + Model.getTemperatureSymbol());
+				String.valueOf(Model.getTemperature()) + NLS.getTemperatureSymbol());
 		mainTemperature.addClassSelector(ClassSelectors.MAIN_TEMPERATURE);
 		centerDock.setCenter(Util.addWrapper(mainTemperature));
 		hour = new Label();
@@ -74,20 +71,21 @@ public class DateDetails extends CenterContainer implements Animation {
 		long currentTime = Model.getCurrentTime();
 		calendar.setTimeInMillis(currentTime);
 
-		Util.update(this.day, Model.getLocalSymbols().getWeekday(calendar.get(Calendar.DAY_OF_WEEK) - 1));
+		Util.update(this.day, NLS.getLocalSymbols().getWeekday(calendar.get(Calendar.DAY_OF_WEEK) - 1));
 		Date time = calendar.getTime();
-		Util.update(this.date, Model.getDateFormat().format(time));
-		Util.update(this.hour, Util.addPadding(Model.getFullHourFormat().format(time)));
+		Util.update(this.date, NLS.getDateFormat().format(time));
+		Util.update(this.hour, Util.addPadding(NLS.getFullHourFormat().format(time))
+				+ NLS.getHourSymbol(calendar.get(Calendar.AM_PM)));
 
-		hourDetail1.update(currentTime);
-		hourDetail2.update(currentTime);
-		hourDetail3.update(currentTime);
+		for (int i = 0; i < newtHours.getWidgets().length; i++) {
+			HourlyDetail widget = (HourlyDetail) newtHours.getWidgets()[i];
+			widget.update(currentTime);
+		}
 	}
 
 	@Override
 	public boolean tick(long currentTimeMillis) {
 		update();
-		repaint();
 		return true;
 	}
 

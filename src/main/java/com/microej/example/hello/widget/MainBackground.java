@@ -7,6 +7,7 @@
  */
 package com.microej.example.hello.widget;
 
+import com.microej.example.hello.Model;
 import com.microej.example.hello.style.Images;
 import com.microej.example.hello.style.StylePopulator;
 
@@ -19,7 +20,6 @@ import ej.style.util.StyleHelper;
 
 public class MainBackground implements Background {
 
-	private static final int COUNT_OF_HOUR_VALUES = 3;
 	private static final int BOTTOM_ARC_ANGLE = 127;
 	private static final int BOTTOM_ARC_START = 180;
 	private static final int TOP_ARC_ANGLE = -139;
@@ -74,7 +74,7 @@ public class MainBackground implements Background {
 				bottomRightLineXEnd,
 				topCircleY + BOTTOM_RIGHT_LINE_Y_OFFSET);
 		int dotSpacing = (StylePopulator.getDisplayWidth() - bottomRightLineXEnd - StylePopulator.DEFAULT_OUTLINE)
-				/ COUNT_OF_HOUR_VALUES;
+				/ Model.COUNT_OF_HOUR_VALUES;
 		antiAliasedShapes.drawPoint(g, bottomRightLineXEnd + dotSpacing, topCircleY + BOTTOM_RIGHT_LINE_Y_OFFSET);
 		antiAliasedShapes.drawPoint(g, bottomRightLineXEnd + dotSpacing * 2, topCircleY + BOTTOM_RIGHT_LINE_Y_OFFSET);
 		g.fillRect(0, topCircleY + BOTTOM_LEFT_LINE_Y_OFFSET, topCircleX + BOTTOM_LEFT_LINE_X_LENGTH, BORDER_THICKNESS);

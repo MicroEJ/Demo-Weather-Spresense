@@ -5,3 +5,7 @@
 # images/test.jpg
 
 images/microej.png:A4
+images/icon-gps.png:A4
+images/icon-humidity.png:A4
+images/icon-sunrise.png:A4
+images/icon-wind.png:A4

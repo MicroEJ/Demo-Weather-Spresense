@@ -7,11 +7,13 @@
  */
 package com.microej.example.hello.style;
 
+import com.microej.example.hello.widget.HourlyDetail;
 import com.microej.example.hello.widget.MainBackground;
 
 import ej.microui.display.Display;
 import ej.microui.display.GraphicsContext;
 import ej.mwt.Composite;
+import ej.style.Selector;
 import ej.style.Stylesheet;
 import ej.style.background.NoBackground;
 import ej.style.background.PlainBackground;
@@ -19,7 +21,11 @@ import ej.style.background.SimpleRoundedPlainBackground;
 import ej.style.dimension.FixedDimension;
 import ej.style.outline.ComplexOutline;
 import ej.style.selector.ClassSelector;
+import ej.style.selector.FirstChildSelector;
+import ej.style.selector.NthChildSelector;
 import ej.style.selector.TypeOrSubtypeSelector;
+import ej.style.selector.TypeSelector;
+import ej.style.selector.combinator.AndCombinator;
 import ej.style.util.EditableStyle;
 import ej.style.util.StyleHelper;
 
@@ -65,7 +71,7 @@ public class StylePopulator {
 		style.setAlignment(GraphicsContext.HCENTER_VCENTER);
 		style.setDimension(
 				new FixedDimension(MainBackground.CIRCLE_DIAMETER,
-						MainBackground.CIRCLE_DIAMETER - (2 * TOP_OFFSET) + DEFAULT_OUTLINE * 2));
+						MainBackground.CIRCLE_DIAMETER - TOP_OFFSET + DEFAULT_OUTLINE));
 		stylesheet.addRule(new ClassSelector(ClassSelectors.CIRCLE), style);
 
 		style.clear();
@@ -96,20 +102,29 @@ public class StylePopulator {
 		stylesheet.addRule(new TypeOrSubtypeSelector(Composite.class), style);
 
 		style.clear();
-		style.setForegroundColor(Colors.BLACK);
-		stylesheet.addRule(new ClassSelector(ClassSelectors.NEXT_HOUR), style);
-
-		style.clear();
-		style.setForegroundColor(Colors.GREY);
-		stylesheet.addRule(new ClassSelector(ClassSelectors.MEDIUM_HOUR), style);
-
-		style.clear();
-		style.setForegroundColor(Colors.GREY_LIGHT);
-		stylesheet.addRule(new ClassSelector(ClassSelectors.LAST_HOUR_HOUR), style);
-
-		style.clear();
 		style.setPadding(new ComplexOutline(0, 0, 0, 8));
 		stylesheet.addRule(new ClassSelector(ClassSelectors.HOURLY_TEMPERATURE), style);
+
+		Selector hourly = new TypeSelector(HourlyDetail.class);
+		style.clear();
+		style.setFontProfile(FontProfiles.MEDIUM_BOLD);
+		style.setForegroundColor(Colors.BLACK);
+		stylesheet.addRule(new AndCombinator(hourly, new FirstChildSelector()), style);
+
+		style.setForegroundColor(Colors.GREY);
+		stylesheet.addRule(new AndCombinator(hourly, new NthChildSelector(1)), style);
+
+		style.setForegroundColor(Colors.GREY_LIGHT);
+		stylesheet.addRule(new AndCombinator(hourly, new NthChildSelector(2)), style);
+
+		style.clear();
+		style.setForegroundColor(Colors.CORAL);
+		stylesheet.addRule(new ClassSelector(ClassSelectors.ICON), style);
+
+		style.clear();
+		style.setForegroundColor(Colors.BLACK);
+		style.setFontProfile(FontProfiles.SMALL);
+		stylesheet.addRule(new ClassSelector(ClassSelectors.WEATHER_VALUE), style);
 
 		style.clear();
 		style.setBackground(new PlainBackground());

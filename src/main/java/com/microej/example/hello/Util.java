@@ -28,7 +28,7 @@ public class Util {
 
 	public static void update(Label label, String value) {
 		if (!value.equals(label.getText())) {
-			label.updateText(value);
+			label.setText(value);
 		}
 	}
 }

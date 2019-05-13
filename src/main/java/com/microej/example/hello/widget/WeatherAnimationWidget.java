@@ -19,7 +19,7 @@ import ej.widget.StyledWidget;
 /**
  *
  */
-public class WeatherWidget extends StyledWidget {
+public class WeatherAnimationWidget extends StyledWidget {
 
 	@Override
 	public void renderContent(GraphicsContext g, Style style, Rectangle bounds) {
