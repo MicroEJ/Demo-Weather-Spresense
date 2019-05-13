@@ -5,13 +5,14 @@
  * This Software has been designed by MicroEJ Corp and all rights have been transferred to Sony Corp.
  * Sony Corp. has granted MicroEJ the right to sub-licensed this Software under the enclosed license terms.
  */
-package com.microej.example.hello.widget;
+package com.microej.example.hello.widget.details;
 
 import com.microej.example.hello.Model;
 import com.microej.example.hello.NLS;
 import com.microej.example.hello.Util;
 import com.microej.example.hello.style.ClassSelectors;
 import com.microej.example.hello.style.Images;
+import com.microej.example.hello.widget.MaxSizeLabel;
 
 import ej.widget.basic.Label;
 import ej.widget.container.Flow;

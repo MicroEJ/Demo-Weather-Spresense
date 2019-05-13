@@ -54,7 +54,7 @@ public class StylePopulator {
 		style.setBorderColor(Colors.GREY_LIGHT);
 		style.setBackground(new PlainBackground());
 		style.setDimension(new FixedDimension(getDisplayWidth(),
-				(getDisplayHeight() - MainBackground.CIRCLE_DIAMETER) / 2 + TOP_OFFSET));
+				getTopHeight()));
 		stylesheet.addRule(new ClassSelector(ClassSelectors.TOPBACKGROUND), style);
 
 		style.clear();
@@ -130,6 +130,10 @@ public class StylePopulator {
 		style.setBackground(new PlainBackground());
 		style.setBackgroundColor(0xFF2222);
 		stylesheet.addRule(new ClassSelector(ClassSelectors.TEST), style);
+	}
+
+	public static int getTopHeight() {
+		return (getDisplayHeight() - MainBackground.CIRCLE_DIAMETER) / 2 + TOP_OFFSET;
 	}
 
 	public static int getDisplayHeight() {

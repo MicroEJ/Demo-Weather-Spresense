@@ -8,6 +8,11 @@
 package com.microej.example.hello.widget;
 
 import com.microej.example.hello.style.ClassSelectors;
+import com.microej.example.hello.widget.animation.WeatherAnimationWidget;
+import com.microej.example.hello.widget.details.GPSWidget;
+import com.microej.example.hello.widget.details.HumidityWidget;
+import com.microej.example.hello.widget.details.SunriseWidget;
+import com.microej.example.hello.widget.details.WindWidget;
 
 import ej.widget.composed.Wrapper;
 import ej.widget.container.Dock;
