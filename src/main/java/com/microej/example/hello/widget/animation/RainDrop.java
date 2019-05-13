@@ -18,47 +18,43 @@ public class RainDrop {
 	private int y;
 	private long lastRender;
 	private final int length;
-	private final int color;
 	private final int speed;
+	private final int initialY;
 
-	public RainDrop(int x, int y, int length, int color, int speed) {
+	public RainDrop(int x, int y, int length, int speed) {
 		super();
 		this.x = x;
 		this.length = length;
-		this.color = color;
 		this.speed = speed;
 		this.y = y;
+		this.initialY = y;
 	}
 
 	public boolean render(GraphicsContext g, long time) {
-		g.setColor(color);
-		if (lastRender == 0) {
-			lastRender = time;
-		} else {
+		if (lastRender != 0) {
 			g.drawLine(x, y, x + length, y - length);
-			int diff = (int) ((time - lastRender) * speed / 1000) + 1;
-			lastRender = time;
+			int diff = ((int) ((time - lastRender) * speed) >> 10) + 1;
 			x -= diff;
 			y += diff;
 		}
+		lastRender = time;
 		return x > -length && y - length < g.getClipHeight();
 	}
 
-	/**
-	 * Gets the color.
-	 *
-	 * @return the color.
-	 */
-	public int getColor() {
-		return color;
+	public int getSpeed() {
+		return speed;
+	}
+
+	public int getLength() {
+		return length;
 	}
 
 	/**
-	 * Gets the speed.
-	 *
-	 * @return the speed.
+	 * Gets the initialY.
+	 * 
+	 * @return the initialY.
 	 */
-	public int getSpeed() {
-		return speed;
+	public int getInitialY() {
+		return initialY;
 	}
 }

@@ -9,7 +9,6 @@ package com.microej.example.hello;
 
 import java.util.Calendar;
 import java.util.Date;
-import java.util.Random;
 
 import com.microej.example.hello.style.Colors;
 
@@ -44,7 +43,7 @@ public class Model {
 	}
 
 	public static int getTemperature(Date date) {
-		return getTemperature() + new Random().nextInt(10);
+		return getTemperature();
 	}
 
 	public static int getWind() {
@@ -63,13 +62,11 @@ public class Model {
 		return instance.getTime();
 	}
 
-	static float change = 0;
 	public static float getLatitude() {
-		change += 0.1f;
-		return -10.2561f + change;
+		return -10.2561f;
 	}
 
 	public static float getLongitude() {
-		return 80.886188f + change;
+		return 80.886188f;
 	}
 }
