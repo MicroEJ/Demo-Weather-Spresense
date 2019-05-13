@@ -14,11 +14,15 @@ public final class ClassSelectors {
 	public static final String DATA_FRAME = "c";
 	public static final String NO_BACKGROUND = "d";
 	public static final String CIRCLE = "e";
-	public static final String DETAILS = "f";
+	public static final String WEATHER_DETAILS = "f";
 	public static final String TEST = "TEST";
 	public static final String DAY = "g";
-	public static final String DETAIL_SUBLINE = "h";
+	public static final String DATE_DETAILS = "h";
 	public static final String MAIN_TEMPERATURE = "i";
+	public static final String NEXT_HOUR = "j";
+	public static final String MEDIUM_HOUR = "k";
+	public static final String LAST_HOUR_HOUR = "l";
+	public static final String HOURLY_TEMPERATURE = "m";
 
 	private ClassSelectors() {
 	}

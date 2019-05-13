@@ -11,6 +11,7 @@ import java.text.DateFormat;
 import java.text.DateFormatSymbols;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 
 import com.microej.example.hello.style.Colors;
 
@@ -79,6 +80,10 @@ public class Model {
 			return AM;
 		}
 		return PM;
+	}
+
+	public static int getTemperature(Date date) {
+		return getTemperature();
 	}
 
 }

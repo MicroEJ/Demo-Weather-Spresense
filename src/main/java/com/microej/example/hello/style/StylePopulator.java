@@ -59,7 +59,7 @@ public class StylePopulator {
 		style.setFontProfile(FontProfiles.SMALL);
 		style.setAlignment(GraphicsContext.HCENTER_VCENTER);
 		style.setForegroundColor(Colors.GREY_LIGHT);
-		stylesheet.addRule(new ClassSelector(ClassSelectors.DETAILS), style);
+		stylesheet.addRule(new ClassSelector(ClassSelectors.WEATHER_DETAILS), style);
 
 		style.clear();
 		style.setAlignment(GraphicsContext.HCENTER_VCENTER);
@@ -88,13 +88,28 @@ public class StylePopulator {
 		style.setForegroundColor(Colors.GREY_LIGHT);
 		style.setFontProfile(FontProfiles.MEDIUM);
 		style.setMargin(new ComplexOutline(0, 0, 15, 0));
-		stylesheet.addRule(new ClassSelector(ClassSelectors.DETAIL_SUBLINE), style);
+		stylesheet.addRule(new ClassSelector(ClassSelectors.DATE_DETAILS), style);
 
 		style.clear();
 		style.setBackground(NoBackground.NO_BACKGROUND);
 		stylesheet.addRule(new ClassSelector(ClassSelectors.NO_BACKGROUND), style);
 		stylesheet.addRule(new TypeOrSubtypeSelector(Composite.class), style);
 
+		style.clear();
+		style.setForegroundColor(Colors.BLACK);
+		stylesheet.addRule(new ClassSelector(ClassSelectors.NEXT_HOUR), style);
+
+		style.clear();
+		style.setForegroundColor(Colors.GREY);
+		stylesheet.addRule(new ClassSelector(ClassSelectors.MEDIUM_HOUR), style);
+
+		style.clear();
+		style.setForegroundColor(Colors.GREY_LIGHT);
+		stylesheet.addRule(new ClassSelector(ClassSelectors.LAST_HOUR_HOUR), style);
+
+		style.clear();
+		style.setPadding(new ComplexOutline(0, 0, 0, 8));
+		stylesheet.addRule(new ClassSelector(ClassSelectors.HOURLY_TEMPERATURE), style);
 
 		style.clear();
 		style.setBackground(new PlainBackground());
