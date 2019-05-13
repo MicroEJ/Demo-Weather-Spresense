@@ -15,6 +15,7 @@ import com.microej.example.hello.style.Images;
 
 import ej.widget.basic.Label;
 import ej.widget.container.Flow;
+import ej.widget.container.Split;
 
 public class GPSWidget extends WeatherDetails {
 
@@ -37,8 +38,10 @@ public class GPSWidget extends WeatherDetails {
 		longitudeLabel.setWords(MAX_VALUE);
 		longitudeLabel.addClassSelector(ClassSelectors.WEATHER_VALUE);
 		lonFlow.add(longitudeLabel);
-		addBottom(lonFlow);
-		addBottom(latFlow);
+		Split split = new Split(false, 0.5f);
+		split.setFirst(latFlow);
+		split.setLast(lonFlow);
+		addBottom(Util.addWrapper(split));
 		update();
 	}
 
