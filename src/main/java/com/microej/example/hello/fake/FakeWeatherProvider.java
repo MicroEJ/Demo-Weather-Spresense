@@ -29,8 +29,8 @@ public class FakeWeatherProvider {
 			byte[] line = new byte[41];
 			try (InputStream inputStream = FakeWeatherProvider.class.getResourceAsStream(FAKE_FORECAST_CSV)) {
 				for (int i = 0; i < weathers.length; i++) {
-					inputStream.read(line);
-
+					int res = inputStream.read(line);
+					System.out.println("FakeWeatherProvider.getWeather() res=" + res);
 					int type = Integer.valueOf(new String(line, 0, 2)).intValue();
 					int temperature = Integer.valueOf(new String(line, 3, 2)).intValue();
 					Time sunrise = new Time(0, 0, 0, Integer.valueOf(new String(line, 6, 2)).intValue(),
@@ -40,9 +40,6 @@ public class FakeWeatherProvider {
 					float latitude = Float.valueOf(new String(line, 24, 8)).floatValue();
 					float longitude = Float.valueOf(new String(line, 33, 7)).floatValue();
 					weathers[i] = new FakeWeather(type, temperature, sunrise, wind, humidity, latitude, longitude);
-					if (i != weathers.length - 1) {
-						inputStream.read();
-					}
 				}
 			} catch (IOException e) {
 				e.printStackTrace();
