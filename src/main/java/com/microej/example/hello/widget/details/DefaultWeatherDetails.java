@@ -20,8 +20,8 @@ public abstract class DefaultWeatherDetails extends WeatherDetails {
 		super(icon);
 		Label titleLabel = new Label(title);
 		value = new Label();
-		addBottom(value);
-		addBottom(titleLabel);
+		addBottom(Util.addWrapper(value));
+		addBottom(Util.addWrapper(titleLabel));
 		value.addClassSelector(ClassSelectors.WEATHER_VALUE);
 		update();
 	}

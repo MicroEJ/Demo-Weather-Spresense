@@ -26,7 +26,7 @@ public class Time {
 	private int day;
 	private int minute;
 	private int hour;
-	private long currentTime = System.currentTimeMillis();
+	private long currentTime = -1;
 	private long lastUpdate = THRESHOLD + 1;
 	private long offset = 0;
 	private int dayOfWeek;
@@ -45,6 +45,10 @@ public class Time {
 
 	public void updateCurrentTime() {
 		long currentTimeMillis = System.currentTimeMillis();
+		if (currentTime == -1) {
+			currentTime = currentTimeMillis;
+			offset = 0;
+		}
 		long elapsed = (currentTimeMillis - currentTime) * SPEED;
 		currentTime = currentTimeMillis;
 		offset += elapsed;

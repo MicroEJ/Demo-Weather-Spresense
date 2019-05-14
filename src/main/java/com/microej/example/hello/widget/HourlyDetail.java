@@ -35,11 +35,11 @@ public class HourlyDetail extends Dock {
 		hour += offset;
 		if (hour >= 24) {
 			hour -= 24;
-			day = (day + 1) % 7;
+			day = (day % 6) + 1;
 		}
 		Util.update(temperature,
 				Util.addPadding(String.valueOf(Model.getTemperature(day, hour)) + NLS.getTemperatureSymbol()));
 		Util.update(this.hour,
-				String.valueOf(NLS.getHourFormat(hour)) + NLS.getHourSymbol(hour));
+				String.valueOf(NLS.getHourFormat(hour)) + " " + NLS.getHourSymbol(hour));
 	}
 }

@@ -26,7 +26,7 @@ public class Model {
 
 
 	public static int getTemperature() {
-		return FakeWeatherProvider.getWeather(time.getDayOfWeek(), time.getHour()).getTemperature();
+		return FakeWeatherProvider.getWeather(time.getDayOfWeek() - 1, time.getHour()).getTemperature();
 	}
 
 	public static int getColor(Time time) {
@@ -62,26 +62,26 @@ public class Model {
 	}
 
 	public static int getTemperature(int day, int hour) {
-		return FakeWeatherProvider.getWeather(day, hour).getTemperature();
+		return FakeWeatherProvider.getWeather(day - 1, hour).getTemperature();
 	}
 
 	public static int getWind() {
-		return FakeWeatherProvider.getWeather(time.getDayOfWeek(), time.getHour()).getWind();
+		return FakeWeatherProvider.getWeather(time.getDayOfWeek() - 1, time.getHour()).getWind();
 	}
 
 	public static int getHumidity() {
-		return FakeWeatherProvider.getWeather(time.getDayOfWeek(), time.getHour()).getHumidity();
+		return FakeWeatherProvider.getWeather(time.getDayOfWeek() - 1, time.getHour()).getHumidity();
 	}
 
 	public static Time getSunrise() {
-		return FakeWeatherProvider.getWeather(time.getDayOfWeek(), time.getHour()).getSunrise();
+		return FakeWeatherProvider.getWeather(time.getDayOfWeek() - 1, time.getHour()).getSunrise();
 	}
 
 	public static float getLatitude() {
-		return FakeWeatherProvider.getWeather(time.getDayOfWeek(), time.getHour()).getLatitude();
+		return FakeWeatherProvider.getWeather(time.getDayOfWeek() - 1, time.getHour()).getLatitude();
 	}
 
 	public static float getLongitude() {
-		return FakeWeatherProvider.getWeather(time.getDayOfWeek(), time.getHour()).getLongitude();
+		return FakeWeatherProvider.getWeather(time.getDayOfWeek() - 1, time.getHour()).getLongitude();
 	}
 }

@@ -7,6 +7,7 @@
  */
 package com.microej.example.hello.widget.details;
 
+import com.microej.example.hello.Util;
 import com.microej.example.hello.style.ClassSelectors;
 
 import ej.bon.Timer;
@@ -23,7 +24,7 @@ public class WeatherDetails extends Dock {
 	public WeatherDetails(String icon) {
 		Image image = new Image(icon);
 		image.addClassSelector(ClassSelectors.ICON);
-		setCenter(image);
+		setCenter(Util.addWrapper(image));
 	}
 
 	protected void update() {

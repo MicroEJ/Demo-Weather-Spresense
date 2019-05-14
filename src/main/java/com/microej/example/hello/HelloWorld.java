@@ -18,11 +18,13 @@ import ej.microui.MicroUI;
 import ej.widget.StyledDesktop;
 import ej.widget.StyledPanel;
 
-/**
- * Prints the message "Hello World !" an displays MicroEJ splash
- */
+
 public class HelloWorld {
+	private static long INIT = 1557844987038L;
 	public static void main(String[] args) {
+		if (System.currentTimeMillis() < INIT) {
+			ej.bon.Util.setCurrentTimeMillis(INIT);
+		}
 		FakeWeatherProvider.getWeather(0, 0);
 		ServiceLoaderFactory.getServiceLoader().getService(Animator.class).startAnimation(new Animation() {
 

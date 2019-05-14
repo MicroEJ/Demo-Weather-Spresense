@@ -68,7 +68,7 @@ public class NLS {
 		if (timeId != lastUpdate) {
 			lastUpdate = timeId;
 			day = getLocalSymbols().getWeekday(time.getDayOfWeek() - 1);
-			date = addPadding(time.getDay()) + '.' + addPadding(time.getMonth() + 1) + '.' + time.getYear();
+			date = addPadding(time.getMonth() + 1) + '.' + addPadding(time.getDay()) + '.' + time.getYear();
 		}
 	}
 

@@ -63,7 +63,7 @@ public class StylePopulator {
 
 		style.clear();
 		style.setFontProfile(FontProfiles.SMALL);
-		style.setAlignment(GraphicsContext.HCENTER_VCENTER);
+		style.setAlignment(GraphicsContext.HCENTER_BOTTOM);
 		style.setForegroundColor(Colors.GREY_LIGHT);
 		stylesheet.addRule(new ClassSelector(ClassSelectors.WEATHER_DETAILS), style);
 
