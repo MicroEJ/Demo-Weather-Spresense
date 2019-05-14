@@ -7,9 +7,6 @@
  */
 package com.microej.example.hello.widget;
 
-import java.util.Calendar;
-import java.util.Date;
-
 import com.microej.example.hello.Model;
 import com.microej.example.hello.NLS;
 import com.microej.example.hello.Util;
@@ -35,13 +32,11 @@ public class HourlyDetail extends Dock {
 		update(offset);
 	}
 
-	public void update(long hour) {
-		Date date = new Date(hour + offset);
+	public void update(int hour) {
+		hour += offset;
 		Util.update(temperature,
-				Util.addPadding(String.valueOf(Model.getTemperature(date)) + NLS.getTemperatureSymbol()));
-		Calendar calendar = Calendar.getInstance();
-		calendar.setTime(date);
+				Util.addPadding(String.valueOf(Model.getTemperature(hour)) + NLS.getTemperatureSymbol()));
 		Util.update(this.hour,
-				String.valueOf(NLS.getHourFormat().format(date)) + NLS.getHourSymbol(calendar.get(Calendar.AM_PM)));
+				String.valueOf(NLS.getHourFormat(hour)) + NLS.getHourSymbol(hour));
 	}
 }

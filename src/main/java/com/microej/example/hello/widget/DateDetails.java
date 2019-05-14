@@ -7,11 +7,9 @@
  */
 package com.microej.example.hello.widget;
 
-import java.util.Calendar;
-import java.util.Date;
-
 import com.microej.example.hello.Model;
 import com.microej.example.hello.NLS;
+import com.microej.example.hello.Time;
 import com.microej.example.hello.Util;
 import com.microej.example.hello.style.ClassSelectors;
 
@@ -27,7 +25,6 @@ import ej.widget.container.Grid;
  */
 public class DateDetails extends CenterContainer implements Animation {
 
-	private static final int MILIS_IN_HOUR = 3600_000;
 	private final MaxSizeLabel day;
 	private final Label date;
 	private final Label mainTemperature;
@@ -47,7 +44,7 @@ public class DateDetails extends CenterContainer implements Animation {
 
 		newtHours = new Grid(true, Model.COUNT_OF_HOUR_VALUES);
 		for (int i = 1; i <= Model.COUNT_OF_HOUR_VALUES; i++) {
-			newtHours.add(new HourlyDetail(3 * i * MILIS_IN_HOUR));
+			newtHours.add(new HourlyDetail(3 * i));
 		}
 		newtHours.addClassSelector(ClassSelectors.HOURLY_TEMPERATURE);
 
@@ -67,19 +64,17 @@ public class DateDetails extends CenterContainer implements Animation {
 	}
 
 	private void update() {
-		Calendar calendar = Calendar.getInstance();
-		long currentTime = Model.getCurrentTime();
-		calendar.setTimeInMillis(currentTime);
-
-		Util.update(this.day, NLS.getLocalSymbols().getWeekday(calendar.get(Calendar.DAY_OF_WEEK) - 1));
-		Date time = calendar.getTime();
-		Util.update(this.date, NLS.getDateFormat().format(time));
-		Util.update(this.hour, Util.addPadding(NLS.getFullHourFormat().format(time))
-				+ NLS.getHourSymbol(calendar.get(Calendar.AM_PM)));
+		Model.getTime().updateCurrentTime();
+		Time time = Model.getTime();
+		Util.update(this.day, NLS.getDay(time));
+		Util.update(this.date, NLS.getDate(time));
+		Util.update(this.hour,
+				Util.addPadding(NLS.getFullHourFormat(time))
+				+ NLS.getHourSymbol(time.getHour()));
 
 		for (int i = 0; i < newtHours.getWidgets().length; i++) {
 			HourlyDetail widget = (HourlyDetail) newtHours.getWidgets()[i];
-			widget.update(currentTime);
+			widget.update(time.getHour());
 		}
 	}
 

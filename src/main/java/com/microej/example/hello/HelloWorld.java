@@ -19,6 +19,7 @@ import ej.widget.StyledPanel;
  */
 public class HelloWorld {
 	public static void main(String[] args) {
+		Model.getTime().updateCurrentTime();
 		MicroUI.start();
 		StylePopulator.populate();
 

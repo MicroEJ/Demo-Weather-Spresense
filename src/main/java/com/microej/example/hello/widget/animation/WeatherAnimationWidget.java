@@ -33,9 +33,8 @@ public class WeatherAnimationWidget extends StyledWidget implements Animation {
 
 	@Override
 	public void renderContent(GraphicsContext g, Style style, Rectangle bounds) {
-
 		AntiAliasedShapes antiAliased = MainBackground.getAntiAliased();
-		g.setColor(Model.getCurrentColor());
+		g.setColor(Model.getColor(Model.getTime()));
 		g.setBackgroundColor(g.getColor());
 		g.fillRect(0, 0, bounds.getWidth(), bounds.getHeight());
 

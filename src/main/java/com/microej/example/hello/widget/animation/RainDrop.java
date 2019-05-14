@@ -20,25 +20,27 @@ public class RainDrop {
 	private final int length;
 	private final int speed;
 	private final int initialY;
+	private final int height;
 
-	public RainDrop(int x, int y, int length, int speed) {
+	public RainDrop(int x, int y, int length, int speed, int height) {
 		super();
 		this.x = x;
 		this.length = length;
 		this.speed = speed;
 		this.y = y;
 		this.initialY = y;
+		this.height = height;
 	}
 
 	public boolean render(GraphicsContext g, long time) {
 		if (lastRender != 0) {
 			g.drawLine(x, y, x + length, y - length);
-			int diff = ((int) ((time - lastRender) * speed) >> 10) + 1;
+			int diff = ((int) ((time - lastRender) << speed) >> 10) + 1;
 			x -= diff;
 			y += diff;
 		}
 		lastRender = time;
-		return x > -length && y - length < g.getClipHeight();
+		return y - length < g.getClipHeight() && x > -length;
 	}
 
 	public int getSpeed() {
@@ -49,12 +51,11 @@ public class RainDrop {
 		return length;
 	}
 
-	/**
-	 * Gets the initialY.
-	 * 
-	 * @return the initialY.
-	 */
 	public int getInitialY() {
 		return initialY;
+	}
+
+	public int getHeight() {
+		return height;
 	}
 }

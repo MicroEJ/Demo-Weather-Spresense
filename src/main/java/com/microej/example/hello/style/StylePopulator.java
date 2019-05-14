@@ -93,7 +93,7 @@ public class StylePopulator {
 		style.clear();
 		style.setForegroundColor(Colors.GREY_LIGHT);
 		style.setFontProfile(FontProfiles.MEDIUM);
-		style.setMargin(new ComplexOutline(0, 0, 15, 0));
+		style.setMargin(new ComplexOutline(0, 0, 18, 0));
 		stylesheet.addRule(new ClassSelector(ClassSelectors.DATE_DETAILS), style);
 
 		style.clear();

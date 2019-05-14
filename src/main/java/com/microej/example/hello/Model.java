@@ -7,12 +7,9 @@
  */
 package com.microej.example.hello;
 
-import java.util.Calendar;
-import java.util.Date;
-
 import com.microej.example.hello.style.Colors;
 
-import ej.bon.Util;
+import ej.color.GradientHelper;
 
 /**
  *
@@ -20,29 +17,54 @@ import ej.bon.Util;
 public class Model {
 
 	public static final int COUNT_OF_HOUR_VALUES = 3;
+	public static final Time time = new Time();
+	public static final Time sunrise = new Time(2019, 05, 01, 06, 32);
 
-	private static long currentTime = Util.currentTimeMillis();
-
-	private static long offset = 0;
-
-	private static final long SPEED = 59 * 50;
-
-	public static long getCurrentTime() {
-		long currentTimeMillis = Util.currentTimeMillis();
-		offset += (currentTimeMillis - currentTime) * SPEED;
-		currentTime = currentTimeMillis;
-		return currentTime + offset;
+	public static Time getTime() {
+		return time;
 	}
+
 
 	public static int getTemperature() {
 		return 72;
 	}
 
-	public static int getCurrentColor() {
-		return Colors.CORAL;
+	public static int getColor(Time time) {
+		int dayOfWeek = time.getDayOfWeek();
+		int colorPosition = (dayOfWeek - 1) << 2;
+		int hour = time.getHour();
+		int minute = time.getMinute();
+
+		int colorOffset;
+		int base = 4;
+		if(hour<16) {
+			colorOffset = hour >> 2;
+		} else if (hour<20) {
+			colorOffset = 2;
+		} else {
+			colorOffset = ((23 - hour) >> 1);
+			base = 2;
+		}
+
+		colorPosition += colorOffset;
+		int nextColorPosition;
+		if (hour < 12) {
+			nextColorPosition = (colorPosition + 1) % Colors.WEEK.length;
+		} else if (colorOffset != 0) {
+			nextColorPosition = (colorPosition - 1);
+		} else {
+			nextColorPosition = (dayOfWeek % 7) * 4;
+		}
+		return GradientHelper.blendColors(Colors.WEEK[colorPosition],
+				Colors.WEEK[nextColorPosition], getPercent(hour, minute, base));
 	}
 
-	public static int getTemperature(Date date) {
+
+	private static float getPercent(int hour, int minute, int base) {
+		return ((hour % base) * 60 + minute) / (base * 60f);
+	}
+
+	public static int getTemperature(long hour) {
 		return getTemperature();
 	}
 
@@ -54,12 +76,8 @@ public class Model {
 		return 50;
 	}
 
-	public static Date getSunrise() {
-		Calendar instance = Calendar.getInstance();
-		instance.setTimeInMillis(getCurrentTime());
-		instance.set(Calendar.HOUR_OF_DAY, 06);
-		instance.set(Calendar.MINUTE, 32);
-		return instance.getTime();
+	public static Time getSunrise() {
+		return sunrise;
 	}
 
 	public static float getLatitude() {
