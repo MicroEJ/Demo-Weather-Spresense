@@ -29,13 +29,16 @@ public class HourlyDetail extends Dock {
 		hour.addClassSelector(ClassSelectors.DATE_DETAILS);
 		addBottom(Util.addWrapper(hour));
 		setCenter(Util.addWrapper(temperature));
-		update(offset);
 	}
 
-	public void update(int hour) {
+	public void update(int day, int hour) {
 		hour += offset;
+		if (hour >= 24) {
+			hour -= 24;
+			day = (day + 1) % 7;
+		}
 		Util.update(temperature,
-				Util.addPadding(String.valueOf(Model.getTemperature(hour)) + NLS.getTemperatureSymbol()));
+				Util.addPadding(String.valueOf(Model.getTemperature(day, hour)) + NLS.getTemperatureSymbol()));
 		Util.update(this.hour,
 				String.valueOf(NLS.getHourFormat(hour)) + NLS.getHourSymbol(hour));
 	}

@@ -7,6 +7,7 @@
  */
 package com.microej.example.hello;
 
+import com.microej.example.hello.fake.FakeWeatherProvider;
 import com.microej.example.hello.style.Colors;
 
 import ej.color.GradientHelper;
@@ -18,7 +19,6 @@ public class Model {
 
 	public static final int COUNT_OF_HOUR_VALUES = 3;
 	public static final Time time = new Time();
-	public static final Time sunrise = new Time(2019, 05, 01, 06, 32);
 
 	public static Time getTime() {
 		return time;
@@ -26,7 +26,7 @@ public class Model {
 
 
 	public static int getTemperature() {
-		return 72;
+		return FakeWeatherProvider.getWeather(time.getDayOfWeek(), time.getHour()).getTemperature();
 	}
 
 	public static int getColor(Time time) {
@@ -55,36 +55,33 @@ public class Model {
 		} else {
 			nextColorPosition = (dayOfWeek % 7) * 4;
 		}
+
+		float fullFilment = ((hour % base) * 60 + minute) / (base * 60f);
 		return GradientHelper.blendColors(Colors.WEEK[colorPosition],
-				Colors.WEEK[nextColorPosition], getPercent(hour, minute, base));
+				Colors.WEEK[nextColorPosition], fullFilment);
 	}
 
-
-	private static float getPercent(int hour, int minute, int base) {
-		return ((hour % base) * 60 + minute) / (base * 60f);
-	}
-
-	public static int getTemperature(long hour) {
-		return getTemperature();
+	public static int getTemperature(int day, int hour) {
+		return FakeWeatherProvider.getWeather(day, hour).getTemperature();
 	}
 
 	public static int getWind() {
-		return 30;
+		return FakeWeatherProvider.getWeather(time.getDayOfWeek(), time.getHour()).getWind();
 	}
 
 	public static int getHumidity() {
-		return 50;
+		return FakeWeatherProvider.getWeather(time.getDayOfWeek(), time.getHour()).getHumidity();
 	}
 
 	public static Time getSunrise() {
-		return sunrise;
+		return FakeWeatherProvider.getWeather(time.getDayOfWeek(), time.getHour()).getSunrise();
 	}
 
 	public static float getLatitude() {
-		return -10.2561f;
+		return FakeWeatherProvider.getWeather(time.getDayOfWeek(), time.getHour()).getLatitude();
 	}
 
 	public static float getLongitude() {
-		return 80.886188f;
+		return FakeWeatherProvider.getWeather(time.getDayOfWeek(), time.getHour()).getLongitude();
 	}
 }

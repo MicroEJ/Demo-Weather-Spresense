@@ -27,9 +27,9 @@ public class DateDetails extends CenterContainer implements Animation {
 
 	private final MaxSizeLabel day;
 	private final Label date;
-	private final Label mainTemperature;
+	private final MaxSizeLabel mainTemperature;
 	private final Label hour;
-	private final Grid newtHours;
+	private final Grid nextHours;
 
 	public DateDetails() {
 		Dock dateDock = new Dock();
@@ -42,16 +42,18 @@ public class DateDetails extends CenterContainer implements Animation {
 		dateDock.addBottom(Util.addWrapper(date));
 		setFirst(dateDock);
 
-		newtHours = new Grid(true, Model.COUNT_OF_HOUR_VALUES);
+		nextHours = new Grid(true, Model.COUNT_OF_HOUR_VALUES);
 		for (int i = 1; i <= Model.COUNT_OF_HOUR_VALUES; i++) {
-			newtHours.add(new HourlyDetail(3 * i));
+			nextHours.add(new HourlyDetail(3 * i));
 		}
-		newtHours.addClassSelector(ClassSelectors.HOURLY_TEMPERATURE);
+		nextHours.addClassSelector(ClassSelectors.HOURLY_TEMPERATURE);
 
-		setLast(newtHours);
+		setLast(nextHours);
 		Dock centerDock = new Dock();
-		mainTemperature = new Label(
-				String.valueOf(Model.getTemperature()) + NLS.getTemperatureSymbol());
+		mainTemperature = new MaxSizeLabel();
+		String[] str = new String[1];
+		str[0] = "88" + NLS.getTemperatureSymbol();
+		mainTemperature.setWords(str);
 		mainTemperature.addClassSelector(ClassSelectors.MAIN_TEMPERATURE);
 		centerDock.setCenter(Util.addWrapper(mainTemperature));
 		hour = new Label();
@@ -64,17 +66,19 @@ public class DateDetails extends CenterContainer implements Animation {
 	}
 
 	private void update() {
-		Model.getTime().updateCurrentTime();
 		Time time = Model.getTime();
 		Util.update(this.day, NLS.getDay(time));
 		Util.update(this.date, NLS.getDate(time));
+		int hour = time.getHour();
+		int day = time.getDayOfWeek();
 		Util.update(this.hour,
 				Util.addPadding(NLS.getFullHourFormat(time))
-				+ NLS.getHourSymbol(time.getHour()));
+				+ NLS.getHourSymbol(hour));
+		Util.update(mainTemperature, String.valueOf(Model.getTemperature()) + NLS.getTemperatureSymbol());
 
-		for (int i = 0; i < newtHours.getWidgets().length; i++) {
-			HourlyDetail widget = (HourlyDetail) newtHours.getWidgets()[i];
-			widget.update(time.getHour());
+		for (int i = 0; i < nextHours.getWidgets().length; i++) {
+			HourlyDetail widget = (HourlyDetail) nextHours.getWidgets()[i];
+			widget.update(day, hour);
 		}
 	}
 

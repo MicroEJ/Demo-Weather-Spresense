@@ -7,9 +7,13 @@
  */
 package com.microej.example.hello;
 
+import com.microej.example.hello.fake.FakeWeatherProvider;
 import com.microej.example.hello.style.StylePopulator;
 import com.microej.example.hello.widget.MainFrame;
 
+import ej.animation.Animation;
+import ej.animation.Animator;
+import ej.components.dependencyinjection.ServiceLoaderFactory;
 import ej.microui.MicroUI;
 import ej.widget.StyledDesktop;
 import ej.widget.StyledPanel;
@@ -19,7 +23,15 @@ import ej.widget.StyledPanel;
  */
 public class HelloWorld {
 	public static void main(String[] args) {
-		Model.getTime().updateCurrentTime();
+		FakeWeatherProvider.getWeather(0, 0);
+		ServiceLoaderFactory.getServiceLoader().getService(Animator.class).startAnimation(new Animation() {
+
+			@Override
+			public boolean tick(long currentTimeMillis) {
+				Model.getTime().updateCurrentTime();
+				return true;
+			}
+		});
 		MicroUI.start();
 		StylePopulator.populate();
 

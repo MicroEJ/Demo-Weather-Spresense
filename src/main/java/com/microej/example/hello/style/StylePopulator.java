@@ -9,6 +9,7 @@ package com.microej.example.hello.style;
 
 import com.microej.example.hello.widget.HourlyDetail;
 import com.microej.example.hello.widget.MainBackground;
+import com.microej.example.hello.widget.PaddedBackground;
 
 import ej.microui.display.Display;
 import ej.microui.display.GraphicsContext;
@@ -17,7 +18,6 @@ import ej.style.Selector;
 import ej.style.Stylesheet;
 import ej.style.background.NoBackground;
 import ej.style.background.PlainBackground;
-import ej.style.background.SimpleRoundedPlainBackground;
 import ej.style.dimension.FixedDimension;
 import ej.style.outline.ComplexOutline;
 import ej.style.selector.ClassSelector;
@@ -81,12 +81,7 @@ public class StylePopulator {
 
 		style.clear();
 		style.setForegroundColor(Colors.BLACK);
-		style.setBackground(new SimpleRoundedPlainBackground(100) {
-			@Override
-			public boolean isTransparent() {
-				return false;
-			}
-		});
+		style.setBackground(new PaddedBackground(new ComplexOutline(DEFAULT_OUTLINE, 0, 0, 0)));
 		style.setFontProfile(FontProfiles.HUGE);
 		stylesheet.addRule(new ClassSelector(ClassSelectors.MAIN_TEMPERATURE), style);
 
