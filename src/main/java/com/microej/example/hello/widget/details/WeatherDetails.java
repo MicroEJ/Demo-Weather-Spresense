@@ -14,6 +14,7 @@ import ej.bon.Timer;
 import ej.bon.TimerTask;
 import ej.components.dependencyinjection.ServiceLoaderFactory;
 import ej.widget.basic.Image;
+import ej.widget.composed.Wrapper;
 import ej.widget.container.Dock;
 
 public class WeatherDetails extends Dock {
@@ -23,8 +24,9 @@ public class WeatherDetails extends Dock {
 
 	public WeatherDetails(String icon) {
 		Image image = new Image(icon);
-		image.addClassSelector(ClassSelectors.ICON);
-		setCenter(Util.addWrapper(image));
+		Wrapper wrapper = Util.addWrapper(image);
+		wrapper.addClassSelector(ClassSelectors.ICON);
+		setCenter(wrapper);
 	}
 
 	protected void update() {

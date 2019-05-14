@@ -10,6 +10,7 @@ package com.microej.example.hello.widget.details;
 import com.microej.example.hello.Model;
 import com.microej.example.hello.NLS;
 import com.microej.example.hello.Time;
+import com.microej.example.hello.Util;
 import com.microej.example.hello.style.Images;
 
 public class SunriseWidget extends DefaultWeatherDetails {
@@ -21,7 +22,7 @@ public class SunriseWidget extends DefaultWeatherDetails {
 	@Override
 	protected String getValue() {
 		Time sunrise = Model.getSunrise();
-		return NLS.getFullHourFormat(sunrise);// + NLS.getHourSymbol(calendar.get(Calendar.AM_PM));
+		return Util.addPadding(NLS.getFullHourFormat(sunrise));
 	}
 
 }

@@ -15,7 +15,7 @@ public class Util {
 
 	public static final String STRING_PADDING = " "; //$NON-NLS-1$
 
-	public static Widget addWrapper(Widget widget) {
+	public static Wrapper addWrapper(Widget widget) {
 		Wrapper wrapper = new Wrapper();
 		wrapper.setAdjustedToChild(false);
 		wrapper.setWidget(widget);

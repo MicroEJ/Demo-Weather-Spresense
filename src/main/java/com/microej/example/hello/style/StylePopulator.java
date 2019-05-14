@@ -114,6 +114,7 @@ public class StylePopulator {
 
 		style.clear();
 		style.setForegroundColor(Colors.CORAL);
+		style.setAlignment(GraphicsContext.HCENTER_VCENTER);
 		stylesheet.addRule(new ClassSelector(ClassSelectors.ICON), style);
 
 		style.clear();
