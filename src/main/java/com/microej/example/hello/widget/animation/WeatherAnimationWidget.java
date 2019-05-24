@@ -25,20 +25,23 @@ import ej.widget.StyledWidget;
  */
 public class WeatherAnimationWidget extends StyledWidget implements Animation {
 
-	private final RainAnimation animation;
+	private WeatherAnimation animation;
 
 	public WeatherAnimationWidget() {
-		animation = new RainAnimation();
 	}
 
 	@Override
 	public void renderContent(GraphicsContext g, Style style, Rectangle bounds) {
-		AntiAliasedShapes antiAliased = MainBackground.getAntiAliased();
 		g.setColor(Model.getColor(Model.getTime()));
 		g.setBackgroundColor(g.getColor());
 		g.fillRect(0, 0, bounds.getWidth(), bounds.getHeight());
 
-		animation.render(g);
+		if (Model.getWeather() != animation.getWeather()) {
+			animation.stop();
+		}
+		if (!animation.render(g)) {
+			startAnimation();
+		}
 
 		g.setColor(style.getBackgroundColor());
 		int circleX = (StylePopulator.getDisplayWidth() - MainBackground.CIRCLE_DIAMETER) / 2;
@@ -46,6 +49,7 @@ public class WeatherAnimationWidget extends StyledWidget implements Animation {
 		g.fillCircle(circleX, circleY, MainBackground.CIRCLE_DIAMETER);
 		g.setColor(style.getBorderColor());
 		g.removeBackgroundColor();
+		AntiAliasedShapes antiAliased = MainBackground.getAntiAliased();
 		antiAliased.drawCircleArc(g, circleX, circleY, MainBackground.CIRCLE_DIAMETER, 125, -70);
 	}
 
@@ -62,7 +66,24 @@ public class WeatherAnimationWidget extends StyledWidget implements Animation {
 	@Override
 	public void showNotify() {
 		super.showNotify();
+		startAnimation();
 		ServiceLoaderFactory.getServiceLoader().getService(Animator.class).startAnimation(this);
+	}
+
+	private void startAnimation() {
+		switch (Model.getWeather()) {
+		case Model.SUN:
+			animation = new SunAnimation();
+			break;
+		case Model.RAIN:
+			animation = new RainAnimation();
+			break;
+		case Model.CLOUD:
+		default:
+			animation = new RainAnimation();
+			// animation = new CloudAnimation();
+			break;
+		}
 	}
 
 	@Override

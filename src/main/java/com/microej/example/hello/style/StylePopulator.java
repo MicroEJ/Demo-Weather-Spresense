@@ -34,7 +34,7 @@ public class StylePopulator {
 	private static int displayHeight = 0;
 	private static int displayWidth = 0;
 
-	private static final int TOP_OFFSET = 8;
+	public static final int TOP_OFFSET = 8;
 	public static final int DEFAULT_OUTLINE = 5;
 
 	private StylePopulator() {

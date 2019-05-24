@@ -28,7 +28,7 @@ public abstract class DefaultWeatherDetails extends WeatherDetails {
 
 	@Override
 	protected void update() {
-		Util.update(value, getValue());
+		Util.update(value, Util.addPadding(getValue()));
 	}
 
 	protected abstract String getValue();

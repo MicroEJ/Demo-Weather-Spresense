@@ -9,6 +9,7 @@ package com.microej.example.hello.widget.animation;
 
 import java.util.Random;
 
+import com.microej.example.hello.Model;
 import com.microej.example.hello.style.Colors;
 import com.microej.example.hello.style.StylePopulator;
 
@@ -16,7 +17,7 @@ import ej.bon.Util;
 import ej.color.GradientHelper;
 import ej.microui.display.GraphicsContext;
 
-public class RainAnimation {
+public class RainAnimation implements WeatherAnimation {
 
 	private static final float COUNT_DROPS = 0.02f;
 	private static final int SPEED = 7;
@@ -27,8 +28,10 @@ public class RainAnimation {
 	private final RainDrop[] mediumDrops;
 	private final RainDrop[] fastDrops;
 	private final Random random;
+	private boolean run;
 
 	public RainAnimation() {
+		run = true;
 		int topHeight = StylePopulator.getTopHeight();
 		int dropCount = (int) (COUNT_DROPS
 				* (StylePopulator.getDisplayWidth() + topHeight + LARGE));
@@ -49,35 +52,53 @@ public class RainAnimation {
 				length = LARGE;
 				break;
 			}
-			slowDrops[i] = generateDrop(-random.nextInt(topHeight), length, SPEED - 2, topHeight);
-			mediumDrops[i] = generateDrop(-random.nextInt(topHeight), length, SPEED - 1, topHeight);
-			fastDrops[i] = generateDrop(-random.nextInt(topHeight), length, SPEED, topHeight);
+			slowDrops[i] = new RainDrop(computeInitalX(), -random.nextInt(topHeight), length, SPEED - 2);
+			mediumDrops[i] = new RainDrop(computeInitalX(), -random.nextInt(topHeight), length, SPEED - 1);
+			fastDrops[i] = new RainDrop(computeInitalX(), -random.nextInt(topHeight), length, SPEED);
 		}
 	}
 
-	public void render(GraphicsContext g) {
+	@Override
+	public boolean render(GraphicsContext g) {
 		long currentTimeMillis = Util.currentTimeMillis();
 		int backgroundColor = g.getBackgroundColor();
-		renderDrops(g, slowDrops, currentTimeMillis, GradientHelper.blendColors(backgroundColor, Colors.WHITE, 0.5f));
-		renderDrops(g, mediumDrops, currentTimeMillis, GradientHelper.blendColors(Colors.WHITE, backgroundColor, 0.3f));
-		renderDrops(g, fastDrops, currentTimeMillis, Colors.WHITE);
+		boolean isRunning = false;
+		isRunning |= renderDrops(g, slowDrops, currentTimeMillis,
+				GradientHelper.blendColors(backgroundColor, Colors.WHITE, 0.5f));
+		isRunning |= renderDrops(g, mediumDrops, currentTimeMillis,
+				GradientHelper.blendColors(Colors.WHITE, backgroundColor, 0.3f));
+		isRunning |= renderDrops(g, fastDrops, currentTimeMillis, Colors.WHITE);
+		return isRunning;
 	}
 
-	private void renderDrops(GraphicsContext g, RainDrop[] drops, long currentTimeMillis, int color) {
+	private boolean renderDrops(GraphicsContext g, RainDrop[] drops, long currentTimeMillis, int color) {
+		boolean isRunning = false;
 		g.setColor(color);
 		for (int i = 0; i < drops.length; i++) {
 			RainDrop rainDrop = drops[i];
 			if (!rainDrop.render(g, currentTimeMillis)) {
-				drops[i] = generateDrop(rainDrop.getInitialY(), rainDrop.getLength(), rainDrop.getSpeed(),
-						rainDrop.getHeight());
+				if (run) {
+					rainDrop.restart(computeInitalX());
+					isRunning = true;
+				}
+			} else {
+				isRunning = true;
 			}
 		}
+		return isRunning;
 	}
 
-	private RainDrop generateDrop(int initialY, int length, int speed, int height) {
-		return new RainDrop(random.nextInt(StylePopulator.getDisplayWidth() + StylePopulator.getTopHeight() + length),
-				initialY,
-				length, speed, height);
+	private int computeInitalX() {
+		return random.nextInt(StylePopulator.getDisplayWidth() + StylePopulator.getTopHeight());
 	}
 
+	@Override
+	public void stop() {
+		run = false;
+	}
+
+	@Override
+	public int getWeather() {
+		return Model.RAIN;
+	}
 }

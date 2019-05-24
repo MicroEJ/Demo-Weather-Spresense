@@ -20,6 +20,10 @@ public class Model {
 	public static final int COUNT_OF_HOUR_VALUES = 3;
 	public static final Time time = new Time();
 
+	public static final int SUN = 1;
+	public static final int RAIN = 2;
+	public static final int CLOUD = 3;
+
 	public static Time getTime() {
 		return time;
 	}
@@ -83,5 +87,9 @@ public class Model {
 
 	public static float getLongitude() {
 		return FakeWeatherProvider.getWeather(time.getDayOfWeek() - 1, time.getHour()).getLongitude();
+	}
+
+	public static int getWeather() {
+		return FakeWeatherProvider.getWeather(time.getDayOfWeek() - 1, time.getHour()).getType();
 	}
 }
