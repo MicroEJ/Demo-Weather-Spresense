@@ -7,6 +7,8 @@
  */
 package com.microej.example.hello;
 
+import java.util.Random;
+
 import ej.mwt.Widget;
 import ej.widget.basic.Label;
 import ej.widget.composed.Wrapper;
@@ -14,6 +16,7 @@ import ej.widget.composed.Wrapper;
 public class Util {
 
 	public static final String STRING_PADDING = " "; //$NON-NLS-1$
+	public static final Random RANDOM = new Random();
 
 	public static Wrapper addWrapper(Widget widget) {
 		Wrapper wrapper = new Wrapper();

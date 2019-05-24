@@ -7,13 +7,11 @@
  */
 package com.microej.example.hello.widget.animation;
 
-import java.util.Random;
-
 import com.microej.example.hello.Model;
+import com.microej.example.hello.Util;
 import com.microej.example.hello.style.Colors;
 import com.microej.example.hello.style.StylePopulator;
 
-import ej.bon.Util;
 import ej.color.GradientHelper;
 import ej.microui.display.GraphicsContext;
 
@@ -27,7 +25,6 @@ public class RainAnimation implements WeatherAnimation {
 	private final RainDrop[] slowDrops;
 	private final RainDrop[] mediumDrops;
 	private final RainDrop[] fastDrops;
-	private final Random random;
 	private boolean run;
 
 	public RainAnimation() {
@@ -38,10 +35,9 @@ public class RainAnimation implements WeatherAnimation {
 		slowDrops = new RainDrop[dropCount];
 		mediumDrops = new RainDrop[dropCount];
 		fastDrops = new RainDrop[dropCount];
-		random = new Random();
 		for(int i=0;i<dropCount;i++) {
 			int length;
-			switch (random.nextInt(3)) {
+			switch (Util.RANDOM.nextInt(3)) {
 			case 0:
 				length = SMALL;
 				break;
@@ -52,15 +48,15 @@ public class RainAnimation implements WeatherAnimation {
 				length = LARGE;
 				break;
 			}
-			slowDrops[i] = new RainDrop(computeInitalX(), -random.nextInt(topHeight), length, SPEED - 2);
-			mediumDrops[i] = new RainDrop(computeInitalX(), -random.nextInt(topHeight), length, SPEED - 1);
-			fastDrops[i] = new RainDrop(computeInitalX(), -random.nextInt(topHeight), length, SPEED);
+			slowDrops[i] = new RainDrop(computeInitalX(), -Util.RANDOM.nextInt(topHeight), length, SPEED - 2);
+			mediumDrops[i] = new RainDrop(computeInitalX(), -Util.RANDOM.nextInt(topHeight), length, SPEED - 1);
+			fastDrops[i] = new RainDrop(computeInitalX(), -Util.RANDOM.nextInt(topHeight), length, SPEED);
 		}
 	}
 
 	@Override
 	public boolean render(GraphicsContext g) {
-		long currentTimeMillis = Util.currentTimeMillis();
+		long currentTimeMillis = ej.bon.Util.currentTimeMillis();
 		int backgroundColor = g.getBackgroundColor();
 		boolean isRunning = false;
 		isRunning |= renderDrops(g, slowDrops, currentTimeMillis,
@@ -89,7 +85,7 @@ public class RainAnimation implements WeatherAnimation {
 	}
 
 	private int computeInitalX() {
-		return random.nextInt(StylePopulator.getDisplayWidth() + StylePopulator.getTopHeight());
+		return Util.RANDOM.nextInt(StylePopulator.getDisplayWidth() + StylePopulator.getTopHeight());
 	}
 
 	@Override

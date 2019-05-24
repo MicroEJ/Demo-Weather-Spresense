@@ -80,8 +80,7 @@ public class WeatherAnimationWidget extends StyledWidget implements Animation {
 			break;
 		case Model.CLOUD:
 		default:
-			animation = new RainAnimation();
-			// animation = new CloudAnimation();
+			animation = new CloudAnimation();
 			break;
 		}
 	}
