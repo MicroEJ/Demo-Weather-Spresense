@@ -8,11 +8,11 @@
 <ivy-module version="2.0" xmlns:ea="http://www.easyant.org" xmlns:m="http://ant.apache.org/ivy/extra" xmlns:ej="https://developer.microej.com" ej:version="2.0.0"> 
 	<info organisation="com.microej.demo" module="spresense-app" status="integration" revision="0.1.0">
         <ea:build organisation="com.is2t.easyant.buildtypes" module="build-firmware-singleapp" revision="1.2.+">
-        	<ea:property name="application.main.class" value="com.microej.demo.Main" />
+        	<ea:property name="application.main.class" value="com.microej.example.hello.HelloWorld" />
         	<!--
         		Use property 'platform-loader.target.platform.dir' to set the platform to use. or uncomment the platform dependency (see below).
-        		<ea:property name="platform-loader.target.platform.dir" value="[path-to-local-platform]" />
         	-->
+        		<ea:property name="platform-loader.target.platform.dir" value="C:\Users\rcaillaud\SONY_SPRESENSE\workspace\CC0213_SONY-SPRESENSE\MicroEJ\Spresense-MultiApp-CM4hardfp_GCC48-1.0.0-RC201906201713\source" />
         </ea:build>
     </info>
     

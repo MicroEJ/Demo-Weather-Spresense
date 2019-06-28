@@ -1,0 +1,39 @@
+<!--
+	ANT
+	
+	Copyright 2019 MicroEJ Corp. All rights reserved.
+	MicroEJ Corp. PROPRIETARY/CONFIDENTIAL. Use is subject to license terms.  
+-->
+<project name="build-firmware-singleapp" xmlns:ea="antlib:org.apache.easyant">
+	<ea:plugin module="phases-std" revision="0.9" />
+		
+	<target name="platform-checker" extensionOf="abstract-compile:compile-ready" > 
+		<copy todir="${platform-loader.platform.dir}/scripts" overwrite="false">
+			<fileset dir="${basedir}/platformScripts" includes="**"/>  
+		</copy>
+	</target>
+	
+	<target name="package-addition" extensionOf="package">
+		<if>
+			<not>
+				<available file="${target}/.microej" property="microej.present"/>
+			</not>
+		    <then>
+		        <mkdir dir="${target}/.microej"/>
+		    	<copy file="${target}/${application.main.class}/SOAR.o" tofile="${target}/.microej/microejapp.o" />
+		    </then>
+		</if>
+		<zip destfile="${target.artifacts}/${module.name}-binaries.zip">
+			<fileset dir="${target}/.microej" >
+				<include name="**/*"/>
+			</fileset>
+			
+			<fileset dir="${target}/player/platform">
+				<include name="release.properties"/>
+			</fileset>
+		</zip>
+		
+		<ea:registerartifact type="zip" ext="zip" name="${module.name}-binaries" confs="default" />
+		
+	</target>
+</project> 

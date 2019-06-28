@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  	ANT
+ 
+	Copyright 2019 MicroEJ Corp. All rights reserved.
+	MicroEJ Corp. PROPRIETARY/CONFIDENTIAL. Use is subject to license terms.  
+-->
+<project name="emb.default" default="board" xmlns:elfToMap="antlib:com.is2t.generator">
+
+	<import file="init.xml"/>
+	<import file="partialLink.xml"/> 
+	<import file="fullLink.xml"/>
+	<import file="deploy.xml"/> 
+	
+	<!-- Entry point. Mandatory name as defined by workbench. -->
+	<target name="board" depends="init, partialLink, fullLink, deploy"/>
+	
+	<target name="deploy">
+		<deploy binary.file="${output.file}"/> 
+	</target> 
+
+	<target name="convertEflToMap">
+		<taskdef uri="antlib:com.is2t.generator" resource="com/is2t/generator/antlib.xml" classpath="${platform.dir}/tools/elftomap.jar"/>
+	
+		<property name="map.input.file" location="${output.file}" />
+		<property name="map.output.file" location="${link.output.dir}/${link.output.name}.map" />
+
+		<elfToMap:elfToMapFileGenerator
+			verboseLevel="${linker.verbose.level}"
+			inputFile="${map.input.file}"
+			outputFile="${map.output.file}"	/>
+	</target>
+</project>
