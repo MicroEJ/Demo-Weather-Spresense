@@ -8,7 +8,7 @@
 <ivy-module version="2.0" xmlns:ea="http://www.easyant.org" xmlns:m="http://ant.apache.org/ivy/extra" xmlns:ej="https://developer.microej.com" ej:version="2.0.0"> 
 	<info organisation="com.microej.demo" module="spresense-app" status="integration" revision="0.1.0">
         <ea:build organisation="com.is2t.easyant.buildtypes" module="build-firmware-singleapp" revision="1.2.+">
-        	<ea:property name="application.main.class" value="com.microej.example.hello.HelloWorld" />
+        	<ea:property name="application.main.class" value="com.microej.spresense.demo.SpresenseDemo" />
         	<!--
         		Use property 'platform-loader.target.platform.dir' to set the platform to use. or uncomment the platform dependency (see below).
         	-->
@@ -43,7 +43,7 @@
         <dependency org="ej.api" name="microui" rev="2.3.0"/>
         <dependency org="ej.library.runtime" name="components" rev="3.3.0"/>
         <dependency org="ej.library.util" name="dateformat" rev="1.1.0"/>
-        
+	    <dependency org="ej.api" name="audio" rev="1.0.0" conf="provided->*"/> 
         <dependency org="ej.library.ui" name="widget" rev="2.4.1"/>
         
         <!-- 
