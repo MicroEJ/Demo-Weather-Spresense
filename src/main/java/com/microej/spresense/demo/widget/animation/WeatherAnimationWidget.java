@@ -33,15 +33,15 @@ public class WeatherAnimationWidget extends StyledWidget implements Animation {
 	private static final String sunny = "AUDIO/sunny.mp3";
 	private static final String rainy= "AUDIO/rain.mp3";
 	private static final String cloudy = "AUDIO/wind.mp3";
-
 	private static final AudioPlayer audioPlayer = AudioPlayer.getInstance();
+
 	private volatile boolean animationNotChanged;
 	private Thread soundThread;
 
 	private WeatherAnimation animation;
+	private AudioFile file;
 
 	public WeatherAnimationWidget() {
-		runSoundThread();
 	}
 
 	@Override
@@ -89,13 +89,16 @@ public class WeatherAnimationWidget extends StyledWidget implements Animation {
 		switch (Model.getWeather()) {
 		case Model.SUN:
 			animation = new SunAnimation();
+			file = new AudioFile(sunny, AudioChannel.AS_CHANNEL_STEREO, BitLength.BITLENGTH_16, 44100, AudioCodec.MP3);
 			break;
 		case Model.RAIN:
 			animation = new RainAnimation();
+			file = new AudioFile(rainy, AudioChannel.AS_CHANNEL_STEREO, BitLength.BITLENGTH_16, 44100, AudioCodec.MP3);
 			break;
 		case Model.CLOUD:
 		default:
 			animation = new CloudAnimation();
+			file = new AudioFile(cloudy, AudioChannel.AS_CHANNEL_STEREO, BitLength.BITLENGTH_16, 44100, AudioCodec.MP3);
 			break;
 		}
 		changeSoundAnimation();
@@ -111,19 +114,6 @@ public class WeatherAnimationWidget extends StyledWidget implements Animation {
 	public boolean tick(long currentTimeMillis) {
 		repaint();
 		return true;
-	}
-
-	public AudioFile getAudioFileFromWeather() {
-		switch (Model.getWeather()) {
-		case Model.SUN:
-			return new AudioFile(sunny, AudioChannel.AS_CHANNEL_STEREO, BitLength.BITLENGTH_16, 44100, AudioCodec.MP3);
-		case Model.RAIN:
-			return new AudioFile(rainy, AudioChannel.AS_CHANNEL_STEREO, BitLength.BITLENGTH_16, 44100, AudioCodec.MP3);
-		case Model.CLOUD:
-			return new AudioFile(cloudy, AudioChannel.AS_CHANNEL_STEREO, BitLength.BITLENGTH_16, 44100, AudioCodec.MP3);
-		default:
-			return new AudioFile(cloudy, AudioChannel.AS_CHANNEL_STEREO, BitLength.BITLENGTH_16, 44100, AudioCodec.MP3);
-		}
 	}
 
 	private void changeSoundAnimation() {
@@ -146,14 +136,10 @@ public class WeatherAnimationWidget extends StyledWidget implements Animation {
 			@Override
 			public void run() {
 				while(animationNotChanged) {
-					AudioFile file = getAudioFileFromWeather();
 					audioPlayer.play(file, LOOP_INTERVAL);
 				}
 			}
 		};
 		soundThread.start();
-		System.gc();
-		long freeMemory = Runtime.getRuntime().freeMemory();
-		System.out.println("free memory " + freeMemory);
 	}
 }
