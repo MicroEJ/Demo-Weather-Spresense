@@ -11,8 +11,8 @@
         	<ea:property name="application.main.class" value="com.microej.spresense.demo.SpresenseDemo" />
         	<!--
         		Use property 'platform-loader.target.platform.dir' to set the platform to use. or uncomment the platform dependency (see below).
-        	-->
         		<ea:property name="platform-loader.target.platform.dir" value="C:\Users\rcaillaud\SONY_SPRESENSE\workspace\CC0213_SONY-SPRESENSE\MicroEJ\Spresense-MultiApp-CM4hardfp_GCC48-1.0.0-RC201906201713\source" />
+        	-->
         </ea:build>
     </info>
     
