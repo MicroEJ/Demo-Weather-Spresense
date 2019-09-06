@@ -12,6 +12,10 @@
         	<!--
         		Use property 'platform-loader.target.platform.dir' to set the platform to use. or uncomment the platform dependency (see below).
         	-->
+        	
+        	<ea:plugin organisation="com.is2t.easyant.plugins" module="sonar-server" revision="0.+" />
+        	<ea:plugin organisation="org.apache.easyant.plugins" module="sonar" revision="1.1.+" />
+        	
         </ea:build>
     </info>
     
