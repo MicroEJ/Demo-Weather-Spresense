@@ -16,6 +16,8 @@
         	<ea:plugin organisation="com.is2t.easyant.plugins" module="sonar-server" revision="0.+" />
         	<ea:plugin organisation="org.apache.easyant.plugins" module="sonar" revision="1.1.+" />
         	
+        	<ea:property name="sonar.run.root-project" value="SpresenseDemo" />
+        	
         </ea:build>
     </info>
     
