@@ -1,8 +1,9 @@
 <!--
 	ANT
 	
-	Copyright 2019 MicroEJ Corp. All rights reserved.
-	MicroEJ Corp. PROPRIETARY/CONFIDENTIAL. Use is subject to license terms.  
+	Copyright 2019 Sony Corp. All rights reserved.
+	This Software has been designed by MicroEJ Corp and all rights have been transferred to Sony Corp.
+	Sony Corp. has granted MicroEJ the right to sub-licensed this Software under the enclosed license terms.
 -->
 <project name="build-firmware-singleapp" xmlns:ea="antlib:org.apache.easyant">
 	<ea:plugin module="phases-std" revision="0.9" />
