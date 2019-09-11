@@ -14,9 +14,6 @@ import com.microej.spresense.demo.widget.MainBackground;
 import ej.animation.Animation;
 import ej.animation.Animator;
 import ej.audio.AudioFile;
-import ej.audio.AudioFile.AudioChannel;
-import ej.audio.AudioFile.AudioCodec;
-import ej.audio.AudioFile.BitLength;
 import ej.audio.AudioPlayer;
 import ej.components.dependencyinjection.ServiceLoaderFactory;
 import ej.microui.display.GraphicsContext;
@@ -89,16 +86,16 @@ public class WeatherAnimationWidget extends StyledWidget implements Animation {
 		switch (Model.getWeather()) {
 		case Model.SUN:
 			animation = new SunAnimation();
-			file = new AudioFile(sunny, AudioChannel.AS_CHANNEL_STEREO, BitLength.BITLENGTH_16, 44100, AudioCodec.MP3);
+			file = new AudioFile(sunny, AudioFile.AS_CHANNEL_STEREO, AudioFile.BITLENGTH_16, 44100, AudioFile.AUDIO_CODEC_MP3);
 			break;
 		case Model.RAIN:
 			animation = new RainAnimation();
-			file = new AudioFile(rainy, AudioChannel.AS_CHANNEL_STEREO, BitLength.BITLENGTH_16, 44100, AudioCodec.MP3);
+			file = new AudioFile(rainy, AudioFile.AS_CHANNEL_STEREO, AudioFile.BITLENGTH_16, 44100, AudioFile.AUDIO_CODEC_MP3);
 			break;
 		case Model.CLOUD:
 		default:
 			animation = new CloudAnimation();
-			file = new AudioFile(cloudy, AudioChannel.AS_CHANNEL_STEREO, BitLength.BITLENGTH_16, 44100, AudioCodec.MP3);
+			file = new AudioFile(cloudy, AudioFile.AS_CHANNEL_STEREO, AudioFile.BITLENGTH_16, 44100, AudioFile.AUDIO_CODEC_MP3);
 			break;
 		}
 		changeSoundAnimation();
