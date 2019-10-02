@@ -7,6 +7,8 @@
  */
 package com.microej.spresense.demo.widget.animation;
 
+import java.io.IOException;
+
 import com.microej.spresense.demo.Model;
 import com.microej.spresense.demo.style.StylePopulator;
 import com.microej.spresense.demo.widget.MainBackground;
@@ -121,10 +123,13 @@ public class WeatherAnimationWidget extends StyledWidget implements Animation {
 
 	private void runSoundThread() {
 		if(soundThread != null) {
-			audioPlayer.pause();
+
 			try {
+				audioPlayer.pause();
 				soundThread.join();
 			} catch (InterruptedException e) {
+				e.printStackTrace();
+			} catch (IOException e) {
 				e.printStackTrace();
 			}
 		}
@@ -133,7 +138,12 @@ public class WeatherAnimationWidget extends StyledWidget implements Animation {
 			@Override
 			public void run() {
 				while(animationNotChanged) {
-					audioPlayer.play(file, LOOP_INTERVAL);
+					try {
+						audioPlayer.play(file, LOOP_INTERVAL);
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 				}
 			}
 		};
