@@ -13,7 +13,6 @@ import com.microej.spresense.demo.widget.MainFrame;
 
 import ej.animation.Animation;
 import ej.animation.Animator;
-import ej.audio.AudioPlayer;
 import ej.components.dependencyinjection.ServiceLoaderFactory;
 import ej.microui.MicroUI;
 import ej.widget.StyledDesktop;
@@ -25,7 +24,6 @@ public class SpresenseDemo {
 
 
 	public static void main(String[] args) {
-		AudioPlayer.getInstance().launch();
 		if (System.currentTimeMillis() < INIT) {
 			ej.bon.Util.setCurrentTimeMillis(INIT);
 		}
