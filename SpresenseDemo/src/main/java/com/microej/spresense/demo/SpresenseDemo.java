@@ -7,7 +7,6 @@
  */
 package com.microej.spresense.demo;
 
-import com.microej.spresense.demo.fake.FakeWeatherProvider;
 import com.microej.spresense.demo.style.StylePopulator;
 import com.microej.spresense.demo.widget.MainFrame;
 
@@ -27,7 +26,6 @@ public class SpresenseDemo {
 		if (System.currentTimeMillis() < INIT) {
 			ej.bon.Util.setCurrentTimeMillis(INIT);
 		}
-		FakeWeatherProvider.getWeather(0, 0);
 		ServiceLoaderFactory.getServiceLoader().getService(Animator.class).startAnimation(new Animation() {
 
 			@Override

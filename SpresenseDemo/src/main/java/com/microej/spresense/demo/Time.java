@@ -60,7 +60,7 @@ public class Time {
 			month = calendar.get(Calendar.MONTH);
 			day = calendar.get(Calendar.DAY_OF_MONTH);
 			dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
-			hour = calendar.get(Calendar.HOUR);
+			hour = calendar.get(Calendar.HOUR_OF_DAY);
 			minute = calendar.get(Calendar.MINUTE);
 			lastUpdate = hour * MILLI_IN_HOUR + minute * MILLI_IN_MINUTES + calendar.get(Calendar.SECOND) * MILLIS
 					+ newTime % MILLIS;

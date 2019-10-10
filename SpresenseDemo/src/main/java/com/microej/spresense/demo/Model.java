@@ -11,6 +11,7 @@ import com.microej.spresense.demo.fake.FakeWeatherProvider;
 import com.microej.spresense.demo.style.Colors;
 
 import ej.color.GradientHelper;
+import ej.gnss.GnssManager;
 
 /**
  *
@@ -24,19 +25,20 @@ public class Model {
 	public static final int RAIN = 2;
 	public static final int CLOUD = 3;
 
+	private static GnssManager gnssManager;
 	public static Time getTime() {
 		return time;
 	}
 
 
 	public static int getTemperature() {
-		return FakeWeatherProvider.getWeather(time.getDayOfWeek() - 1, time.getHour()).getTemperature();
+		return FakeWeatherProvider.getTemperature(time.getDayOfWeek(), time.getHour());
 	}
 
 	public static int getColor(Time time) {
 		int dayOfWeek = time.getDayOfWeek();
 		int colorPosition = (dayOfWeek - 1) << 2;
-		int hour = time.getHour();
+		int hour = time.getHour() % 12;
 		int minute = time.getMinute();
 
 		int colorOffset;
@@ -66,30 +68,30 @@ public class Model {
 	}
 
 	public static int getTemperature(int day, int hour) {
-		return FakeWeatherProvider.getWeather(day - 1, hour).getTemperature();
+		return FakeWeatherProvider.getTemperature(day, hour);
 	}
 
 	public static int getWind() {
-		return FakeWeatherProvider.getWeather(time.getDayOfWeek() - 1, time.getHour()).getWind();
+		return FakeWeatherProvider.getWind(time.getDayOfWeek(), time.getHour());
 	}
 
 	public static int getHumidity() {
-		return FakeWeatherProvider.getWeather(time.getDayOfWeek() - 1, time.getHour()).getHumidity();
+		return FakeWeatherProvider.getHumidity(time.getDayOfWeek(), time.getHour());
 	}
 
 	public static Time getSunrise() {
-		return FakeWeatherProvider.getWeather(time.getDayOfWeek() - 1, time.getHour()).getSunrise();
+		return FakeWeatherProvider.getSunrise(time.getDayOfWeek(), time.getHour());
 	}
 
 	public static float getLatitude() {
-		return FakeWeatherProvider.getWeather(time.getDayOfWeek() - 1, time.getHour()).getLatitude();
+		return (gnssManager == null) ? 0 : gnssManager.getLatitude();
 	}
 
 	public static float getLongitude() {
-		return FakeWeatherProvider.getWeather(time.getDayOfWeek() - 1, time.getHour()).getLongitude();
+		return (gnssManager == null) ? 0 : gnssManager.getLongitude();
 	}
 
 	public static int getWeather() {
-		return FakeWeatherProvider.getWeather(time.getDayOfWeek() - 1, time.getHour()).getType();
+		return FakeWeatherProvider.getType(time.getDayOfWeek(), time.getHour());
 	}
 }
