@@ -7,8 +7,9 @@
  */
 package com.microej.spresense.demo.fake;
 
+import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
+import java.io.InputStreamReader;
 
 import com.microej.spresense.demo.Time;
 
@@ -26,18 +27,18 @@ public class FakeWeatherProvider {
 	public static FakeWeather getWeather(int day, int hour) {
 		if (weathers == null) {
 			weathers = new FakeWeather[7 * 24];
-			byte[] line = new byte[41];
-			try (InputStream inputStream = FakeWeatherProvider.class.getResourceAsStream(FAKE_FORECAST_CSV)) {
+			try (BufferedReader bufferReader = new BufferedReader(
+					new InputStreamReader(FakeWeatherProvider.class.getResourceAsStream(FAKE_FORECAST_CSV)))) {
 				for (int i = 0; i < weathers.length; i++) {
-					inputStream.read(line);
-					int type = Integer.valueOf(new String(line, 0, 2)).intValue();
-					int temperature = Integer.valueOf(new String(line, 3, 2)).intValue();
-					Time sunrise = new Time(0, 0, 0, Integer.valueOf(new String(line, 6, 2)).intValue(),
-							Integer.valueOf(new String(line, 9, 2)).intValue());
-					float wind = Float.valueOf(new String(line, 12, 5)).floatValue();
-					float humidity = Float.valueOf(new String(line, 18, 5)).floatValue();
-					float latitude = Float.valueOf(new String(line, 24, 8)).floatValue();
-					float longitude = Float.valueOf(new String(line, 33, 7)).floatValue();
+					String line = bufferReader.readLine();
+					int type = Integer.parseInt(line.substring(0, 2));
+					int temperature = Integer.parseInt(line.substring(3, 5));
+					Time sunrise = new Time(0, 0, 0, Integer.parseInt(line.substring(6, 8)),
+							Integer.parseInt(line.substring(9, 11)));
+					float wind = Float.parseFloat(line.substring(12, 17));
+					float humidity = Float.parseFloat(line.substring(18, 23));
+					float latitude = Float.parseFloat(line.substring(24, 32));
+					float longitude = Float.parseFloat(line.substring(33, 40));
 					weathers[i] = new FakeWeather(type, temperature, sunrise, wind, humidity, latitude, longitude);
 				}
 			} catch (IOException e) {
