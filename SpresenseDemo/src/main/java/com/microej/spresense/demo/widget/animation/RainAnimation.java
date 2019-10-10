@@ -9,10 +9,10 @@ package com.microej.spresense.demo.widget.animation;
 
 import com.microej.spresense.demo.Model;
 import com.microej.spresense.demo.Util;
-import com.microej.spresense.demo.style.Colors;
 import com.microej.spresense.demo.style.StylePopulator;
 
 import ej.color.GradientHelper;
+import ej.library.ui.MicroEJColors;
 import ej.microui.display.GraphicsContext;
 
 public class RainAnimation implements WeatherAnimation {
@@ -60,10 +60,10 @@ public class RainAnimation implements WeatherAnimation {
 		int backgroundColor = g.getBackgroundColor();
 		boolean isRunning = false;
 		isRunning |= renderDrops(g, slowDrops, currentTimeMillis,
-				GradientHelper.blendColors(backgroundColor, Colors.WHITE, 0.5f));
+				GradientHelper.blendColors(backgroundColor, MicroEJColors.WHITE, 0.5f));
 		isRunning |= renderDrops(g, mediumDrops, currentTimeMillis,
-				GradientHelper.blendColors(Colors.WHITE, backgroundColor, 0.3f));
-		isRunning |= renderDrops(g, fastDrops, currentTimeMillis, Colors.WHITE);
+				GradientHelper.blendColors(MicroEJColors.WHITE, backgroundColor, 0.3f));
+		isRunning |= renderDrops(g, fastDrops, currentTimeMillis, MicroEJColors.WHITE);
 		return isRunning;
 	}
 

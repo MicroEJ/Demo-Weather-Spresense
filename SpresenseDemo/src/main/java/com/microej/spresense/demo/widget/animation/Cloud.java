@@ -8,10 +8,10 @@
 package com.microej.spresense.demo.widget.animation;
 
 import com.microej.spresense.demo.Util;
-import com.microej.spresense.demo.style.Colors;
 import com.microej.spresense.demo.style.StylePopulator;
 
 import ej.color.GradientHelper;
+import ej.library.ui.MicroEJColors;
 import ej.microui.display.GraphicsContext;
 import ej.microui.display.shape.AntiAliasedShapes;
 
@@ -67,7 +67,7 @@ public class Cloud {
 				int height = halfDiameter + y;
 				g.setClip(clipX, clipY, clipWidth, height);
 				float ratio = Math.min(diff / duration, 1);
-				g.setColor(GradientHelper.blendColors(backgroundColor, Colors.WHITE, getRatio(color, ratio)));
+				g.setColor(GradientHelper.blendColors(backgroundColor, MicroEJColors.WHITE, getRatio(color, ratio)));
 				// g.fillCircle((int) (xInitial + travelLength * ratio), y, diameter);
 				AntiAliasedShapes.Singleton.setThickness(THICKNESS);
 				AntiAliasedShapes.Singleton.setFade(FADE);

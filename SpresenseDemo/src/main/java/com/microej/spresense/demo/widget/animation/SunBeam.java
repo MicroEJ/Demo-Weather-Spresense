@@ -7,9 +7,8 @@
  */
 package com.microej.spresense.demo.widget.animation;
 
-import com.microej.spresense.demo.style.Colors;
-
 import ej.color.GradientHelper;
+import ej.library.ui.MicroEJColors;
 import ej.microui.display.GraphicsContext;
 import ej.microui.display.shape.AntiAliasedShapes;
 
@@ -63,7 +62,7 @@ public class SunBeam {
 		} else {
 			long diff = currentTime - startRender;
 			float ratio = Math.min(diff / duration, 1);
-			g.setColor(GradientHelper.blendColors(Colors.WHITE, backgroundColor, ratio));
+			g.setColor(GradientHelper.blendColors(MicroEJColors.WHITE, backgroundColor, ratio));
 			double r = ratio * rDisplayed;
 			double r2 = r + initialR - (ratio * lengthDiff);
 			AntiAliasedShapes aliasedShapes = AntiAliasedShapes.Singleton;

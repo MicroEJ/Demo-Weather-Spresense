@@ -9,11 +9,6 @@ package com.microej.spresense.demo.style;
 
 public final class Colors {
 
-	public static final int GREY_LIGHT = 0xCBD3D7;
-	public static final int GREY = 0xB1BDC3;
-	public static final int WHITE = 0xFFFFFF;
-	public static final int CORAL = 0xEE502E;
-	public static final int BLACK = 0x000000;
 	public static final int[] WEEK = {
 			// SUNDAY
 			0x60236E, 0x792A83, 0x9951A6, 0xB067B7,

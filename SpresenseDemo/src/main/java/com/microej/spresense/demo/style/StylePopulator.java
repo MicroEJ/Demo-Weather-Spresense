@@ -11,6 +11,7 @@ import com.microej.spresense.demo.widget.HourlyDetail;
 import com.microej.spresense.demo.widget.MainBackground;
 import com.microej.spresense.demo.widget.PaddedBackground;
 
+import ej.library.ui.MicroEJColors;
 import ej.microui.display.Display;
 import ej.microui.display.GraphicsContext;
 import ej.mwt.Composite;
@@ -44,14 +45,14 @@ public class StylePopulator {
 		Stylesheet stylesheet = StyleHelper.getStylesheet();
 
 		EditableStyle style = new EditableStyle();
-		style.setBackground(new MainBackground(Colors.GREY_LIGHT));
-		style.setBackgroundColor(Colors.WHITE);
+		style.setBackground(new MainBackground(MicroEJColors.CONCRETE_WHITE_25));
+		style.setBackgroundColor(MicroEJColors.WHITE);
 		style.setPadding(new ComplexOutline(0, DEFAULT_OUTLINE, DEFAULT_OUTLINE, DEFAULT_OUTLINE));
 		stylesheet.addRule(new ClassSelector(ClassSelectors.MAINBACKGROUND), style);
 
 		style.clear();
-		style.setBackgroundColor(Colors.WHITE);
-		style.setBorderColor(Colors.GREY_LIGHT);
+		style.setBackgroundColor(MicroEJColors.WHITE);
+		style.setBorderColor(MicroEJColors.CONCRETE_WHITE_25);
 		style.setBackground(new PlainBackground());
 		style.setDimension(new FixedDimension(getDisplayWidth(),
 				getTopHeight()));
@@ -64,7 +65,7 @@ public class StylePopulator {
 		style.clear();
 		style.setFontProfile(FontProfiles.SMALL);
 		style.setAlignment(GraphicsContext.HCENTER_BOTTOM);
-		style.setForegroundColor(Colors.GREY_LIGHT);
+		style.setForegroundColor(MicroEJColors.CONCRETE_WHITE_25);
 		stylesheet.addRule(new ClassSelector(ClassSelectors.WEATHER_DETAILS), style);
 
 		style.clear();
@@ -75,18 +76,18 @@ public class StylePopulator {
 		stylesheet.addRule(new ClassSelector(ClassSelectors.CIRCLE), style);
 
 		style.clear();
-		style.setForegroundColor(Colors.BLACK);
+		style.setForegroundColor(MicroEJColors.CONCRETE_BLACK_75);
 		style.setFontProfile(FontProfiles.MEDIUM_BOLD);
 		stylesheet.addRule(new ClassSelector(ClassSelectors.DAY), style);
 
 		style.clear();
-		style.setForegroundColor(Colors.BLACK);
+		style.setForegroundColor(MicroEJColors.CONCRETE_BLACK_75);
 		style.setBackground(new PaddedBackground(new ComplexOutline(DEFAULT_OUTLINE, 0, 0, 0)));
 		style.setFontProfile(FontProfiles.HUGE);
 		stylesheet.addRule(new ClassSelector(ClassSelectors.MAIN_TEMPERATURE), style);
 
 		style.clear();
-		style.setForegroundColor(Colors.GREY_LIGHT);
+		style.setForegroundColor(MicroEJColors.CONCRETE_WHITE_25);
 		style.setFontProfile(FontProfiles.MEDIUM);
 		style.setMargin(new ComplexOutline(0, 0, 18, 0));
 		stylesheet.addRule(new ClassSelector(ClassSelectors.DATE_DETAILS), style);
@@ -103,22 +104,22 @@ public class StylePopulator {
 		Selector hourly = new TypeSelector(HourlyDetail.class);
 		style.clear();
 		style.setFontProfile(FontProfiles.MEDIUM_BOLD);
-		style.setForegroundColor(Colors.BLACK);
+		style.setForegroundColor(MicroEJColors.CONCRETE_BLACK_75);
 		stylesheet.addRule(new AndCombinator(hourly, new FirstChildSelector()), style);
 
-		style.setForegroundColor(Colors.GREY);
+		style.setForegroundColor(MicroEJColors.CONCRETE_BLACK_25);
 		stylesheet.addRule(new AndCombinator(hourly, new NthChildSelector(1)), style);
 
-		style.setForegroundColor(Colors.GREY_LIGHT);
+		style.setForegroundColor(MicroEJColors.CONCRETE_WHITE_25);
 		stylesheet.addRule(new AndCombinator(hourly, new NthChildSelector(2)), style);
 
 		style.clear();
-		style.setForegroundColor(Colors.CORAL);
+		style.setForegroundColor(MicroEJColors.CORAL);
 		style.setAlignment(GraphicsContext.HCENTER_VCENTER);
 		stylesheet.addRule(new ClassSelector(ClassSelectors.ICON), style);
 
 		style.clear();
-		style.setForegroundColor(Colors.BLACK);
+		style.setForegroundColor(MicroEJColors.CONCRETE_BLACK_75);
 		style.setFontProfile(FontProfiles.SMALL);
 		stylesheet.addRule(new ClassSelector(ClassSelectors.WEATHER_VALUE), style);
 
