@@ -7,6 +7,8 @@
  */
 package com.microej.spresense.demo;
 
+import java.io.IOException;
+
 import com.microej.spresense.demo.fake.FakeWeatherProvider;
 import com.microej.spresense.demo.style.Colors;
 
@@ -26,6 +28,36 @@ public class Model {
 	public static final int CLOUD = 3;
 
 	private static GnssManager gnssManager;
+
+	static {
+
+		new Thread(new Runnable() {
+			@Override
+			public void run() {
+				Thread.currentThread().setName("GNSS poller");
+				gnssManager = GnssManager.getInstance();
+				try {
+					gnssManager.switchOn();
+				} catch (IOException e1) {
+					e1.printStackTrace();
+				}
+				boolean run = true;
+				while (run) {
+					try {
+						gnssManager.readPosition();
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
+					try {
+						Thread.sleep(10_000);
+					} catch (InterruptedException e) {
+						run = false;
+					}
+				}
+			}
+		}).start();
+	}
+
 	public static Time getTime() {
 		return time;
 	}
@@ -38,7 +70,7 @@ public class Model {
 	public static int getColor(Time time) {
 		int dayOfWeek = time.getDayOfWeek();
 		int colorPosition = (dayOfWeek - 1) << 2;
-		int hour = time.getHour() % 12;
+		int hour = time.getHour();
 		int minute = time.getMinute();
 
 		int colorOffset;
