@@ -45,14 +45,14 @@ public class StylePopulator {
 		Stylesheet stylesheet = StyleHelper.getStylesheet();
 
 		EditableStyle style = new EditableStyle();
-		style.setBackground(new MainBackground(MicroEJColors.CONCRETE_WHITE_25));
+		style.setBackground(new MainBackground(MicroEJColors.CONCRETE));
 		style.setBackgroundColor(MicroEJColors.WHITE);
 		style.setPadding(new ComplexOutline(0, DEFAULT_OUTLINE, DEFAULT_OUTLINE, DEFAULT_OUTLINE));
 		stylesheet.addRule(new ClassSelector(ClassSelectors.MAINBACKGROUND), style);
 
 		style.clear();
 		style.setBackgroundColor(MicroEJColors.WHITE);
-		style.setBorderColor(MicroEJColors.CONCRETE_WHITE_25);
+		style.setBorderColor(MicroEJColors.CONCRETE);
 		style.setBackground(new PlainBackground());
 		style.setDimension(new FixedDimension(getDisplayWidth(),
 				getTopHeight()));
@@ -65,7 +65,7 @@ public class StylePopulator {
 		style.clear();
 		style.setFontProfile(FontProfiles.SMALL);
 		style.setAlignment(GraphicsContext.HCENTER_BOTTOM);
-		style.setForegroundColor(MicroEJColors.CONCRETE_WHITE_25);
+		style.setForegroundColor(MicroEJColors.CONCRETE);
 		stylesheet.addRule(new ClassSelector(ClassSelectors.WEATHER_DETAILS), style);
 
 		style.clear();
@@ -87,7 +87,7 @@ public class StylePopulator {
 		stylesheet.addRule(new ClassSelector(ClassSelectors.MAIN_TEMPERATURE), style);
 
 		style.clear();
-		style.setForegroundColor(MicroEJColors.CONCRETE_WHITE_25);
+		style.setForegroundColor(MicroEJColors.CONCRETE);
 		style.setFontProfile(FontProfiles.MEDIUM);
 		style.setMargin(new ComplexOutline(0, 0, 18, 0));
 		stylesheet.addRule(new ClassSelector(ClassSelectors.DATE_DETAILS), style);
@@ -110,7 +110,7 @@ public class StylePopulator {
 		style.setForegroundColor(MicroEJColors.CONCRETE_BLACK_25);
 		stylesheet.addRule(new AndCombinator(hourly, new NthChildSelector(1)), style);
 
-		style.setForegroundColor(MicroEJColors.CONCRETE_WHITE_25);
+		style.setForegroundColor(MicroEJColors.CONCRETE);
 		stylesheet.addRule(new AndCombinator(hourly, new NthChildSelector(2)), style);
 
 		style.clear();
@@ -121,6 +121,7 @@ public class StylePopulator {
 		style.clear();
 		style.setForegroundColor(MicroEJColors.CONCRETE_BLACK_75);
 		style.setFontProfile(FontProfiles.SMALL);
+		style.setAlignment(GraphicsContext.RIGHT_VCENTER);
 		stylesheet.addRule(new ClassSelector(ClassSelectors.WEATHER_VALUE), style);
 
 		style.clear();
