@@ -7,16 +7,12 @@
  */
 package com.microej.spresense.demo.widget.animation;
 
-import java.io.IOException;
-
 import com.microej.spresense.demo.Model;
 import com.microej.spresense.demo.style.StylePopulator;
 import com.microej.spresense.demo.widget.MainBackground;
 
 import ej.animation.Animation;
 import ej.animation.Animator;
-import ej.audio.AudioFile;
-import ej.audio.AudioPlayer;
 import ej.components.dependencyinjection.ServiceLoaderFactory;
 import ej.microui.display.GraphicsContext;
 import ej.microui.display.shape.AntiAliasedShapes;
@@ -28,17 +24,9 @@ import ej.widget.StyledWidget;
  *
  */
 public class WeatherAnimationWidget extends StyledWidget implements Animation {
-	private static final int LOOP_INTERVAL = 30;
-	private static final String sunny = "AUDIO/sunny.mp3";
-	private static final String rainy= "AUDIO/rain.mp3";
-	private static final String cloudy = "AUDIO/wind.mp3";
-	private static final AudioPlayer audioPlayer = AudioPlayer.getInstance();
 
-	private volatile boolean animationNotChanged;
-	private Thread soundThread;
 
 	private WeatherAnimation animation;
-	private AudioFile file;
 
 	public WeatherAnimationWidget() {
 	}
@@ -50,7 +38,6 @@ public class WeatherAnimationWidget extends StyledWidget implements Animation {
 		g.fillRect(0, 0, bounds.getWidth(), bounds.getHeight());
 
 		if (Model.getWeather() != animation.getWeather()) {
-			animationNotChanged = false;
 			animation.stop();
 		}
 		if (!animation.render(g)) {
@@ -88,19 +75,15 @@ public class WeatherAnimationWidget extends StyledWidget implements Animation {
 		switch (Model.getWeather()) {
 		case Model.SUN:
 			animation = new SunAnimation();
-			file = new AudioFile(sunny, AudioFile.AS_CHANNEL_STEREO, AudioFile.BITLENGTH_16, 44100, AudioFile.AUDIO_CODEC_MP3);
 			break;
 		case Model.RAIN:
 			animation = new RainAnimation();
-			file = new AudioFile(rainy, AudioFile.AS_CHANNEL_STEREO, AudioFile.BITLENGTH_16, 44100, AudioFile.AUDIO_CODEC_MP3);
 			break;
 		case Model.CLOUD:
 		default:
 			animation = new CloudAnimation();
-			file = new AudioFile(cloudy, AudioFile.AS_CHANNEL_STEREO, AudioFile.BITLENGTH_16, 44100, AudioFile.AUDIO_CODEC_MP3);
 			break;
 		}
-		changeSoundAnimation();
 	}
 
 	@Override
@@ -113,40 +96,5 @@ public class WeatherAnimationWidget extends StyledWidget implements Animation {
 	public boolean tick(long currentTimeMillis) {
 		repaint();
 		return true;
-	}
-
-	private void changeSoundAnimation() {
-		if (!animationNotChanged) {
-			runSoundThread();
-		}
-	}
-
-	private void runSoundThread() {
-		if(soundThread != null) {
-
-			try {
-				audioPlayer.pause();
-				soundThread.join();
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		}
-		animationNotChanged = true;
-		soundThread = new Thread() {
-			@Override
-			public void run() {
-				while(animationNotChanged) {
-					try {
-						audioPlayer.play(file, LOOP_INTERVAL);
-					} catch (IOException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-				}
-			}
-		};
-		soundThread.start();
 	}
 }

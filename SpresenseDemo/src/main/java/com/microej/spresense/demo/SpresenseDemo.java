@@ -7,6 +7,7 @@
  */
 package com.microej.spresense.demo;
 
+import com.microej.spresense.demo.audio.AudioManager;
 import com.microej.spresense.demo.style.StylePopulator;
 import com.microej.spresense.demo.widget.MainFrame;
 
@@ -34,7 +35,7 @@ public class SpresenseDemo {
 				return true;
 			}
 		});
-
+		new AudioManager().start();
 
 		MicroUI.start();
 		StylePopulator.populate();
