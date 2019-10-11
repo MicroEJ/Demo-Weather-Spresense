@@ -26,6 +26,8 @@ public class Model {
 	public static final int SUN = 1;
 	public static final int RAIN = 2;
 	public static final int CLOUD = 3;
+	private static final float DEFAULT_LATITUDE = 35.628f;
+	private static final float DEFAULT_LONGITUDE = 139.74f;
 
 	private static GnssManager gnssManager;
 
@@ -35,7 +37,7 @@ public class Model {
 			@Override
 			public void run() {
 				Thread.currentThread().setName("GNSS poller");
-				gnssManager = GnssManager.getInstance();
+				GnssManager gnssManager = GnssManager.getInstance();
 				try {
 					gnssManager.switchOn();
 				} catch (IOException e1) {
@@ -45,6 +47,7 @@ public class Model {
 				while (run) {
 					try {
 						gnssManager.readPosition();
+						Model.gnssManager = gnssManager;
 					} catch (IOException e) {
 						e.printStackTrace();
 					}
@@ -116,11 +119,11 @@ public class Model {
 	}
 
 	public static float getLatitude() {
-		return (gnssManager == null) ? 0 : gnssManager.getLatitude();
+		return (gnssManager == null) ? DEFAULT_LATITUDE : gnssManager.getLatitude();
 	}
 
 	public static float getLongitude() {
-		return (gnssManager == null) ? 0 : gnssManager.getLongitude();
+		return (gnssManager == null) ? DEFAULT_LONGITUDE : gnssManager.getLongitude();
 	}
 
 	public static int getWeather() {

@@ -14,31 +14,36 @@ import com.microej.spresense.demo.style.ClassSelectors;
 import com.microej.spresense.demo.style.Images;
 import com.microej.spresense.demo.widget.MaxSizeLabel;
 
-import ej.widget.basic.Label;
 import ej.widget.container.Flow;
 import ej.widget.container.Split;
 
 public class GPSWidget extends WeatherDetails {
 
-	private static final String PADDING = "0000";
-	private static String[] MAX_VALUE = { "-188." + PADDING };
-	private final MaxSizeLabel longitudeLabel;
-	private final MaxSizeLabel latitudeLabel;
+	private static String PADDING = ".000";
+	private static String[] MAX_VALUE = { "-188" + PADDING };
+	private final MaxSizeLabel longitudeValue;
+	private final MaxSizeLabel latitudeValue;
 
 	public GPSWidget() {
 		super(Images.GPS);
 		Flow latFlow = new Flow();
-		latFlow.add(new Label(NLS.getLat()));
-		latitudeLabel = new MaxSizeLabel();
-		latitudeLabel.setWords(MAX_VALUE);
-		latitudeLabel.addClassSelector(ClassSelectors.WEATHER_VALUE);
+		String[] latLongText = new String[] { NLS.getLat(), NLS.getLon() };
+		MaxSizeLabel latitudeLabel = new MaxSizeLabel(latLongText[0]);
+		latitudeLabel.setWords(latLongText);
 		latFlow.add(latitudeLabel);
+		latitudeValue = new MaxSizeLabel();
+		latitudeValue.setWords(MAX_VALUE);
+		latitudeValue.addClassSelector(ClassSelectors.WEATHER_VALUE);
+		latFlow.add(latitudeValue);
 		Flow lonFlow = new Flow();
-		lonFlow.add(new Label(NLS.getLon()));
-		longitudeLabel = new MaxSizeLabel();
-		longitudeLabel.setWords(MAX_VALUE);
-		longitudeLabel.addClassSelector(ClassSelectors.WEATHER_VALUE);
+		String[] longLongText = new String[] { NLS.getLat(), NLS.getLon() };
+		MaxSizeLabel longitudeLabel = new MaxSizeLabel(longLongText[1]);
+		longitudeLabel.setWords(longLongText);
 		lonFlow.add(longitudeLabel);
+		longitudeValue = new MaxSizeLabel();
+		longitudeValue.setWords(MAX_VALUE);
+		longitudeValue.addClassSelector(ClassSelectors.WEATHER_VALUE);
+		lonFlow.add(longitudeValue);
 		Split split = new Split(false, 0.5f);
 		split.setFirst(latFlow);
 		split.setLast(lonFlow);
@@ -48,24 +53,30 @@ public class GPSWidget extends WeatherDetails {
 
 	@Override
 	protected void update() {
-		Util.update(latitudeLabel, paddValue(Model.getLatitude()));
-		Util.update(longitudeLabel, paddValue(Model.getLongitude()));
+		Util.update(latitudeValue, paddValue(Model.getLatitude()));
+		Util.update(longitudeValue, paddValue(Model.getLongitude()));
 	}
 
-	private String paddValue(float value) {
+	private static String paddValue(float value) {
 		String endValue = String.valueOf(value);
 		int dot = endValue.indexOf('.');
 		int paddingWidth = endValue.length() - dot - 1;
-		if(dot==-1) {
-			StringBuilder string = new StringBuilder(endValue);
-			endValue = string.append('.').append(PADDING).toString();
-		} else if (paddingWidth < PADDING.length()) {
-			StringBuilder string = new StringBuilder(endValue);
-			endValue = string.append(PADDING.substring(0, PADDING.length() - paddingWidth)).toString();
-		} else if (paddingWidth > PADDING.length()) {
-			endValue = endValue.substring(0, dot + PADDING.length() + 1);
+		StringBuilder string = new StringBuilder(endValue);
+		for (int i = dot; i < MAX_VALUE[0].length() - PADDING.length(); i++) {
+			string.insert(0, ' ');
 		}
-		return endValue;
+		if(dot==-1) {
+			string.append(PADDING);
+		} else {
+			if (paddingWidth < PADDING.length()) {
+				while (string.length() < MAX_VALUE[0].length()) {
+					string.append('0');
+				}
+			} else if (paddingWidth > PADDING.length()) {
+				string.setLength(MAX_VALUE[0].length());
+			}
+		}
+		return string.toString();
 	}
 
 }
