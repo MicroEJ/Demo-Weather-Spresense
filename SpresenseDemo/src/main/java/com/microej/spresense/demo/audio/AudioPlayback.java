@@ -25,7 +25,7 @@ public class AudioPlayback extends Thread {
 		this.audioPlayer = audioPlayer;
 	}
 
-	public void setFile(AudioFile file) {
+	public synchronized void setFile(AudioFile file) {
 		if (!file.equals(this.file)) {
 			this.file = file;
 			try {
@@ -55,7 +55,7 @@ public class AudioPlayback extends Thread {
 	/**
 	 *
 	 */
-	public void stop() {
+	public synchronized void stop() {
 		file = null;
 	}
 }

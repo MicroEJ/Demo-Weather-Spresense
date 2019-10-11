@@ -67,7 +67,7 @@ public class FakeWeatherProvider {
 			sunHour++;
 			sunMin -= 60;
 		}
-		return new Time(0, 0, dayOfWeek, sunHour, sunMin);
+		return new Time(0, 0, dayOfWeek, sunHour, Math.abs(sunMin));
 	}
 
 	public static int getType(int dayOfWeek, int hour) {

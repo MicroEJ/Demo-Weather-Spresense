@@ -21,7 +21,7 @@ public class AudioManager extends Thread {
 	private static final String AUDIO = "AUDIO/";
 	private static final String MP3 = ".mp3";
 	private static final String[] FILES = { "sunny", "rain", "wind" };
-	private static final int AUDIO_STEPS = 10;
+	private static final int AUDIO_STEPS = 5;
 	private static final int MAX_AUDIO_VOLUME = 100;
 	private static final int MIN_AUDIO_VOLUME = 5;
 
@@ -76,6 +76,7 @@ public class AudioManager extends Thread {
 			} else if (volume < MAX_AUDIO_VOLUME) {
 				setVolume(Math.min(volume + AUDIO_STEPS, MAX_AUDIO_VOLUME));
 			} else {
+				setVolume(MAX_AUDIO_VOLUME);
 				rate = STILL_RATE;
 			}
 			try {
