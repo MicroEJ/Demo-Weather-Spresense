@@ -1,3 +1,5 @@
 /bin/
 SpresenseDemo/com.microej.spresense.demo.SpresenseDemo/
 SpresenseDemo/*.properties
+SpresenseDemo/target~/
+SpresenseDemo/.sonar/
