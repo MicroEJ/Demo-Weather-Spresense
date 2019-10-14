@@ -17,13 +17,19 @@ import com.microej.spresense.demo.widget.MaxSizeLabel;
 import ej.widget.container.Flow;
 import ej.widget.container.Split;
 
+/**
+ * A widget displaying the gps coordinate.
+ */
 public class GPSWidget extends WeatherDetails {
 
-	private static String PADDING = ".000";
-	private static String[] MAX_VALUE = { "-188" + PADDING };
+	private static final String PADDING = ".000"; //$NON-NLS-1$
+	private static final String[] MAX_VALUE = { "-188" + PADDING }; //$NON-NLS-1$
 	private final MaxSizeLabel longitudeValue;
 	private final MaxSizeLabel latitudeValue;
 
+	/**
+	 * Instantiates a {@link GPSWidget}.
+	 */
 	public GPSWidget() {
 		super(Images.GPS);
 		Flow latFlow = new Flow();
@@ -44,11 +50,17 @@ public class GPSWidget extends WeatherDetails {
 		longitudeValue.setWords(MAX_VALUE);
 		longitudeValue.addClassSelector(ClassSelectors.WEATHER_VALUE);
 		lonFlow.add(longitudeValue);
-		Split split = new Split(false, 0.5f);
+		Split split = new Split();
+		split.setHorizontal(false);
 		split.setFirst(latFlow);
 		split.setLast(lonFlow);
 		addBottom(Util.addWrapper(split));
+	}
+
+	@Override
+	public void showNotify() {
 		update();
+		super.showNotify();
 	}
 
 	@Override

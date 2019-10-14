@@ -17,11 +17,20 @@ import ej.widget.basic.Image;
 import ej.widget.composed.Wrapper;
 import ej.widget.container.Dock;
 
+/**
+ * Widget displaying the weather detail.
+ */
 public class WeatherDetails extends Dock {
 
 	private static final long REFRESH_RATE = 2000;
 	private TimerTask refresh;
 
+	/**
+	 * Instantiates a {@link WeatherDetails}.
+	 *
+	 * @param icon
+	 *            the path to the icon.
+	 */
 	public WeatherDetails(String icon) {
 		Image image = new Image(icon);
 		Wrapper wrapper = Util.addWrapper(image);
@@ -29,6 +38,9 @@ public class WeatherDetails extends Dock {
 		setCenter(wrapper);
 	}
 
+	/**
+	 * Update the displayed value.
+	 */
 	protected void update() {
 		// Nothing to do.
 	}

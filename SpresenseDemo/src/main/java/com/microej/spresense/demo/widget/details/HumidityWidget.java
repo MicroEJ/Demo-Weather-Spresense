@@ -11,15 +11,21 @@ import com.microej.spresense.demo.Model;
 import com.microej.spresense.demo.NLS;
 import com.microej.spresense.demo.style.Images;
 
+/**
+ * A widget displaying the humidity.
+ */
 public class HumidityWidget extends DefaultWeatherDetails {
 
+	/**
+	 * Instantiates a {@link HumidityWidget}.
+	 */
 	public HumidityWidget() {
 		super(Images.HUMIDITY, NLS.getHumidity());
 	}
 
 	@Override
 	protected String getValue() {
-		return Model.getHumidity() + "%";
+		return String.valueOf(Model.getHumidity()) + '%';
 	}
 
 }

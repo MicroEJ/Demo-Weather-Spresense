@@ -13,8 +13,14 @@ import com.microej.spresense.demo.Time;
 import com.microej.spresense.demo.Util;
 import com.microej.spresense.demo.style.Images;
 
+/**
+ * Widget displaying the sunrise time.
+ */
 public class SunriseWidget extends DefaultWeatherDetails {
 
+	/**
+	 * Instantiates a {@link SunriseWidget}.
+	 */
 	public SunriseWidget() {
 		super(Images.SUNRISE, NLS.getSunrise());
 	}

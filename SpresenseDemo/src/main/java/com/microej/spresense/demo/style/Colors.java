@@ -7,8 +7,20 @@
  */
 package com.microej.spresense.demo.style;
 
+/**
+ * Colors used for the demo.
+ */
 public final class Colors {
 
+	/**
+	 * Number of colors per day.
+	 */
+	public static final int COLOR_COUNT_PER_DAY = 4;
+
+	/**
+	 * Colors used for the week days. 4 colours a day from the beginning of the day to half-day then the same colours
+	 * are used back. The colours are ordered from sunday to saturday.
+	 */
 	public static final int[] WEEK = {
 			// SUNDAY
 			0xFF5200, 0xFF7500, 0xF59F00, 0xFCC400,

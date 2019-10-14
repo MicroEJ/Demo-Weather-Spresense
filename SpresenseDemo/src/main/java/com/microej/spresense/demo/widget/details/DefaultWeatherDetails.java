@@ -12,10 +12,21 @@ import com.microej.spresense.demo.style.ClassSelectors;
 
 import ej.widget.basic.Label;
 
+/**
+ * Details of the default weather.
+ */
 public abstract class DefaultWeatherDetails extends WeatherDetails {
 
 	private final Label value;
 
+	/**
+	 * Instatiates a {@link DefaultWeatherDetails}.
+	 *
+	 * @param icon
+	 *            the icons of the value.
+	 * @param title
+	 *            the title.
+	 */
 	public DefaultWeatherDetails(String icon, String title) {
 		super(icon);
 		Label titleLabel = new Label(title);
@@ -23,7 +34,12 @@ public abstract class DefaultWeatherDetails extends WeatherDetails {
 		addBottom(Util.addWrapper(value));
 		addBottom(Util.addWrapper(titleLabel));
 		value.addClassSelector(ClassSelectors.WEATHER_VALUE);
+	}
+
+	@Override
+	public void showNotify() {
 		update();
+		super.showNotify();
 	}
 
 	@Override
@@ -31,6 +47,11 @@ public abstract class DefaultWeatherDetails extends WeatherDetails {
 		Util.update(value, Util.addPadding(getValue()));
 	}
 
+	/**
+	 * Gets the value.
+	 *
+	 * @return the value.
+	 */
 	protected abstract String getValue();
 
 }

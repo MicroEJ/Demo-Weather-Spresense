@@ -7,23 +7,33 @@
  */
 package com.microej.spresense.demo.audio;
 
+import java.util.logging.Level;
+
 import com.microej.spresense.demo.Model;
+import com.microej.spresense.demo.SpresenseDemo;
 
 import ej.audio.AudioFile;
 import ej.audio.AudioPlayer;
 
 /**
- *
+ * A manager playing the audio of the current weather.
  */
 public class AudioManager extends Thread {
+	private static final int MP3_FRAMERATE = 44100;
 	private static final int CHANGE_RATE = 100;
 	private static final int STILL_RATE = 1000;
-	private static final String AUDIO = "AUDIO/";
-	private static final String MP3 = ".mp3";
-	private static final String[] FILES = { "sunny", "rain", "wind" };
+	private static final String FOLDER = "AUDIO/"; //$NON-NLS-1$
+	private static final String EXTENTION = ".mp3"; //$NON-NLS-1$
+	private static final String[] FILES = { "sunny", "rain", "wind" }; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+
 	private static final int AUDIO_STEPS = 5;
 	private static final int MAX_AUDIO_VOLUME = 100;
 	private static final int MIN_AUDIO_VOLUME = 5;
+
+	/**
+	 * An instance of the audio manager.
+	 */
+	public static final AudioManager INSTANCE = new AudioManager();
 
 	private final AudioPlayer audioPlayer;
 
@@ -33,17 +43,11 @@ public class AudioManager extends Thread {
 	private int volume;
 	private boolean run;
 
-	public AudioManager() {
+	private AudioManager() {
 		audioPlayer = AudioPlayer.getInstance();
 		volume = MIN_AUDIO_VOLUME;
 	}
 
-	private synchronized void updateSoundFile() {
-		currentWeather = nextWeather;
-		audioPlayback.setFile(new AudioFile(AUDIO + FILES[currentWeather - 1] + MP3, AudioFile.AS_CHANNEL_STEREO,
-				AudioFile.BITLENGTH_16,
-				44100, AudioFile.AUDIO_CODEC_MP3));
-	}
 
 	@Override
 	public synchronized void start() {
@@ -52,10 +56,6 @@ public class AudioManager extends Thread {
 		audioPlayer.setVolume(volume);
 		run = true;
 		super.start();
-	}
-
-	public synchronized void stop() {
-		run = false;
 	}
 
 	@Override
@@ -82,19 +82,23 @@ public class AudioManager extends Thread {
 			try {
 				Thread.sleep(rate);
 			} catch (InterruptedException e) {
-				stop();
+				SpresenseDemo.LOGGER.log(Level.INFO, e.getMessage(), e);
+				run = false;
 			}
 		}
 		audioPlayback.stop();
 	}
 
-	/**
-	 * @param minAudioVolume
-	 */
-	private void setVolume(int minAudioVolume) {
-		if (volume != minAudioVolume) {
-			volume = minAudioVolume;
+	private void setVolume(int newVolume) {
+		if (volume != newVolume) {
+			volume = newVolume;
 			audioPlayer.setVolume(volume);
 		}
+	}
+
+	private synchronized void updateSoundFile() {
+		currentWeather = nextWeather;
+		audioPlayback.setFile(new AudioFile(FOLDER + FILES[currentWeather - 1] + EXTENTION, AudioFile.AS_CHANNEL_STEREO,
+				AudioFile.BITLENGTH_16, MP3_FRAMERATE, AudioFile.AUDIO_CODEC_MP3));
 	}
 }

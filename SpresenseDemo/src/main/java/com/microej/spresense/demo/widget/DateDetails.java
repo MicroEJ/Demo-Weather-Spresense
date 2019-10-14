@@ -12,6 +12,7 @@ import com.microej.spresense.demo.NLS;
 import com.microej.spresense.demo.Time;
 import com.microej.spresense.demo.Util;
 import com.microej.spresense.demo.style.ClassSelectors;
+import com.microej.spresense.demo.style.StylePopulator;
 
 import ej.animation.Animation;
 import ej.animation.Animator;
@@ -21,16 +22,21 @@ import ej.widget.container.Dock;
 import ej.widget.container.Grid;
 
 /**
- *
+ * Display the details of the date.
  */
 public class DateDetails extends CenterContainer implements Animation {
 
+	private static final int HOUR_SEPERATION = 3;
+	private static final String MAX_TEMPERATURE = "88"; //$NON-NLS-1$
 	private final MaxSizeLabel day;
 	private final Label date;
 	private final MaxSizeLabel mainTemperature;
 	private final Label hour;
 	private final Grid nextHours;
 
+	/**
+	 * Instantiates a date.
+	 */
 	public DateDetails() {
 		Dock dateDock = new Dock();
 		day = new MaxSizeLabel();
@@ -42,9 +48,9 @@ public class DateDetails extends CenterContainer implements Animation {
 		dateDock.addBottom(Util.addWrapper(date));
 		setFirst(dateDock);
 
-		nextHours = new Grid(true, Model.COUNT_OF_HOUR_VALUES);
-		for (int i = 1; i <= Model.COUNT_OF_HOUR_VALUES; i++) {
-			nextHours.add(new HourlyDetail(3 * i));
+		nextHours = new Grid(true, StylePopulator.COUNT_OF_HOUR_VALUES);
+		for (int i = 1; i <= StylePopulator.COUNT_OF_HOUR_VALUES; i++) {
+			nextHours.add(new HourlyDetail(HOUR_SEPERATION * i));
 		}
 		nextHours.addClassSelector(ClassSelectors.HOURLY_TEMPERATURE);
 
@@ -52,7 +58,7 @@ public class DateDetails extends CenterContainer implements Animation {
 		Dock centerDock = new Dock();
 		mainTemperature = new MaxSizeLabel();
 		String[] str = new String[1];
-		str[0] = "88" + NLS.getTemperatureSymbol();
+		str[0] = MAX_TEMPERATURE + NLS.getTemperatureSymbol();
 		mainTemperature.setWords(str);
 		mainTemperature.addClassSelector(ClassSelectors.MAIN_TEMPERATURE);
 		centerDock.setCenter(Util.addWrapper(mainTemperature));

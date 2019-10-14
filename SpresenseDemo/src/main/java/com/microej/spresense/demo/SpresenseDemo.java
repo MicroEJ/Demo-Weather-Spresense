@@ -7,6 +7,8 @@
  */
 package com.microej.spresense.demo;
 
+import java.util.logging.Logger;
+
 import com.microej.spresense.demo.audio.AudioManager;
 import com.microej.spresense.demo.style.StylePopulator;
 import com.microej.spresense.demo.widget.MainFrame;
@@ -19,14 +21,32 @@ import ej.widget.StyledDesktop;
 import ej.widget.StyledPanel;
 
 
+/**
+ * Entry point of the demo.
+ */
 public class SpresenseDemo {
-	private static long INIT = 1557844987038L;
 
+	/**
+	 * Logger used for the demo.
+	 */
+	public static final Logger LOGGER = Logger.getLogger("SpresenseDemo"); //$NON-NLS-1$
+	private static final long INIT_TIME = 1557844987038L;
 
+	private SpresenseDemo() {
+		// Forbid instantiation.
+	}
+
+	/**
+	 * Entry point.
+	 *
+	 * @param args
+	 *            not used.
+	 */
 	public static void main(String[] args) {
-		if (System.currentTimeMillis() < INIT) {
-			ej.bon.Util.setCurrentTimeMillis(INIT);
+		if (System.currentTimeMillis() < INIT_TIME) {
+			ej.bon.Util.setCurrentTimeMillis(INIT_TIME);
 		}
+		// Request frequent update of the time following the UI animation.
 		ServiceLoaderFactory.getServiceLoader().getService(Animator.class).startAnimation(new Animation() {
 
 			@Override
@@ -35,7 +55,7 @@ public class SpresenseDemo {
 				return true;
 			}
 		});
-		new AudioManager().start();
+		AudioManager.INSTANCE.start();
 
 		MicroUI.start();
 		StylePopulator.populate();
@@ -47,8 +67,4 @@ public class SpresenseDemo {
 		panel.showFullScreen(desktop);
 	}
 
-
-
-	private SpresenseDemo() {
-	}
 }

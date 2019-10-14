@@ -7,7 +7,6 @@
  */
 package com.microej.spresense.demo.widget;
 
-import com.microej.spresense.demo.Model;
 import com.microej.spresense.demo.style.Images;
 import com.microej.spresense.demo.style.StylePopulator;
 
@@ -18,8 +17,13 @@ import ej.style.background.Background;
 import ej.style.container.Rectangle;
 import ej.style.util.StyleHelper;
 
+/**
+ * A background with some shapes.
+ */
 public class MainBackground implements Background {
 
+	private static final int THICKNESS = 3;
+	private static final int FADE = 1;
 	private static final int BOTTOM_ARC_ANGLE = 127;
 	private static final int BOTTOM_ARC_START = 180;
 	private static final int TOP_ARC_ANGLE = -139;
@@ -31,12 +35,21 @@ public class MainBackground implements Background {
 	private static final int BOTTOM_RIGHT_LINE_Y_OFFSET = 76;
 	private static final int BOTTOM_RIGHT_LINE_X_OFFSET = 77;
 	private static final int BOTTOM_RIGHT_LINE_X_LENGTH = 28;
+	private static final int BORDER_THICKNESS = 4;
 
+	/**
+	 * Diameter of the center circle.
+	 */
 	public static final int CIRCLE_DIAMETER = 99;
 
-	private static final int BORDER_THICKNESS = 4;
 	private final int borderColor;
 
+	/**
+	 * Instantiates a {@link MainBackground}.
+	 *
+	 * @param borderColor
+	 *            the color to use for the border.
+	 */
 	public MainBackground(int borderColor) {
 		this.borderColor = borderColor;
 	}
@@ -58,12 +71,12 @@ public class MainBackground implements Background {
 
 		// Draw logo
 		Image image = StyleHelper.getImage(Images.LOGO);
-		g.drawImage(image, width - StylePopulator.DEFAULT_OUTLINE, height - (StylePopulator.DEFAULT_OUTLINE * 2),
+		g.drawImage(image, width - StylePopulator.DEFAULT_OUTLINE, height - (StylePopulator.DEFAULT_OUTLINE << 1),
 				GraphicsContext.RIGHT_BOTTOM);
 
 		// Draw circle
-		int topCircleX = (StylePopulator.getDisplayWidth() - CIRCLE_DIAMETER) / 2;
-		int topCircleY = (StylePopulator.getDisplayHeight() - CIRCLE_DIAMETER) / 2
+		int topCircleX = (StylePopulator.getDisplayWidth() - CIRCLE_DIAMETER) >> 1;
+		int topCircleY = ((StylePopulator.getDisplayHeight() - CIRCLE_DIAMETER) >> 1)
 				- (StylePopulator.getDisplayHeight() - height);
 		antiAliasedShapes.drawCircleArc(g, topCircleX, topCircleY, CIRCLE_DIAMETER, TOP_ARC_START, TOP_ARC_ANGLE);
 		antiAliasedShapes.drawCircleArc(g, topCircleX, topCircleY, CIRCLE_DIAMETER, BOTTOM_ARC_START, BOTTOM_ARC_ANGLE);
@@ -74,9 +87,10 @@ public class MainBackground implements Background {
 				bottomRightLineXEnd,
 				topCircleY + BOTTOM_RIGHT_LINE_Y_OFFSET);
 		int dotSpacing = (StylePopulator.getDisplayWidth() - bottomRightLineXEnd - StylePopulator.DEFAULT_OUTLINE)
-				/ Model.COUNT_OF_HOUR_VALUES;
+				/ StylePopulator.COUNT_OF_HOUR_VALUES;
 		antiAliasedShapes.drawPoint(g, bottomRightLineXEnd + dotSpacing, topCircleY + BOTTOM_RIGHT_LINE_Y_OFFSET);
-		antiAliasedShapes.drawPoint(g, bottomRightLineXEnd + dotSpacing * 2, topCircleY + BOTTOM_RIGHT_LINE_Y_OFFSET);
+		antiAliasedShapes.drawPoint(g, bottomRightLineXEnd + (dotSpacing << 1),
+				topCircleY + BOTTOM_RIGHT_LINE_Y_OFFSET);
 		g.fillRect(0, topCircleY + BOTTOM_LEFT_LINE_Y_OFFSET, topCircleX + BOTTOM_LEFT_LINE_X_LENGTH, BORDER_THICKNESS);
 
 		// Draw top lines
@@ -84,10 +98,15 @@ public class MainBackground implements Background {
 		g.fillRect(topCircleX + TOP_RIGHT_LINE_X_OFFSET, 0, width - (topCircleX +TOP_RIGHT_LINE_X_OFFSET), BORDER_THICKNESS);
 	}
 
+	/**
+	 * Get the antialiased shapes used for the lines.
+	 *
+	 * @return the antialized shapes.
+	 */
 	public static AntiAliasedShapes getAntiAliased() {
 		AntiAliasedShapes antiAliasedShapes = AntiAliasedShapes.Singleton;
-		antiAliasedShapes.setFade(1);
-		antiAliasedShapes.setThickness(3);
+		antiAliasedShapes.setFade(FADE);
+		antiAliasedShapes.setThickness(THICKNESS);
 		return antiAliasedShapes;
 	}
 

@@ -15,15 +15,25 @@ import ej.style.util.StyleHelper;
 import ej.widget.basic.Label;
 
 /**
- *
+ * A label taking the size of the string with the longest width.
  */
 public class MaxSizeLabel extends Label {
 
-	private String words[];
+	private String[] words;
+
+	/**
+	 * Instantiates a {@link MaxSizeLabel}.
+	 */
 	public MaxSizeLabel() {
 		super();
 	}
 
+	/**
+	 * Instantiates a {@link MaxSizeLabel}.
+	 *
+	 * @param text
+	 *            the text to display.
+	 */
 	public MaxSizeLabel(String text) {
 		super(text);
 	}
@@ -35,7 +45,7 @@ public class MaxSizeLabel extends Label {
 	 *            the words to set.
 	 */
 	public void setWords(String[] words) {
-		this.words = words;
+		this.words = (words == null) ? null : words.clone();
 	}
 
 	/**
@@ -44,7 +54,7 @@ public class MaxSizeLabel extends Label {
 	 * @return the words.
 	 */
 	public String[] getWords() {
-		return words;
+		return (words == null) ? null : words.clone();
 	}
 
 	@Override

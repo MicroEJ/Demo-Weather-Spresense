@@ -13,12 +13,18 @@ import ej.style.container.Rectangle;
 import ej.style.outline.Outline;
 
 /**
- *
+ * A background avoiding the padding.
  */
 public class PaddedBackground implements Background {
 
 	private final Outline outline;
 
+	/**
+	 * Instantiates a {@link PaddedBackground}.
+	 * 
+	 * @param outline
+	 *            the outline to use for the padding.
+	 */
 	public PaddedBackground(Outline outline) {
 		this.outline = outline;
 	}

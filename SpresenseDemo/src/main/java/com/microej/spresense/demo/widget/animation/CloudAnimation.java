@@ -7,33 +7,36 @@
  */
 package com.microej.spresense.demo.widget.animation;
 
-import com.microej.spresense.demo.Model;
+import com.microej.spresense.demo.Weather;
 import com.microej.spresense.demo.style.StylePopulator;
 
 import ej.bon.Util;
 import ej.microui.display.GraphicsContext;
 
 /**
- *
+ * Animation of clouds.
  */
 public class CloudAnimation implements WeatherAnimation {
 
-
+	private static final float DIAMETER_RATIO = 0.6f;
+	private static final float MIN_DIAMETER_RATIO = 0.4f;
+	private static final float HEIGHT_RATIO = 1.5f;
 	private static final int CLOUD_COUNT = 4;
 	private boolean run;
 	private final Cloud[] clouds;
 
 
 	/**
-	 *
+	 * Instantiates a {@link CloudAnimation}.
 	 */
 	public CloudAnimation() {
 		run = true;
 		clouds = new Cloud[CLOUD_COUNT];
-		int height = (int) (StylePopulator.getTopHeight() * 1.5f);
+		int height = (int) (StylePopulator.getTopHeight() * HEIGHT_RATIO);
 		float cloudStep = clouds.length - 1f;
 		for(int i=0;i<clouds.length;i++) {
-			clouds[clouds.length - i - 1] = new Cloud(height, 0.4f + 0.6f * (cloudStep - i) / cloudStep);
+			clouds[clouds.length - i - 1] = new Cloud(height,
+					MIN_DIAMETER_RATIO + DIAMETER_RATIO * (cloudStep - i) / cloudStep);
 			height /= 2;
 		}
 	}
@@ -65,7 +68,7 @@ public class CloudAnimation implements WeatherAnimation {
 
 	@Override
 	public int getWeather() {
-		return Model.CLOUD;
+		return Weather.CLOUD;
 	}
 
 }

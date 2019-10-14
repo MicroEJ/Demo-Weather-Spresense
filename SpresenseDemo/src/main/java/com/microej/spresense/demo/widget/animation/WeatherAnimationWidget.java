@@ -8,6 +8,7 @@
 package com.microej.spresense.demo.widget.animation;
 
 import com.microej.spresense.demo.Model;
+import com.microej.spresense.demo.Weather;
 import com.microej.spresense.demo.style.StylePopulator;
 import com.microej.spresense.demo.widget.MainBackground;
 
@@ -21,15 +22,13 @@ import ej.style.container.Rectangle;
 import ej.widget.StyledWidget;
 
 /**
- *
+ * A widget displaying the animation of the current weather.
  */
 public class WeatherAnimationWidget extends StyledWidget implements Animation {
 
-
+	private static final int END_ANGLE = -70;
+	private static final int START_ANGLE = 125;
 	private WeatherAnimation animation;
-
-	public WeatherAnimationWidget() {
-	}
 
 	@Override
 	public void renderContent(GraphicsContext g, Style style, Rectangle bounds) {
@@ -45,13 +44,13 @@ public class WeatherAnimationWidget extends StyledWidget implements Animation {
 		}
 
 		g.setColor(style.getBackgroundColor());
-		int circleX = (StylePopulator.getDisplayWidth() - MainBackground.CIRCLE_DIAMETER) / 2;
-		int circleY = (StylePopulator.getDisplayHeight() - MainBackground.CIRCLE_DIAMETER) / 2;
+		int circleX = (StylePopulator.getDisplayWidth() - MainBackground.CIRCLE_DIAMETER) >> 1;
+		int circleY = (StylePopulator.getDisplayHeight() - MainBackground.CIRCLE_DIAMETER) >> 1;
 		g.fillCircle(circleX, circleY, MainBackground.CIRCLE_DIAMETER);
 		g.setColor(style.getBorderColor());
 		g.removeBackgroundColor();
 		AntiAliasedShapes antiAliased = MainBackground.getAntiAliased();
-		antiAliased.drawCircleArc(g, circleX, circleY, MainBackground.CIRCLE_DIAMETER, 125, -70);
+		antiAliased.drawCircleArc(g, circleX, circleY, MainBackground.CIRCLE_DIAMETER, START_ANGLE, END_ANGLE);
 	}
 
 	@Override
@@ -71,21 +70,6 @@ public class WeatherAnimationWidget extends StyledWidget implements Animation {
 		ServiceLoaderFactory.getServiceLoader().getService(Animator.class).startAnimation(this);
 	}
 
-	private void startAnimation() {
-		switch (Model.getWeather()) {
-		case Model.SUN:
-			animation = new SunAnimation();
-			break;
-		case Model.RAIN:
-			animation = new RainAnimation();
-			break;
-		case Model.CLOUD:
-		default:
-			animation = new CloudAnimation();
-			break;
-		}
-	}
-
 	@Override
 	public void hideNotify() {
 		super.hideNotify();
@@ -96,5 +80,20 @@ public class WeatherAnimationWidget extends StyledWidget implements Animation {
 	public boolean tick(long currentTimeMillis) {
 		repaint();
 		return true;
+	}
+
+	private void startAnimation() {
+		switch (Model.getWeather()) {
+		case Weather.SUN:
+			animation = new SunAnimation();
+			break;
+		case Weather.RAIN:
+			animation = new RainAnimation();
+			break;
+		case Weather.CLOUD:
+		default:
+			animation = new CloudAnimation();
+			break;
+		}
 	}
 }

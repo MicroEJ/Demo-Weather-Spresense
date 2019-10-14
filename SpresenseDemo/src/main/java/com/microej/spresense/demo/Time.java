@@ -10,15 +10,15 @@ package com.microej.spresense.demo;
 import java.util.Calendar;
 
 /**
- *
+ * A time.
  */
 public class Time {
-	private final static int MILLIS = 1000;
-	private final static int MILLI_IN_MINUTES = 60 * MILLIS;
-	private final static int MILLI_IN_HOUR = 60 * MILLI_IN_MINUTES;
-	private final static long THRESHOLD = MILLI_IN_HOUR * 24;
+	private static final int MILLIS = 1000;
+	private static final int MILLI_IN_MINUTES = 60 * MILLIS;
+	private static final int MILLI_IN_HOUR = 60 * MILLI_IN_MINUTES;
+	private static final long THRESHOLD = MILLI_IN_HOUR * 24;
 
-	private final static long SPEED = 60 * 60;
+	private static final long SPEED = 60 * 60;
 
 	private final Calendar calendar = Calendar.getInstance();
 	private int year;
@@ -31,11 +31,21 @@ public class Time {
 	private long offset = 0;
 	private int dayOfWeek;
 
-	public Time() {
-	}
-
+	/**
+	 * Instantiates a time.
+	 *
+	 * @param year
+	 *            the current year.
+	 * @param month
+	 *            the current month.
+	 * @param day
+	 *            the current day.
+	 * @param hour
+	 *            the current hour.
+	 * @param minute
+	 *            the current minute.
+	 */
 	public Time(int year, int month, int day, int hour, int minute) {
-		super();
 		this.month = month;
 		this.year = year;
 		this.day = day;
@@ -43,6 +53,9 @@ public class Time {
 		this.hour = hour;
 	}
 
+	/**
+	 * Update the time using its overspeed.
+	 */
 	public void updateCurrentTime() {
 		long currentTimeMillis = System.currentTimeMillis();
 		if (currentTime == -1) {
@@ -70,26 +83,56 @@ public class Time {
 		}
 	}
 
+	/**
+	 * Gets the hour.
+	 * 
+	 * @return the hour.
+	 */
 	public int getHour() {
 		return hour;
 	}
 
+	/**
+	 * Gets the minute.
+	 * 
+	 * @return the minute.
+	 */
 	public int getMinute() {
 		return minute;
 	}
 
+	/**
+	 * Gets the day.
+	 * 
+	 * @return the day.
+	 */
 	public int getDay() {
 		return day;
 	}
 
+	/**
+	 * Gets the month.
+	 * 
+	 * @return the month.
+	 */
 	public int getMonth() {
 		return month;
 	}
 
+	/**
+	 * Gets the year.
+	 * 
+	 * @return the year.
+	 */
 	public int getYear() {
 		return year;
 	}
 
+	/**
+	 * Gets the day of week.
+	 * 
+	 * @return the day of week.
+	 */
 	public int getDayOfWeek() {
 		return dayOfWeek;
 	}

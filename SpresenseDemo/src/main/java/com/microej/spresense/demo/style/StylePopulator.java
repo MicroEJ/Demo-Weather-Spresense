@@ -30,17 +30,32 @@ import ej.style.selector.combinator.AndCombinator;
 import ej.style.util.EditableStyle;
 import ej.style.util.StyleHelper;
 
+/**
+ * Populator for the stylesheet.
+ */
 public class StylePopulator {
 
-	private static int displayHeight = 0;
-	private static int displayWidth = 0;
+	private static final int TOP_OFFSET = 8;
 
-	public static final int TOP_OFFSET = 8;
+	/**
+	 * Number of detail hour values to display.
+	 */
+	public static final int COUNT_OF_HOUR_VALUES = 3;
+
+	/**
+	 * Outline used for the demo.
+	 */
 	public static final int DEFAULT_OUTLINE = 5;
+
+	private static int DisplayHeight = 0;
+	private static int DisplayWidth = 0;
 
 	private StylePopulator() {
 	}
 
+	/**
+	 * Populate the stylesheet.
+	 */
 	public static void populate() {
 		Stylesheet stylesheet = StyleHelper.getStylesheet();
 
@@ -48,7 +63,7 @@ public class StylePopulator {
 		style.setBackground(new MainBackground(MicroEJColors.CONCRETE));
 		style.setBackgroundColor(MicroEJColors.WHITE);
 		style.setPadding(new ComplexOutline(0, DEFAULT_OUTLINE, DEFAULT_OUTLINE, DEFAULT_OUTLINE));
-		stylesheet.addRule(new ClassSelector(ClassSelectors.MAINBACKGROUND), style);
+		stylesheet.addRule(new ClassSelector(ClassSelectors.MAIN_BACKGROUND), style);
 
 		style.clear();
 		style.setBackgroundColor(MicroEJColors.WHITE);
@@ -56,7 +71,7 @@ public class StylePopulator {
 		style.setBackground(new PlainBackground());
 		style.setDimension(new FixedDimension(getDisplayWidth(),
 				getTopHeight()));
-		stylesheet.addRule(new ClassSelector(ClassSelectors.TOPBACKGROUND), style);
+		stylesheet.addRule(new ClassSelector(ClassSelectors.TOP_BACKGROUND), style);
 
 		style.clear();
 		style.setAlignment(GraphicsContext.HCENTER_VCENTER);
@@ -98,7 +113,7 @@ public class StylePopulator {
 		stylesheet.addRule(new TypeOrSubtypeSelector(Composite.class), style);
 
 		style.clear();
-		style.setPadding(new ComplexOutline(0, 0, 0, 8));
+		style.setPadding(new ComplexOutline(0, 0, 0, TOP_OFFSET));
 		stylesheet.addRule(new ClassSelector(ClassSelectors.HOURLY_TEMPERATURE), style);
 
 		Selector hourly = new TypeSelector(HourlyDetail.class);
@@ -130,21 +145,36 @@ public class StylePopulator {
 		stylesheet.addRule(new ClassSelector(ClassSelectors.TEST), style);
 	}
 
+	/**
+	 * Gets the top height.
+	 *
+	 * @return the top height.
+	 */
 	public static int getTopHeight() {
-		return (getDisplayHeight() - MainBackground.CIRCLE_DIAMETER) / 2 + TOP_OFFSET;
+		return ((getDisplayHeight() - MainBackground.CIRCLE_DIAMETER) >> 1) + TOP_OFFSET;
 	}
 
+	/**
+	 * Gets the display height.
+	 *
+	 * @return the display height.
+	 */
 	public static int getDisplayHeight() {
-		if (displayHeight == 0) {
-			displayHeight = Display.getDefaultDisplay().getHeight();
+		if (DisplayHeight == 0) {
+			DisplayHeight = Display.getDefaultDisplay().getHeight();
 		}
-		return displayHeight;
+		return DisplayHeight;
 	}
 
+	/**
+	 * Gets the display width.
+	 *
+	 * @return the display width.
+	 */
 	public static int getDisplayWidth() {
-		if (displayWidth == 0) {
-			displayWidth = Display.getDefaultDisplay().getWidth();
+		if (DisplayWidth == 0) {
+			DisplayWidth = Display.getDefaultDisplay().getWidth();
 		}
-		return displayWidth;
+		return DisplayWidth;
 	}
 }

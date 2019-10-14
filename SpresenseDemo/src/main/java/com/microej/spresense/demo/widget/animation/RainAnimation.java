@@ -7,16 +7,22 @@
  */
 package com.microej.spresense.demo.widget.animation;
 
-import com.microej.spresense.demo.Model;
 import com.microej.spresense.demo.Util;
+import com.microej.spresense.demo.Weather;
 import com.microej.spresense.demo.style.StylePopulator;
 
 import ej.color.GradientHelper;
 import ej.library.ui.MicroEJColors;
 import ej.microui.display.GraphicsContext;
 
+/**
+ * Animation of a rain.
+ */
 public class RainAnimation implements WeatherAnimation {
 
+	private static final float MEDIUM_COLOR_BLENDING_RATIO = 0.3f;
+	private static final float SLOW_COLOR_BLENDING_RATIO = 0.5f;
+	private static final int SIZE_COUNT = 3;
 	private static final float COUNT_DROPS = 0.02f;
 	private static final int SPEED = 7;
 	private static final int SMALL = 5;
@@ -27,6 +33,9 @@ public class RainAnimation implements WeatherAnimation {
 	private final RainDrop[] fastDrops;
 	private boolean run;
 
+	/**
+	 * Instantiates a {@link RainAnimation}.
+	 */
 	public RainAnimation() {
 		run = true;
 		int topHeight = StylePopulator.getTopHeight();
@@ -37,7 +46,7 @@ public class RainAnimation implements WeatherAnimation {
 		fastDrops = new RainDrop[dropCount];
 		for(int i=0;i<dropCount;i++) {
 			int length;
-			switch (Util.RANDOM.nextInt(3)) {
+			switch (Util.RANDOM.nextInt(SIZE_COUNT)) {
 			case 0:
 				length = SMALL;
 				break;
@@ -60,9 +69,9 @@ public class RainAnimation implements WeatherAnimation {
 		int backgroundColor = g.getBackgroundColor();
 		boolean isRunning = false;
 		isRunning |= renderDrops(g, slowDrops, currentTimeMillis,
-				GradientHelper.blendColors(backgroundColor, MicroEJColors.WHITE, 0.5f));
+				GradientHelper.blendColors(backgroundColor, MicroEJColors.WHITE, SLOW_COLOR_BLENDING_RATIO));
 		isRunning |= renderDrops(g, mediumDrops, currentTimeMillis,
-				GradientHelper.blendColors(MicroEJColors.WHITE, backgroundColor, 0.3f));
+				GradientHelper.blendColors(MicroEJColors.WHITE, backgroundColor, MEDIUM_COLOR_BLENDING_RATIO));
 		isRunning |= renderDrops(g, fastDrops, currentTimeMillis, MicroEJColors.WHITE);
 		return isRunning;
 	}
@@ -84,7 +93,7 @@ public class RainAnimation implements WeatherAnimation {
 		return isRunning;
 	}
 
-	private int computeInitalX() {
+	private static int computeInitalX() {
 		return Util.RANDOM.nextInt(StylePopulator.getDisplayWidth() + StylePopulator.getTopHeight());
 	}
 
@@ -95,6 +104,6 @@ public class RainAnimation implements WeatherAnimation {
 
 	@Override
 	public int getWeather() {
-		return Model.RAIN;
+		return Weather.RAIN;
 	}
 }
