@@ -35,6 +35,8 @@ import ej.style.util.StyleHelper;
  */
 public class StylePopulator {
 
+	private static final int DATE_MARGIN = 18;
+
 	private static final int TOP_OFFSET = 8;
 
 	/**
@@ -47,8 +49,8 @@ public class StylePopulator {
 	 */
 	public static final int DEFAULT_OUTLINE = 5;
 
-	private static int DisplayHeight = 0;
-	private static int DisplayWidth = 0;
+	private static int displayHeight = 0;
+	private static int displayWidth = 0;
 
 	private StylePopulator() {
 	}
@@ -104,7 +106,7 @@ public class StylePopulator {
 		style.clear();
 		style.setForegroundColor(MicroEJColors.CONCRETE);
 		style.setFontProfile(FontProfiles.MEDIUM);
-		style.setMargin(new ComplexOutline(0, 0, 18, 0));
+		style.setMargin(new ComplexOutline(0, 0, DATE_MARGIN, 0));
 		stylesheet.addRule(new ClassSelector(ClassSelectors.DATE_DETAILS), style);
 
 		style.clear();
@@ -160,10 +162,10 @@ public class StylePopulator {
 	 * @return the display height.
 	 */
 	public static int getDisplayHeight() {
-		if (DisplayHeight == 0) {
-			DisplayHeight = Display.getDefaultDisplay().getHeight();
+		if (displayHeight == 0) {
+			displayHeight = Display.getDefaultDisplay().getHeight();
 		}
-		return DisplayHeight;
+		return displayHeight;
 	}
 
 	/**
@@ -172,9 +174,9 @@ public class StylePopulator {
 	 * @return the display width.
 	 */
 	public static int getDisplayWidth() {
-		if (DisplayWidth == 0) {
-			DisplayWidth = Display.getDefaultDisplay().getWidth();
+		if (displayWidth == 0) {
+			displayWidth = Display.getDefaultDisplay().getWidth();
 		}
-		return DisplayWidth;
+		return displayWidth;
 	}
 }

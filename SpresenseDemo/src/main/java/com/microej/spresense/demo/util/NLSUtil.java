@@ -23,11 +23,11 @@ public class NLSUtil {
 
 	private static final char FAR = 0x5;
 
-	private static int LastUpdate;
-	private static String Date;
-	private static String Day;
-	private static String[] Weekdays;
-	private static String WeekdayLocale;
+	private static int lastUpdate;
+	private static String date;
+	private static String day;
+	private static String[] weekdays;
+	private static String weekdayLocale;
 
 	private NLSUtil() {
 		// Forbid instantiation.
@@ -42,7 +42,7 @@ public class NLSUtil {
 	 */
 	public static String getDate(Time time) {
 		cache(time);
-		return Date;
+		return date;
 	}
 
 	/**
@@ -54,7 +54,7 @@ public class NLSUtil {
 	 */
 	public static String getDay(Time time) {
 		cache(time);
-		return Day;
+		return day;
 	}
 
 	/**
@@ -168,10 +168,11 @@ public class NLSUtil {
 
 	private static void cache(Time time) {
 		int timeId = (((time.getYear() << YEAR_OFFSET) | time.getMonth()) << MONTH_OFFSET) | time.getDay();
-		if (timeId != LastUpdate) {
-			LastUpdate = timeId;
-			Day = Weekdays[time.getDayOfWeek() - 1];
-			Date = addPadding(time.getMonth() + 1) + '.' + addPadding(time.getDay()) + '.' + time.getYear();
+		if (timeId != lastUpdate) {
+			lastUpdate = timeId;
+			initWeekDays();
+			day = weekdays[time.getDayOfWeek() - 1];
+			date = addPadding(time.getMonth() + 1) + '.' + addPadding(time.getDay()) + '.' + time.getYear();
 		}
 	}
 
@@ -186,13 +187,16 @@ public class NLSUtil {
 	 * @return the weekdays.
 	 */
 	public static String[] getWeekdays() {
-		if (Weekdays == null || !Spresense.NLS.getCurrentLocale().equals(WeekdayLocale)) {
-			Weekdays = new String[] { Spresense.NLS.getMessage(Spresense.Sunday),
+		initWeekDays();
+		return weekdays.clone();
+	}
+
+	private static void initWeekDays() {
+		if (weekdays == null || !Spresense.NLS.getCurrentLocale().equals(weekdayLocale)) {
+			weekdays = new String[] { Spresense.NLS.getMessage(Spresense.Sunday),
 					Spresense.NLS.getMessage(Spresense.Monday), Spresense.NLS.getMessage(Spresense.Tuesday),
 					Spresense.NLS.getMessage(Spresense.Wednesday), Spresense.NLS.getMessage(Spresense.Thursday),
 					Spresense.NLS.getMessage(Spresense.Friday), Spresense.NLS.getMessage(Spresense.Saturday) };
 		}
-		return Weekdays;
 	}
-
 }

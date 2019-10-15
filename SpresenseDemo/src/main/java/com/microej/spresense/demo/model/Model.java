@@ -37,9 +37,15 @@ public class Model extends Observable {
 	 * Time of the machine.
 	 */
 	private final Time time = new Time(0, 0, 0, 0, 0);
-	private static GnssManager GnssManager;
+	private static GnssManager gnssManager;
 
-	private static final Model INSTANCE = new Model();
+	private static final Model INSTANCE;
+
+	static {
+		INSTANCE = new Model();
+		INSTANCE.start();
+	}
+
 	private int temperature;
 	private int wind;
 	private int humidity;
@@ -47,18 +53,11 @@ public class Model extends Observable {
 	private float latitude;
 	private float longitude;
 	private int weather;
-
-	/**
-	 * Gets the iNSTANCE.
-	 *
-	 * @return the iNSTANCE.
-	 */
-	public static Model getInstance() {
-		return INSTANCE;
-	}
+	private Thread pollingThread;
+	private Thread gnssThread;
 
 	private Model() {
-		Thread gnssThread = new Thread(new Runnable() {
+		gnssThread = new Thread(new Runnable() {
 			@Override
 			public void run() {
 				Thread.currentThread().setName("GNSS poller"); //$NON-NLS-1$
@@ -73,7 +72,7 @@ public class Model extends Observable {
 				while (run) {
 					try {
 						gnssManager.readPosition();
-						Model.GnssManager = gnssManager;
+						Model.gnssManager = gnssManager;
 					} catch (IOException e) {
 						SpresenseDemo.LOGGER.log(Level.WARNING, "Could not read position.", e); //$NON-NLS-1$
 					}
@@ -86,9 +85,8 @@ public class Model extends Observable {
 				}
 			}
 		});
-		gnssThread.start();
 
-		Thread pollingThread = new Thread(new Runnable() {
+		pollingThread = new Thread(new Runnable() {
 
 			@Override
 			public void run() {
@@ -105,10 +103,18 @@ public class Model extends Observable {
 				}
 			}
 		});
-		pollingThread.start();
 		updateValues();
 	}
 
+
+	/**
+	 * Gets the iNSTANCE.
+	 *
+	 * @return the iNSTANCE.
+	 */
+	public static Model getInstance() {
+		return INSTANCE;
+	}
 
 	/**
 	 * Gets the time.
@@ -277,6 +283,11 @@ public class Model extends Observable {
 		return weather;
 	}
 
+	private void start() {
+		gnssThread.start();
+		pollingThread.start();
+	}
+
 	private void setWeather(int weather) {
 		if (weather != this.weather) {
 			this.weather = weather;
@@ -289,8 +300,8 @@ public class Model extends Observable {
 		setWind(FakeDataProvider.getWind(time.getDayOfWeek(), time.getHour()));
 		setHumidity(FakeDataProvider.getHumidity(time.getDayOfWeek(), time.getHour()));
 		setSunrise(FakeDataProvider.getSunrise(time.getDayOfWeek()));
-		setLatitude((GnssManager == null) ? DEFAULT_LATITUDE : GnssManager.getLatitude());
-		setLongitude((GnssManager == null) ? DEFAULT_LONGITUDE : GnssManager.getLongitude());
+		setLatitude((gnssManager == null) ? DEFAULT_LATITUDE : gnssManager.getLatitude());
+		setLongitude((gnssManager == null) ? DEFAULT_LONGITUDE : gnssManager.getLongitude());
 		setWeather(FakeDataProvider.getType(time.getDayOfWeek(), time.getHour()));
 	}
 }
