@@ -7,14 +7,12 @@
  */
 package com.microej.spresense.demo;
 
-import java.text.DateFormatSymbols;
-
-import ej.util.text.EnglishDateFormatSymbols;
+import com.microej.example.nls.helloworld.generated.Spresense;
 
 /**
  * Support for the NLS management.
  */
-public class NLS {
+public class NLSSupport {
 
 	private static final int MONTH_OFFSET = 5;
 	private static final int YEAR_OFFSET = 4;
@@ -24,21 +22,14 @@ public class NLS {
 
 	private static final char FAR = 0x5;
 
-	private static int LASTUPDATE;
-	private static String DATE;
-	private static String DAY;
+	private static int LastUpdate;
+	private static String Date;
+	private static String Day;
+	private static String[] Weekdays;
+	private static String WeekdayLocale;
 
-	private NLS() {
+	private NLSSupport() {
 		// Forbid instantiation.
-	}
-
-	/**
-	 * Gets the local symbols.
-	 *
-	 * @return the local symbols.
-	 */
-	public static DateFormatSymbols getLocalSymbols() {
-		return EnglishDateFormatSymbols.getInstance();
 	}
 
 	/**
@@ -50,7 +41,7 @@ public class NLS {
 	 */
 	public static String getDate(Time time) {
 		cache(time);
-		return DATE;
+		return Date;
 	}
 
 	/**
@@ -62,7 +53,7 @@ public class NLS {
 	 */
 	public static String getDay(Time time) {
 		cache(time);
-		return DAY;
+		return Day;
 	}
 
 	/**
@@ -116,7 +107,7 @@ public class NLS {
 	 * @return the speed text.
 	 */
 	public static String getSpeedSymbol() {
-		return " mph"; //$NON-NLS-1$
+		return Spresense.NLS.getMessage(Spresense.Mph);
 	}
 
 	/**
@@ -125,7 +116,7 @@ public class NLS {
 	 * @return the wind text.
 	 */
 	public static String getWind() {
-		return "Wind"; //$NON-NLS-1$
+		return Spresense.NLS.getMessage(Spresense.Wind);
 	}
 
 	/**
@@ -134,7 +125,7 @@ public class NLS {
 	 * @return the Sunrise text.
 	 */
 	public static String getSunrise() {
-		return "Sunrise"; //$NON-NLS-1$
+		return Spresense.NLS.getMessage(Spresense.Sunrise);
 	}
 
 	/**
@@ -143,7 +134,7 @@ public class NLS {
 	 * @return the Humidity text.
 	 */
 	public static String getHumidity() {
-		return "Humidity"; //$NON-NLS-1$
+		return Spresense.NLS.getMessage(Spresense.Humidity);
 	}
 
 	/**
@@ -152,7 +143,7 @@ public class NLS {
 	 * @return the Lat text.
 	 */
 	public static String getLat() {
-		return "Lat"; //$NON-NLS-1$
+		return Spresense.NLS.getMessage(Spresense.Lat);
 	}
 
 	/**
@@ -161,7 +152,7 @@ public class NLS {
 	 * @return the Lon text.
 	 */
 	public static String getLon() {
-		return "Lon"; //$NON-NLS-1$
+		return Spresense.NLS.getMessage(Spresense.Lon);
 	}
 
 	private static int get12Hour(int hour) {
@@ -176,16 +167,31 @@ public class NLS {
 
 	private static void cache(Time time) {
 		int timeId = (((time.getYear() << YEAR_OFFSET) | time.getMonth()) << MONTH_OFFSET) | time.getDay();
-		if (timeId != LASTUPDATE) {
-			LASTUPDATE = timeId;
-			DAY = getLocalSymbols().getWeekday(time.getDayOfWeek() - 1);
-			DATE = addPadding(time.getMonth() + 1) + '.' + addPadding(time.getDay()) + '.' + time.getYear();
+		if (timeId != LastUpdate) {
+			LastUpdate = timeId;
+			Day = Weekdays[time.getDayOfWeek() - 1];
+			Date = addPadding(time.getMonth() + 1) + '.' + addPadding(time.getDay()) + '.' + time.getYear();
 		}
 	}
 
 	private static String addPadding(int day) {
 		String value = String.valueOf(day);
-		return (value.length() == 1) ? "0" + value : value; //$NON-NLS-1$
+		return (value.length() == 1) ? '0' + value : value;
+	}
+
+	/**
+	 * Gets the weekdays.
+	 *
+	 * @return the weekdays.
+	 */
+	public static String[] getWeekdays() {
+		if (Weekdays == null || !Spresense.NLS.getCurrentLocale().equals(WeekdayLocale)) {
+			Weekdays = new String[] { Spresense.NLS.getMessage(Spresense.Sunday),
+					Spresense.NLS.getMessage(Spresense.Monday), Spresense.NLS.getMessage(Spresense.Tuesday),
+					Spresense.NLS.getMessage(Spresense.Wednesday), Spresense.NLS.getMessage(Spresense.Thursday),
+					Spresense.NLS.getMessage(Spresense.Friday), Spresense.NLS.getMessage(Spresense.Saturday) };
+		}
+		return Weekdays;
 	}
 
 }

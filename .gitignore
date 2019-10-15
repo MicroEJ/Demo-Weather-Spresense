@@ -4,3 +4,4 @@ SpresenseDemo/*.properties
 SpresenseDemo/target~/
 SpresenseDemo/.sonar/
 SpresenseDemo/launches/*.properties
+SpresenseDemo/src-adpgenerated/

@@ -8,7 +8,7 @@
 package com.microej.spresense.demo.widget;
 
 import com.microej.spresense.demo.Model;
-import com.microej.spresense.demo.NLS;
+import com.microej.spresense.demo.NLSSupport;
 import com.microej.spresense.demo.Time;
 import com.microej.spresense.demo.Util;
 import com.microej.spresense.demo.style.ClassSelectors;
@@ -40,7 +40,7 @@ public class DateDetails extends CenterContainer implements Animation {
 	public DateDetails() {
 		Dock dateDock = new Dock();
 		day = new MaxSizeLabel();
-		day.setWords(NLS.getLocalSymbols().getWeekdays());
+		day.setWords(NLSSupport.getWeekdays());
 		day.addClassSelector(ClassSelectors.DAY);
 		dateDock.setCenter(Util.addWrapper(day));
 		date = new Label();
@@ -58,7 +58,7 @@ public class DateDetails extends CenterContainer implements Animation {
 		Dock centerDock = new Dock();
 		mainTemperature = new MaxSizeLabel();
 		String[] str = new String[1];
-		str[0] = MAX_TEMPERATURE + NLS.getTemperatureSymbol();
+		str[0] = MAX_TEMPERATURE + NLSSupport.getTemperatureSymbol();
 		mainTemperature.setWords(str);
 		mainTemperature.addClassSelector(ClassSelectors.MAIN_TEMPERATURE);
 		centerDock.setCenter(Util.addWrapper(mainTemperature));
@@ -73,14 +73,14 @@ public class DateDetails extends CenterContainer implements Animation {
 
 	private void update() {
 		Time time = Model.getTime();
-		Util.update(this.day, NLS.getDay(time));
-		Util.update(this.date, NLS.getDate(time));
+		Util.update(this.day, NLSSupport.getDay(time));
+		Util.update(this.date, NLSSupport.getDate(time));
 		int hour = time.getHour();
 		int day = time.getDayOfWeek();
 		Util.update(this.hour,
-				Util.addPadding(NLS.getFullHourFormat(time))
-				+ NLS.getHourSymbol(hour));
-		Util.update(mainTemperature, String.valueOf(Model.getTemperature()) + NLS.getTemperatureSymbol());
+				Util.addPadding(NLSSupport.getFullHourFormat(time))
+				+ NLSSupport.getHourSymbol(hour));
+		Util.update(mainTemperature, String.valueOf(Model.getTemperature()) + NLSSupport.getTemperatureSymbol());
 
 		for (int i = 0; i < nextHours.getWidgets().length; i++) {
 			HourlyDetail widget = (HourlyDetail) nextHours.getWidgets()[i];

@@ -50,9 +50,12 @@
 	    <dependency org="ej.api" name="gnss" rev="0.9.1"/>
 	    
         <dependency org="ej.library.runtime" name="components" rev="3.3.0"/>
-        <dependency org="ej.library.util" name="dateformat" rev="1.1.0"/>
         <dependency org="ej.library.ui" name="widget" rev="2.4.1"/>
         <dependency org="ej.library.ui" name="microej-colors" rev="1.0.0"/>
+        
+        <dependency org="ej.library.runtime" name="nls" rev="3.0.1" /> 
+		<dependency org="com.microej.library.runtime" name="nls-po" rev="2.1.5"/>
+        
         
         <!-- 
 			Example of Platform dependency

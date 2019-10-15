@@ -8,7 +8,7 @@
 package com.microej.spresense.demo.widget.details;
 
 import com.microej.spresense.demo.Model;
-import com.microej.spresense.demo.NLS;
+import com.microej.spresense.demo.NLSSupport;
 import com.microej.spresense.demo.Util;
 import com.microej.spresense.demo.style.ClassSelectors;
 import com.microej.spresense.demo.style.Images;
@@ -33,7 +33,7 @@ public class GPSWidget extends WeatherDetails {
 	public GPSWidget() {
 		super(Images.GPS);
 		Flow latFlow = new Flow();
-		String[] latLongText = new String[] { NLS.getLat(), NLS.getLon() };
+		String[] latLongText = new String[] { NLSSupport.getLat(), NLSSupport.getLon() };
 		MaxSizeLabel latitudeLabel = new MaxSizeLabel(latLongText[0]);
 		latitudeLabel.setWords(latLongText);
 		latFlow.add(latitudeLabel);
@@ -42,7 +42,7 @@ public class GPSWidget extends WeatherDetails {
 		latitudeValue.addClassSelector(ClassSelectors.WEATHER_VALUE);
 		latFlow.add(latitudeValue);
 		Flow lonFlow = new Flow();
-		String[] longLongText = new String[] { NLS.getLat(), NLS.getLon() };
+		String[] longLongText = new String[] { NLSSupport.getLat(), NLSSupport.getLon() };
 		MaxSizeLabel longitudeLabel = new MaxSizeLabel(longLongText[1]);
 		longitudeLabel.setWords(longLongText);
 		lonFlow.add(longitudeLabel);

@@ -8,7 +8,7 @@
 package com.microej.spresense.demo.widget.details;
 
 import com.microej.spresense.demo.Model;
-import com.microej.spresense.demo.NLS;
+import com.microej.spresense.demo.NLSSupport;
 import com.microej.spresense.demo.style.Images;
 
 /**
@@ -20,7 +20,7 @@ public class HumidityWidget extends DefaultWeatherDetails {
 	 * Instantiates a {@link HumidityWidget}.
 	 */
 	public HumidityWidget() {
-		super(Images.HUMIDITY, NLS.getHumidity());
+		super(Images.HUMIDITY, NLSSupport.getHumidity());
 	}
 
 	@Override
