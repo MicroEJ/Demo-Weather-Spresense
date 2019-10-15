@@ -7,11 +7,11 @@
  */
 package com.microej.spresense.demo.widget.details;
 
-import com.microej.spresense.demo.Model;
-import com.microej.spresense.demo.NLSSupport;
-import com.microej.spresense.demo.Time;
-import com.microej.spresense.demo.Util;
+import com.microej.spresense.demo.model.Model;
+import com.microej.spresense.demo.model.Time;
 import com.microej.spresense.demo.style.Images;
+import com.microej.spresense.demo.util.NLSUtil;
+import com.microej.spresense.demo.util.Util;
 
 /**
  * Widget displaying the sunrise time.
@@ -22,13 +22,13 @@ public class SunriseWidget extends DefaultWeatherDetails {
 	 * Instantiates a {@link SunriseWidget}.
 	 */
 	public SunriseWidget() {
-		super(Images.SUNRISE, NLSSupport.getSunrise());
+		super(Images.SUNRISE, NLSUtil.getSunrise());
 	}
 
 	@Override
 	protected String getValue() {
-		Time sunrise = Model.getSunrise();
-		return Util.addPadding(NLSSupport.getFullHourFormat(sunrise));
+		Time sunrise = Model.getInstance().getSunrise();
+		return Util.addPadding(NLSUtil.getFullHourFormat(sunrise));
 	}
 
 }

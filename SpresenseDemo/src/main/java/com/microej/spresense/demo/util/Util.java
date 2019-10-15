@@ -5,7 +5,7 @@
  * This Software has been designed by MicroEJ Corp and all rights have been transferred to Sony Corp.
  * Sony Corp. has granted MicroEJ the right to sub-licensed this Software under the enclosed license terms.
  */
-package com.microej.spresense.demo;
+package com.microej.spresense.demo.util;
 
 import java.util.Random;
 

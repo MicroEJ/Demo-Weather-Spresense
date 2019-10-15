@@ -5,7 +5,7 @@
  * This Software has been designed by MicroEJ Corp and all rights have been transferred to Sony Corp.
  * Sony Corp. has granted MicroEJ the right to sub-licensed this Software under the enclosed license terms.
  */
-package com.microej.spresense.demo;
+package com.microej.spresense.demo.model;
 
 import java.util.Calendar;
 
@@ -85,7 +85,7 @@ public class Time {
 
 	/**
 	 * Gets the hour.
-	 * 
+	 *
 	 * @return the hour.
 	 */
 	public int getHour() {
@@ -94,7 +94,7 @@ public class Time {
 
 	/**
 	 * Gets the minute.
-	 * 
+	 *
 	 * @return the minute.
 	 */
 	public int getMinute() {
@@ -103,7 +103,7 @@ public class Time {
 
 	/**
 	 * Gets the day.
-	 * 
+	 *
 	 * @return the day.
 	 */
 	public int getDay() {
@@ -112,7 +112,7 @@ public class Time {
 
 	/**
 	 * Gets the month.
-	 * 
+	 *
 	 * @return the month.
 	 */
 	public int getMonth() {
@@ -121,7 +121,7 @@ public class Time {
 
 	/**
 	 * Gets the year.
-	 * 
+	 *
 	 * @return the year.
 	 */
 	public int getYear() {
@@ -130,11 +130,65 @@ public class Time {
 
 	/**
 	 * Gets the day of week.
-	 * 
+	 *
 	 * @return the day of week.
 	 */
 	public int getDayOfWeek() {
 		return dayOfWeek;
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + day;
+		result = prime * result + dayOfWeek;
+		result = prime * result + hour;
+		result = prime * result + (int) (lastUpdate ^ (lastUpdate >>> 32));
+		result = prime * result + minute;
+		result = prime * result + month;
+		result = prime * result + (int) (offset ^ (offset >>> 32));
+		result = prime * result + year;
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj) {
+			return true;
+		}
+		if (obj == null) {
+			return false;
+		}
+		if (getClass() != obj.getClass()) {
+			return false;
+		}
+		Time other = (Time) obj;
+		if (day != other.day) {
+			return false;
+		}
+		if (dayOfWeek != other.dayOfWeek) {
+			return false;
+		}
+		if (hour != other.hour) {
+			return false;
+		}
+		if (lastUpdate != other.lastUpdate) {
+			return false;
+		}
+		if (minute != other.minute) {
+			return false;
+		}
+		if (month != other.month) {
+			return false;
+		}
+		if (offset != other.offset) {
+			return false;
+		}
+		if (year != other.year) {
+			return false;
+		}
+		return true;
 	}
 
 }

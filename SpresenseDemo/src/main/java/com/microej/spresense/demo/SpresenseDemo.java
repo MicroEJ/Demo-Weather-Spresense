@@ -10,6 +10,7 @@ package com.microej.spresense.demo;
 import java.util.logging.Logger;
 
 import com.microej.spresense.demo.audio.AudioManager;
+import com.microej.spresense.demo.model.Model;
 import com.microej.spresense.demo.style.StylePopulator;
 import com.microej.spresense.demo.widget.MainFrame;
 
@@ -51,7 +52,7 @@ public class SpresenseDemo {
 
 			@Override
 			public boolean tick(long currentTimeMillis) {
-				Model.getTime().updateCurrentTime();
+				Model.getInstance().getTime().updateCurrentTime();
 				return true;
 			}
 		});

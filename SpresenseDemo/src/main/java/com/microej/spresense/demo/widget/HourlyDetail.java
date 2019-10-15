@@ -8,10 +8,10 @@
 package com.microej.spresense.demo.widget;
 
 
-import com.microej.spresense.demo.Model;
-import com.microej.spresense.demo.NLSSupport;
-import com.microej.spresense.demo.Util;
+import com.microej.spresense.demo.model.Model;
 import com.microej.spresense.demo.style.ClassSelectors;
+import com.microej.spresense.demo.util.NLSUtil;
+import com.microej.spresense.demo.util.Util;
 
 import ej.widget.basic.Label;
 import ej.widget.container.Dock;
@@ -45,7 +45,7 @@ public class HourlyDetail extends Dock {
 
 	/**
 	 * update the detail.
-	 * 
+	 *
 	 * @param day
 	 *            the day.
 	 * @param hour
@@ -58,8 +58,9 @@ public class HourlyDetail extends Dock {
 			day = (day % (DAY_IN_WEEK - 1)) + 1;
 		}
 		Util.update(temperature,
-				Util.addPadding(String.valueOf(Model.getTemperature(day, hour)) + NLSSupport.getTemperatureSymbol()));
+				Util.addPadding(String.valueOf(Model.getInstance().getTemperature(day, hour))
+						+ NLSUtil.getTemperatureSymbol()));
 		Util.update(this.hour,
-				String.valueOf(NLSSupport.getHourFormat(hour)) + ' ' + NLSSupport.getHourSymbol(hour));
+				String.valueOf(NLSUtil.getHourFormat(hour)) + ' ' + NLSUtil.getHourSymbol(hour));
 	}
 }

@@ -7,11 +7,11 @@
  */
 package com.microej.spresense.demo.widget.details;
 
-import com.microej.spresense.demo.Model;
-import com.microej.spresense.demo.NLSSupport;
-import com.microej.spresense.demo.Util;
+import com.microej.spresense.demo.model.Model;
 import com.microej.spresense.demo.style.ClassSelectors;
 import com.microej.spresense.demo.style.Images;
+import com.microej.spresense.demo.util.NLSUtil;
+import com.microej.spresense.demo.util.Util;
 import com.microej.spresense.demo.widget.MaxSizeLabel;
 
 import ej.widget.container.Flow;
@@ -33,7 +33,7 @@ public class GPSWidget extends WeatherDetails {
 	public GPSWidget() {
 		super(Images.GPS);
 		Flow latFlow = new Flow();
-		String[] latLongText = new String[] { NLSSupport.getLat(), NLSSupport.getLon() };
+		String[] latLongText = new String[] { NLSUtil.getLat(), NLSUtil.getLon() };
 		MaxSizeLabel latitudeLabel = new MaxSizeLabel(latLongText[0]);
 		latitudeLabel.setWords(latLongText);
 		latFlow.add(latitudeLabel);
@@ -42,7 +42,7 @@ public class GPSWidget extends WeatherDetails {
 		latitudeValue.addClassSelector(ClassSelectors.WEATHER_VALUE);
 		latFlow.add(latitudeValue);
 		Flow lonFlow = new Flow();
-		String[] longLongText = new String[] { NLSSupport.getLat(), NLSSupport.getLon() };
+		String[] longLongText = new String[] { NLSUtil.getLat(), NLSUtil.getLon() };
 		MaxSizeLabel longitudeLabel = new MaxSizeLabel(longLongText[1]);
 		longitudeLabel.setWords(longLongText);
 		lonFlow.add(longitudeLabel);
@@ -58,15 +58,9 @@ public class GPSWidget extends WeatherDetails {
 	}
 
 	@Override
-	public void showNotify() {
-		update();
-		super.showNotify();
-	}
-
-	@Override
 	protected void update() {
-		Util.update(latitudeValue, paddValue(Model.getLatitude()));
-		Util.update(longitudeValue, paddValue(Model.getLongitude()));
+		Util.update(latitudeValue, paddValue(Model.getInstance().getLatitude()));
+		Util.update(longitudeValue, paddValue(Model.getInstance().getLongitude()));
 	}
 
 	private static String paddValue(float value) {

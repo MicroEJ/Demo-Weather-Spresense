@@ -7,12 +7,12 @@
  */
 package com.microej.spresense.demo.widget;
 
-import com.microej.spresense.demo.Model;
-import com.microej.spresense.demo.NLSSupport;
-import com.microej.spresense.demo.Time;
-import com.microej.spresense.demo.Util;
+import com.microej.spresense.demo.model.Model;
+import com.microej.spresense.demo.model.Time;
 import com.microej.spresense.demo.style.ClassSelectors;
 import com.microej.spresense.demo.style.StylePopulator;
+import com.microej.spresense.demo.util.NLSUtil;
+import com.microej.spresense.demo.util.Util;
 
 import ej.animation.Animation;
 import ej.animation.Animator;
@@ -40,7 +40,7 @@ public class DateDetails extends CenterContainer implements Animation {
 	public DateDetails() {
 		Dock dateDock = new Dock();
 		day = new MaxSizeLabel();
-		day.setWords(NLSSupport.getWeekdays());
+		day.setWords(NLSUtil.getWeekdays());
 		day.addClassSelector(ClassSelectors.DAY);
 		dateDock.setCenter(Util.addWrapper(day));
 		date = new Label();
@@ -58,7 +58,7 @@ public class DateDetails extends CenterContainer implements Animation {
 		Dock centerDock = new Dock();
 		mainTemperature = new MaxSizeLabel();
 		String[] str = new String[1];
-		str[0] = MAX_TEMPERATURE + NLSSupport.getTemperatureSymbol();
+		str[0] = MAX_TEMPERATURE + NLSUtil.getTemperatureSymbol();
 		mainTemperature.setWords(str);
 		mainTemperature.addClassSelector(ClassSelectors.MAIN_TEMPERATURE);
 		centerDock.setCenter(Util.addWrapper(mainTemperature));
@@ -72,15 +72,16 @@ public class DateDetails extends CenterContainer implements Animation {
 	}
 
 	private void update() {
-		Time time = Model.getTime();
-		Util.update(this.day, NLSSupport.getDay(time));
-		Util.update(this.date, NLSSupport.getDate(time));
+		Time time = Model.getInstance().getTime();
+		Util.update(this.day, NLSUtil.getDay(time));
+		Util.update(this.date, NLSUtil.getDate(time));
 		int hour = time.getHour();
 		int day = time.getDayOfWeek();
 		Util.update(this.hour,
-				Util.addPadding(NLSSupport.getFullHourFormat(time))
-				+ NLSSupport.getHourSymbol(hour));
-		Util.update(mainTemperature, String.valueOf(Model.getTemperature()) + NLSSupport.getTemperatureSymbol());
+				Util.addPadding(NLSUtil.getFullHourFormat(time))
+				+ NLSUtil.getHourSymbol(hour));
+		Util.update(mainTemperature,
+				String.valueOf(Model.getInstance().getTemperature()) + NLSUtil.getTemperatureSymbol());
 
 		for (int i = 0; i < nextHours.getWidgets().length; i++) {
 			HourlyDetail widget = (HourlyDetail) nextHours.getWidgets()[i];

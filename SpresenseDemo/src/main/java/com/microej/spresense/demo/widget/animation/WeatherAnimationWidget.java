@@ -7,8 +7,11 @@
  */
 package com.microej.spresense.demo.widget.animation;
 
-import com.microej.spresense.demo.Model;
-import com.microej.spresense.demo.Weather;
+import java.util.Observable;
+import java.util.Observer;
+
+import com.microej.spresense.demo.model.Model;
+import com.microej.spresense.demo.model.Weather;
 import com.microej.spresense.demo.style.StylePopulator;
 import com.microej.spresense.demo.widget.MainBackground;
 
@@ -24,7 +27,7 @@ import ej.widget.StyledWidget;
 /**
  * A widget displaying the animation of the current weather.
  */
-public class WeatherAnimationWidget extends StyledWidget implements Animation {
+public class WeatherAnimationWidget extends StyledWidget implements Animation, Observer {
 
 	private static final int END_ANGLE = -70;
 	private static final int START_ANGLE = 125;
@@ -32,13 +35,10 @@ public class WeatherAnimationWidget extends StyledWidget implements Animation {
 
 	@Override
 	public void renderContent(GraphicsContext g, Style style, Rectangle bounds) {
-		g.setColor(Model.getColor(Model.getTime()));
+		g.setColor(Model.getColor(Model.getInstance().getTime()));
 		g.setBackgroundColor(g.getColor());
 		g.fillRect(0, 0, bounds.getWidth(), bounds.getHeight());
 
-		if (Model.getWeather() != animation.getWeather()) {
-			animation.stop();
-		}
 		if (!animation.render(g)) {
 			startAnimation();
 		}
@@ -67,12 +67,14 @@ public class WeatherAnimationWidget extends StyledWidget implements Animation {
 	public void showNotify() {
 		super.showNotify();
 		startAnimation();
+		Model.getInstance().addObserver(this);
 		ServiceLoaderFactory.getServiceLoader().getService(Animator.class).startAnimation(this);
 	}
 
 	@Override
 	public void hideNotify() {
 		super.hideNotify();
+		Model.getInstance().deleteObserver(this);
 		ServiceLoaderFactory.getServiceLoader().getService(Animator.class).stopAnimation(this);
 	}
 
@@ -83,7 +85,7 @@ public class WeatherAnimationWidget extends StyledWidget implements Animation {
 	}
 
 	private void startAnimation() {
-		switch (Model.getWeather()) {
+		switch (Model.getInstance().getWeather()) {
 		case Weather.SUN:
 			animation = new SunAnimation();
 			break;
@@ -94,6 +96,14 @@ public class WeatherAnimationWidget extends StyledWidget implements Animation {
 		default:
 			animation = new CloudAnimation();
 			break;
+		}
+	}
+
+	@Override
+	public void update(Observable o, Object arg) {
+		WeatherAnimation animation = this.animation;
+		if (animation != null && Model.getInstance().getWeather() != animation.getWeather()) {
+			animation.stop();
 		}
 	}
 }

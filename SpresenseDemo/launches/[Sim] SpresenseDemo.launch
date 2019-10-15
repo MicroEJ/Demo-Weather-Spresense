@@ -5,7 +5,7 @@
 <stringAttribute key="com.is2t.microej.workbench.stdMicroEJLaunchConfigurationConfigurationScriptBoard" value="Build &amp; Deploy"/>
 <stringAttribute key="com.is2t.microej.workbench.stdMicroEJLaunchConfigurationExecutionKind" value="s3"/>
 <stringAttribute key="com.is2t.microej.workbench.stdMicroEJLaunchConfigurationJPFConfigurationTabCSTART_com.is2t.microej.workbench.ext.widget.BrowseOption_CENDsp.database.definition" value=""/>
-<stringAttribute key="com.is2t.microej.workbench.stdMicroEJLaunchConfigurationJPFConfigurationTabCSTART_com.is2t.microej.workbench.std.launch.ext.BrowseOption_CENDaudio.mock.root" value=""/>
+<stringAttribute key="com.is2t.microej.workbench.stdMicroEJLaunchConfigurationJPFConfigurationTabCSTART_com.is2t.microej.workbench.std.launch.ext.BrowseOption_CENDaudio.mock.root" value="${project_loc:SpresenseDemo}/filesystem"/>
 <stringAttribute key="com.is2t.microej.workbench.stdMicroEJLaunchConfigurationJPFConfigurationTabCSTART_com.is2t.microej.workbench.std.launch.ext.BrowseOption_CENDdeploy.dir.microejapp" value=""/>
 <stringAttribute key="com.is2t.microej.workbench.stdMicroEJLaunchConfigurationJPFConfigurationTabCSTART_com.is2t.microej.workbench.std.launch.ext.BrowseOption_CENDdeploy.dir.microejinc" value=""/>
 <stringAttribute key="com.is2t.microej.workbench.stdMicroEJLaunchConfigurationJPFConfigurationTabCSTART_com.is2t.microej.workbench.std.launch.ext.BrowseOption_CENDdeploy.dir.microejlib" value=""/>

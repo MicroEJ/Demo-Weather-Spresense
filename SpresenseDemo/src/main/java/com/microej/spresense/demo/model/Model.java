@@ -5,11 +5,13 @@
  * This Software has been designed by MicroEJ Corp and all rights have been transferred to Sony Corp.
  * Sony Corp. has granted MicroEJ the right to sub-licensed this Software under the enclosed license terms.
  */
-package com.microej.spresense.demo;
+package com.microej.spresense.demo.model;
 
 import java.io.IOException;
+import java.util.Observable;
 import java.util.logging.Level;
 
+import com.microej.spresense.demo.SpresenseDemo;
 import com.microej.spresense.demo.fake.FakeDataProvider;
 import com.microej.spresense.demo.style.Colors;
 
@@ -19,25 +21,44 @@ import ej.gnss.GnssManager;
 /**
  * Model gathering the data of the demo.
  */
-public class Model {
+public class Model extends Observable {
 
 	private static final int START_OF_DAWN = 20;
 	private static final int START_OF_DAY = 16;
 	private static final int GNSS_POLLING_RATE = 10_000;
+	private static final long DATA_POLLING_RATE = 2_000;
 	private static final int HOUR_IN_DAY = 24;
 	private static final int DAY_IN_WEEK = 7;
 	private static final int MIN_IN_HOUR = 60;
 
+	private static final float DEFAULT_LATITUDE = 35.628f;
+	private static final float DEFAULT_LONGITUDE = 139.74f;
 	/**
 	 * Time of the machine.
 	 */
-	private static final Time time = new Time(0, 0, 0, 0, 0);
-	private static final float DEFAULT_LATITUDE = 35.628f;
-	private static final float DEFAULT_LONGITUDE = 139.74f;
+	private final Time time = new Time(0, 0, 0, 0, 0);
 	private static GnssManager GnssManager;
 
-	static {
-		new Thread(new Runnable() {
+	private static final Model INSTANCE = new Model();
+	private int temperature;
+	private int wind;
+	private int humidity;
+	private Time sunrise;
+	private float latitude;
+	private float longitude;
+	private int weather;
+
+	/**
+	 * Gets the iNSTANCE.
+	 *
+	 * @return the iNSTANCE.
+	 */
+	public static Model getInstance() {
+		return INSTANCE;
+	}
+
+	private Model() {
+		Thread gnssThread = new Thread(new Runnable() {
 			@Override
 			public void run() {
 				Thread.currentThread().setName("GNSS poller"); //$NON-NLS-1$
@@ -64,11 +85,28 @@ public class Model {
 					}
 				}
 			}
-		}).start();
-	}
+		});
+		gnssThread.start();
 
-	private Model() {
-		// Forbid instantiation.
+		Thread pollingThread = new Thread(new Runnable() {
+
+			@Override
+			public void run() {
+				boolean run = true;
+				while (run) {
+					updateValues();
+					notifyObservers();
+					try {
+						Thread.sleep(DATA_POLLING_RATE);
+					} catch (InterruptedException e) {
+						SpresenseDemo.LOGGER.log(Level.FINER, e.getMessage(), e);
+						run = false;
+					}
+				}
+			}
+		});
+		pollingThread.start();
+		updateValues();
 	}
 
 
@@ -77,7 +115,7 @@ public class Model {
 	 *
 	 * @return the time.
 	 */
-	public static Time getTime() {
+	public Time getTime() {
 		return time;
 	}
 
@@ -87,8 +125,15 @@ public class Model {
 	 *
 	 * @return the temperature.
 	 */
-	public static int getTemperature() {
-		return FakeDataProvider.getTemperature(time.getDayOfWeek(), time.getHour());
+	public int getTemperature() {
+		return temperature;
+	}
+
+	private void setTemperature(int temperature) {
+		if (temperature != this.temperature) {
+			this.temperature = temperature;
+			setChanged();
+		}
 	}
 
 	/**
@@ -139,7 +184,7 @@ public class Model {
 	 *            the hour.
 	 * @return the temperature in Fahrenheit.
 	 */
-	public static int getTemperature(int day, int hour) {
+	public int getTemperature(int day, int hour) {
 		return FakeDataProvider.getTemperature(day, hour);
 	}
 
@@ -148,8 +193,15 @@ public class Model {
 	 *
 	 * @return the wind.
 	 */
-	public static int getWind() {
-		return FakeDataProvider.getWind(time.getDayOfWeek(), time.getHour());
+	public int getWind() {
+		return wind;
+	}
+
+	private void setWind(int wind) {
+		if (wind != this.wind) {
+			this.wind = wind;
+			setChanged();
+		}
 	}
 
 	/**
@@ -157,8 +209,15 @@ public class Model {
 	 *
 	 * @return the humidity.
 	 */
-	public static int getHumidity() {
-		return FakeDataProvider.getHumidity(time.getDayOfWeek(), time.getHour());
+	public int getHumidity() {
+		return wind;
+	}
+
+	private void setHumidity(int humidity) {
+		if (humidity != this.humidity) {
+			this.humidity = humidity;
+			setChanged();
+		}
 	}
 
 	/**
@@ -166,8 +225,15 @@ public class Model {
 	 *
 	 * @return the sunrise time.
 	 */
-	public static Time getSunrise() {
-		return FakeDataProvider.getSunrise(time.getDayOfWeek());
+	public Time getSunrise() {
+		return sunrise;
+	}
+
+	private void setSunrise(Time sunrise) {
+		if (!sunrise.equals(this.sunrise)) {
+			this.sunrise = sunrise;
+			setChanged();
+		}
 	}
 
 	/**
@@ -175,8 +241,15 @@ public class Model {
 	 *
 	 * @return the latitude, a default value if none found.
 	 */
-	public static float getLatitude() {
-		return (GnssManager == null) ? DEFAULT_LATITUDE : GnssManager.getLatitude();
+	public float getLatitude() {
+		return latitude;
+	}
+
+	private void setLatitude(float latitude) {
+		if (latitude != this.latitude) {
+			this.latitude = latitude;
+			setChanged();
+		}
 	}
 
 	/**
@@ -184,8 +257,15 @@ public class Model {
 	 *
 	 * @return the longitude, a default value if none found.
 	 */
-	public static float getLongitude() {
-		return (GnssManager == null) ? DEFAULT_LONGITUDE : GnssManager.getLongitude();
+	public float getLongitude() {
+		return longitude;
+	}
+
+	private void setLongitude(float longitude) {
+		if (longitude != this.longitude) {
+			this.longitude = longitude;
+			setChanged();
+		}
 	}
 
 	/**
@@ -193,7 +273,24 @@ public class Model {
 	 *
 	 * @return the weather.
 	 */
-	public static int getWeather() {
-		return FakeDataProvider.getType(time.getDayOfWeek(), time.getHour());
+	public int getWeather() {
+		return weather;
+	}
+
+	private void setWeather(int weather) {
+		if (weather != this.weather) {
+			this.weather = weather;
+			setChanged();
+		}
+	}
+
+	private void updateValues() {
+		setTemperature(FakeDataProvider.getTemperature(time.getDayOfWeek(), time.getHour()));
+		setWind(FakeDataProvider.getWind(time.getDayOfWeek(), time.getHour()));
+		setHumidity(FakeDataProvider.getHumidity(time.getDayOfWeek(), time.getHour()));
+		setSunrise(FakeDataProvider.getSunrise(time.getDayOfWeek()));
+		setLatitude((GnssManager == null) ? DEFAULT_LATITUDE : GnssManager.getLatitude());
+		setLongitude((GnssManager == null) ? DEFAULT_LONGITUDE : GnssManager.getLongitude());
+		setWeather(FakeDataProvider.getType(time.getDayOfWeek(), time.getHour()));
 	}
 }

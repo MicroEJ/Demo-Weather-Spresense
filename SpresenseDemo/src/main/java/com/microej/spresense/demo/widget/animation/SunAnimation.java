@@ -10,7 +10,7 @@ package com.microej.spresense.demo.widget.animation;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.microej.spresense.demo.Weather;
+import com.microej.spresense.demo.model.Weather;
 import com.microej.spresense.demo.style.StylePopulator;
 
 import ej.bon.Util;

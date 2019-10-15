@@ -7,8 +7,8 @@
  */
 package com.microej.spresense.demo.widget.details;
 
-import com.microej.spresense.demo.Util;
 import com.microej.spresense.demo.style.ClassSelectors;
+import com.microej.spresense.demo.util.Util;
 
 import ej.widget.basic.Label;
 
@@ -34,12 +34,6 @@ public abstract class DefaultWeatherDetails extends WeatherDetails {
 		addBottom(Util.addWrapper(value));
 		addBottom(Util.addWrapper(titleLabel));
 		value.addClassSelector(ClassSelectors.WEATHER_VALUE);
-	}
-
-	@Override
-	public void showNotify() {
-		update();
-		super.showNotify();
 	}
 
 	@Override

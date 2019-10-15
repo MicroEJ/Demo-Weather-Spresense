@@ -7,9 +7,9 @@
  */
 package com.microej.spresense.demo.widget.animation;
 
-import com.microej.spresense.demo.Util;
-import com.microej.spresense.demo.Weather;
+import com.microej.spresense.demo.model.Weather;
 import com.microej.spresense.demo.style.StylePopulator;
+import com.microej.spresense.demo.util.Util;
 
 import ej.color.GradientHelper;
 import ej.library.ui.MicroEJColors;

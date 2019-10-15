@@ -7,12 +7,13 @@
  */
 package com.microej.spresense.demo.widget.details;
 
-import com.microej.spresense.demo.Util;
-import com.microej.spresense.demo.style.ClassSelectors;
+import java.util.Observable;
+import java.util.Observer;
 
-import ej.bon.Timer;
-import ej.bon.TimerTask;
-import ej.components.dependencyinjection.ServiceLoaderFactory;
+import com.microej.spresense.demo.model.Model;
+import com.microej.spresense.demo.style.ClassSelectors;
+import com.microej.spresense.demo.util.Util;
+
 import ej.widget.basic.Image;
 import ej.widget.composed.Wrapper;
 import ej.widget.container.Dock;
@@ -20,10 +21,7 @@ import ej.widget.container.Dock;
 /**
  * Widget displaying the weather detail.
  */
-public class WeatherDetails extends Dock {
-
-	private static final long REFRESH_RATE = 2000;
-	private TimerTask refresh;
+public class WeatherDetails extends Dock implements Observer {
 
 	/**
 	 * Instantiates a {@link WeatherDetails}.
@@ -48,25 +46,18 @@ public class WeatherDetails extends Dock {
 	@Override
 	public void showNotify() {
 		super.showNotify();
-		if (refresh == null) {
-			refresh = new TimerTask() {
-
-				@Override
-				public void run() {
-					update();
-				}
-			};
-			ServiceLoaderFactory.getServiceLoader().getService(Timer.class).schedule(refresh, REFRESH_RATE, REFRESH_RATE);
-		}
+		update();
+		Model.getInstance().addObserver(this);
 	}
 
 	@Override
 	public void hideNotify() {
 		super.hideNotify();
-		if (refresh != null) {
-			refresh.cancel();
-			refresh = null;
-		}
-		ServiceLoaderFactory.getServiceLoader().getService(Timer.class);
+		Model.getInstance().deleteObserver(this);
+	}
+
+	@Override
+	public void update(Observable o, Object arg) {
+		update();
 	}
 }

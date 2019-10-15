@@ -7,9 +7,9 @@
  */
 package com.microej.spresense.demo.widget.details;
 
-import com.microej.spresense.demo.Model;
-import com.microej.spresense.demo.NLSSupport;
+import com.microej.spresense.demo.model.Model;
 import com.microej.spresense.demo.style.Images;
+import com.microej.spresense.demo.util.NLSUtil;
 
 /**
  * Widget displaying the wind.
@@ -20,11 +20,11 @@ public class WindWidget extends DefaultWeatherDetails {
 	 * Instantiates a {@link WindWidget}.
 	 */
 	public WindWidget() {
-		super(Images.WIND, NLSSupport.getWind());
+		super(Images.WIND, NLSUtil.getWind());
 	}
 
 	@Override
 	protected String getValue() {
-		return Model.getWind() + NLSSupport.getSpeedSymbol();
+		return Model.getInstance().getWind() + NLSUtil.getSpeedSymbol();
 	}
 }

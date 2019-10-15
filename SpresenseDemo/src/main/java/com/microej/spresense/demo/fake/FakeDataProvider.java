@@ -9,8 +9,8 @@ package com.microej.spresense.demo.fake;
 
 import java.util.Calendar;
 
-import com.microej.spresense.demo.Time;
-import com.microej.spresense.demo.Weather;
+import com.microej.spresense.demo.model.Time;
+import com.microej.spresense.demo.model.Weather;
 
 /**
  * A data provider generating its data.
