@@ -6,7 +6,7 @@
 	Sony Corp. has granted MicroEJ the right to sub-licensed this Software under the enclosed license terms.
 -->
 <ivy-module version="2.0" xmlns:ea="http://www.easyant.org" xmlns:m="http://ant.apache.org/ivy/extra" xmlns:ej="https://developer.microej.com" ej:version="2.0.0"> 
-	<info organisation="com.microej.demo" module="spresense-app" status="integration" revision="0.1.0">
+	<info organisation="com.microej.demo" module="spresense-app" status="integration" revision="1.0.0">
         <ea:build organisation="com.is2t.easyant.buildtypes" module="build-firmware-singleapp" revision="1.2.+">
         	<ea:property name="application.main.class" value="com.microej.spresense.demo.SpresenseDemo" />
         	<!--
@@ -54,7 +54,7 @@
         <dependency org="ej.library.ui" name="microej-colors" rev="1.0.0"/>
         
         <dependency org="ej.library.runtime" name="nls" rev="3.0.1" /> 
-		<dependency org="com.microej.library.runtime" name="nls-po" rev="2.1.5"/>
+		<dependency org="com.microej.library.runtime" name="nls-po" rev="2.2.0"/>
         
         
         <!-- 

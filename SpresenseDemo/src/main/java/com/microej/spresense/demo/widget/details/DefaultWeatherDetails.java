@@ -9,6 +9,7 @@ package com.microej.spresense.demo.widget.details;
 
 import com.microej.spresense.demo.style.ClassSelectors;
 import com.microej.spresense.demo.util.Util;
+import com.microej.spresense.demo.widget.MaxSizeLabel;
 
 import ej.widget.basic.Label;
 
@@ -17,7 +18,7 @@ import ej.widget.basic.Label;
  */
 public abstract class DefaultWeatherDetails extends WeatherDetails {
 
-	private final Label value;
+	private final MaxSizeLabel value;
 
 	/**
 	 * Instatiates a {@link DefaultWeatherDetails}.
@@ -27,10 +28,11 @@ public abstract class DefaultWeatherDetails extends WeatherDetails {
 	 * @param title
 	 *            the title.
 	 */
-	public DefaultWeatherDetails(String icon, String title) {
+	public DefaultWeatherDetails(String icon, String title, String maxSizeText) {
 		super(icon);
 		Label titleLabel = new Label(title);
-		value = new Label();
+		value = new MaxSizeLabel();
+		value.setWords(new String[] { maxSizeText });
 		addBottom(Util.addWrapper(value));
 		addBottom(Util.addWrapper(titleLabel));
 		value.addClassSelector(ClassSelectors.WEATHER_VALUE);
@@ -38,7 +40,7 @@ public abstract class DefaultWeatherDetails extends WeatherDetails {
 
 	@Override
 	protected void update() {
-		Util.update(value, Util.addPadding(getValue()));
+		Util.update(value, getValue());
 	}
 
 	/**

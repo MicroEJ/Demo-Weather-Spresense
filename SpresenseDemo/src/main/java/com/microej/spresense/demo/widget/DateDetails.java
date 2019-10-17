@@ -78,7 +78,7 @@ public class DateDetails extends CenterContainer implements Animation {
 		int hour = time.getHour();
 		int day = time.getDayOfWeek();
 		Util.update(this.hour,
-				Util.addPadding(NLSUtil.getFullHourFormat(time))
+				NLSUtil.getFullHourFormat(time)
 				+ NLSUtil.getHourSymbol(hour));
 		Util.update(mainTemperature,
 				String.valueOf(Model.getInstance().getTemperature()) + NLSUtil.getTemperatureSymbol());

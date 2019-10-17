@@ -16,11 +16,13 @@ import com.microej.spresense.demo.util.NLSUtil;
  */
 public class HumidityWidget extends DefaultWeatherDetails {
 
+	private static final String MAX_SIZE = "100%"; //$NON-NLS-1$
+
 	/**
 	 * Instantiates a {@link HumidityWidget}.
 	 */
 	public HumidityWidget() {
-		super(Images.HUMIDITY, NLSUtil.getHumidity());
+		super(Images.HUMIDITY, NLSUtil.getHumidity(), MAX_SIZE);
 	}
 
 	@Override

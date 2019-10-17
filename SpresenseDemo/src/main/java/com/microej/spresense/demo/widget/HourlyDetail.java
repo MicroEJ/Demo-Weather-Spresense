@@ -58,8 +58,7 @@ public class HourlyDetail extends Dock {
 			day = (day % (DAY_IN_WEEK - 1)) + 1;
 		}
 		Util.update(temperature,
-				Util.addPadding(String.valueOf(Model.getInstance().getTemperature(day, hour))
-						+ NLSUtil.getTemperatureSymbol()));
+				String.valueOf(Model.getInstance().getTemperature(day, hour)) + NLSUtil.getTemperatureSymbol());
 		Util.update(this.hour,
 				String.valueOf(NLSUtil.getHourFormat(hour)) + ' ' + NLSUtil.getHourSymbol(hour));
 	}

@@ -23,8 +23,6 @@ public final class Util {
 	 */
 	public static final Random RANDOM = new Random();
 
-	private static final String STRING_PADDING = " "; //$NON-NLS-1$
-
 	private Util() {
 		// Forbid instantiation.
 	}
@@ -41,17 +39,6 @@ public final class Util {
 		wrapper.setAdjustedToChild(false);
 		wrapper.setWidget(widget);
 		return wrapper;
-	}
-
-	/**
-	 * Add a padding to a value.
-	 *
-	 * @param value
-	 *            the value to add the padding to.
-	 * @return the value padded.
-	 */
-	public static String addPadding(String value) {
-		return STRING_PADDING + value + STRING_PADDING;
 	}
 
 	/**

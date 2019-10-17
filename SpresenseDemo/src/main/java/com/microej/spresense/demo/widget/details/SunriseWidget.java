@@ -11,24 +11,25 @@ import com.microej.spresense.demo.model.Model;
 import com.microej.spresense.demo.model.Time;
 import com.microej.spresense.demo.style.Images;
 import com.microej.spresense.demo.util.NLSUtil;
-import com.microej.spresense.demo.util.Util;
 
 /**
  * Widget displaying the sunrise time.
  */
 public class SunriseWidget extends DefaultWeatherDetails {
 
+	private static final String MAX_SIZE = "00:00"; //$NON-NLS-1$
+
 	/**
 	 * Instantiates a {@link SunriseWidget}.
 	 */
 	public SunriseWidget() {
-		super(Images.SUNRISE, NLSUtil.getSunrise());
+		super(Images.SUNRISE, NLSUtil.getSunrise(), MAX_SIZE);
 	}
 
 	@Override
 	protected String getValue() {
 		Time sunrise = Model.getInstance().getSunrise();
-		return Util.addPadding(NLSUtil.getFullHourFormat(sunrise));
+		return NLSUtil.getFullHourFormat(sunrise);
 	}
 
 }

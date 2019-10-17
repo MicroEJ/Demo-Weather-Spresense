@@ -16,11 +16,13 @@ import com.microej.spresense.demo.util.NLSUtil;
  */
 public class WindWidget extends DefaultWeatherDetails {
 
+	private static final String MAX_SIZE = "88";
+
 	/**
 	 * Instantiates a {@link WindWidget}.
 	 */
 	public WindWidget() {
-		super(Images.WIND, NLSUtil.getWind());
+		super(Images.WIND, NLSUtil.getWind(), MAX_SIZE + NLSUtil.getSpeedSymbol());
 	}
 
 	@Override
