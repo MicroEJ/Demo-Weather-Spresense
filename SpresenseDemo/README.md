@@ -1,18 +1,56 @@
 # Overview
 
-MicroEJ Application: @application.printableName@.
+This application demonstrates an user interface with audio and GNSS. 
+
+Then entry point (`main`) can be found at `com.microej.spresense.demo.SpresenseDemo`
 
 # Usage
 
-Add the following line to your `module.ivy` or your `ivy.xml`:
-> `<dependency org="com.microej.demo" name="spresense" rev="..."/>`
+This demo requires the Sony Spresense platform to have been build, to do so please follow the README at the rrot of the platform project.
+
+## Run on MicroEJ Simulator
+
+1. Right-click on the project
+2. Select **Run as -> MicroEJ Application**
+3. Select **[Sim] SpresenseDemo**
+4. Press **Ok**
+
+## Run on a device
+
+### Build
+
+1. Right-click on the project
+2. Select **Run as -> Run Configuration**
+3. Select **[Emb] SpresenseDemo**
+4. Press **Ok**
+5. The application file (`.o`) has been generated
+
+### Flash
+
+1. Compile, link and flash the board following the platform's README.
+
+### Memory configuration
+
+The application comes with a MicroEJ launch configuration (**[Emb] SpresenseDemo**). This configuration is compatible with the default memory layout provided in the platform.
+
+The important configuration are, in the **Configuration** tab of the launch configuration:
+1. **Runtime -> Memory -> Java heap** : Set to **50 000**
+2. **Runtime -> Memory -> Immortal heap** : Set to **1024**
+3. **Runtime -> Thread -> Number of threads** : Set to **7**
+4. **Libraries -> MicroUI -> Image Heap** : Set to **2000**
 
 # Requirements
 
-  - EDC-1.2 or higher
-  - Audio API 1.0.0
-  - Gnss API 1.0.0
-  - Wadapps Framework 1.2.0 or higher
+This example has been tested on:
+
+* MicroEJ SDK 5.1
+* With a Sony Spresense platform that contains:
+    * EDC-1.2
+    * BON-1.3
+    * SNI-1.3
+    * MICRO UI-2.3
+    * AUDIO-0.9
+    * GNSS-0.9
 
 # Dependencies
 
@@ -25,7 +63,6 @@ N/A
 # Restrictions
 
 None.
-
 
 ---
 _Copyright 2019 Sony Corp. All rights reserved._  

@@ -44,6 +44,7 @@ public class SpresenseDemo {
 	 *            not used.
 	 */
 	public static void main(String[] args) {
+		// Set the base time to avoid starting in 1970.
 		if (System.currentTimeMillis() < INIT_TIME) {
 			ej.bon.Util.setCurrentTimeMillis(INIT_TIME);
 		}
@@ -56,11 +57,12 @@ public class SpresenseDemo {
 				return true;
 			}
 		});
+		// Starts the audio
 		AudioManager.INSTANCE.start();
 
+		// Starts the UI
 		MicroUI.start();
 		StylePopulator.populate();
-
 		StyledDesktop desktop = new StyledDesktop();
 		StyledPanel panel = new StyledPanel();
 		panel.setWidget(new MainFrame());
