@@ -1,0 +1,62 @@
+# Copyright 2019 Sony Corp. All rights reserved.
+# This Software has been designed by MicroEJ Corp and all rights have been transferred to Sony Corp.
+# Sony Corp. has granted MicroEJ the right to sub-licensed this Software under the enclosed license terms.
+
+msgid ""
+msgstr ""
+"Language: en_US\n"
+"Language-Team: English(US)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+
+# mph.
+msgid "mph"
+msgstr " mph"
+
+# Wind.
+msgid "Wind"
+msgstr "Wind"
+
+# Sunrise.
+msgid "Sunrise"
+msgstr "Sunrise"
+
+# Humidity.
+msgid "Humidity"
+msgstr "Humidity"
+
+# Lat.
+msgid "Lat"
+msgstr "Lat"
+
+# Lon.
+msgid "Lon"
+msgstr "Lon"
+
+# Monday.
+msgid "Monday"
+msgstr "Monday"
+
+# Tuesday.
+msgid "Tuesday"
+msgstr "Tuesday"
+
+# Wednesday.
+msgid "Wednesday"
+msgstr "Wednesday"
+
+# Thursday.
+msgid "Thursday"
+msgstr "Thursday"
+
+# Friday.
+msgid "Friday"
+msgstr "Friday"
+
+# Saturday.
+msgid "Saturday"
+msgstr "Saturday"
+
+# Sunday.
+msgid "Sunday"
+msgstr "Sunday"

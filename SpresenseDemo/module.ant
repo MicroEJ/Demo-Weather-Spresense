@@ -1,0 +1,51 @@
+<!--
+	ANT
+	
+	Copyright 2019 Sony Corp. All rights reserved.
+	This Software has been designed by MicroEJ Corp and all rights have been transferred to Sony Corp.
+	Sony Corp. has granted MicroEJ the right to sub-licensed this Software under the enclosed license terms.
+-->
+<project name="build-firmware-singleapp" xmlns:ea="antlib:org.apache.easyant">
+	<ea:plugin module="phases-std" revision="0.9" />
+	
+	<ea:import mrid="com.is2t.easyant.plugins#sonar-server;0.+" />
+	<ea:import mrid="org.apache.easyant.plugins#sonar;1.1.+" />
+	
+		
+	<bindtargets targets="-build-microej-javalib:sonar-init,sonar-server:sonar-server,sonar:sonar" extensionPoint="verify" />
+		
+	<target name="-build-microej-javalib:sonar-init">
+			<!-- Creates the commad-separated list of sources for sonar -->
+			<pathconvert refid="src.java.path" property="sonar.sources" pathsep=","/>
+	</target>
+		
+	<target name="platform-checker" extensionOf="abstract-compile:compile-ready" > 
+		<copy todir="${platform-loader.platform.dir}/scripts" overwrite="false">
+			<fileset dir="${basedir}/platformScripts" includes="**"/>  
+		</copy>
+	</target>
+	
+	<target name="package-addition" extensionOf="package">
+		<if>
+			<not>
+				<available file="${target}/.microej" property="microej.present"/>
+			</not>
+		    <then>
+		        <mkdir dir="${target}/.microej"/>
+		    	<copy file="${target}/${application.main.class}/SOAR.o" tofile="${target}/.microej/microejapp.o" />
+		    </then>
+		</if>
+		<zip destfile="${target.artifacts}/${module.name}-binaries.zip">
+			<fileset dir="${target}/.microej" >
+				<include name="**/*"/>
+			</fileset>
+			
+			<fileset dir="${target}/player/platform">
+				<include name="release.properties"/>
+			</fileset>
+		</zip>
+		
+		<ea:registerartifact type="zip" ext="zip" name="${module.name}-binaries" confs="default" />
+		
+	</target>
+</project> 
