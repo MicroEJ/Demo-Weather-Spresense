@@ -6,7 +6,7 @@ Then entry point (`main`) can be found at `com.microej.spresense.demo.SpresenseD
 
 # Usage
 
-This demo requires the Sony Spresense platform to have been build, to do so please follow the README at the rrot of the platform project.
+This demo requires the Sony Spresense platform to have been built, to do so, please follow the README at the root of the platform project.
 
 ## Run on MicroEJ Simulator
 
