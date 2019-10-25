@@ -16,50 +16,37 @@ import ej.style.container.Rectangle;
 import ej.widget.StyledComposite;
 
 /**
- *
+ * A container providing the requested space to its center widget and sharing the remaining to the others.
  */
 public class CenterContainer extends StyledComposite {
 
 	private Widget first;
 	private Widget last;
 	private Widget center;
+
 	/**
-	 *
+	 * Instantiates a {@link CenterContainer}.
 	 */
 	public CenterContainer() {
+		super();
 	}
 
 	/**
-	 * Sets the first.
+	 * Sets the first widget.
 	 *
 	 * @param first
-	 *            the first to set.
+	 *            the first widget to set.
 	 */
 	public void setFirst(Widget first) {
 		this.first = first;
 		setWidgets();
 	}
 
-	/**
-	 *
-	 */
-	private void setWidgets() {
-		removeAllWidgets();
-		if (first != null) {
-			add(first);
-		}
-		if (center != null) {
-			add(center);
-		}
-		if (last != null) {
-			add(last);
-		}
-	}
 
 	/**
-	 * Gets the first.
+	 * Gets the first widget.
 	 *
-	 * @return the first.
+	 * @return the first widget.
 	 */
 	public Widget getFirst() {
 		return first;
@@ -77,19 +64,19 @@ public class CenterContainer extends StyledComposite {
 	}
 
 	/**
-	 * Gets the last.
+	 * Gets the last widget.
 	 *
-	 * @return the last.
+	 * @return the last widget.
 	 */
 	public Widget getLast() {
 		return last;
 	}
 
 	/**
-	 * Sets the center.
+	 * Sets the center widget.
 	 *
 	 * @param center
-	 *            the center to set.
+	 *            the center widget to set.
 	 */
 	public void setCenter(Widget center) {
 		this.center = center;
@@ -97,9 +84,9 @@ public class CenterContainer extends StyledComposite {
 	}
 
 	/**
-	 * Gets the center.
+	 * Gets the center widget.
 	 *
-	 * @return the center.
+	 * @return the center widget.
 	 */
 	public Widget getCenter() {
 		return center;
@@ -160,6 +147,19 @@ public class CenterContainer extends StyledComposite {
 		}
 		if(last!=null) {
 			last.setBounds(boundsX + spareWidth / 2 + centerWidth, boundsY, spareWidth / 2, boundsHeight);
+		}
+	}
+
+	private void setWidgets() {
+		removeAllWidgets();
+		if (first != null) {
+			add(first);
+		}
+		if (center != null) {
+			add(center);
+		}
+		if (last != null) {
+			add(last);
 		}
 	}
 }

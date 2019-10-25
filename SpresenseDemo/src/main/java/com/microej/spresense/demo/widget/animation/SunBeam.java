@@ -7,14 +7,13 @@
  */
 package com.microej.spresense.demo.widget.animation;
 
-import com.microej.spresense.demo.style.Colors;
-
 import ej.color.GradientHelper;
+import ej.library.ui.MicroEJColors;
 import ej.microui.display.GraphicsContext;
 import ej.microui.display.shape.AntiAliasedShapes;
 
 /**
- *
+ * A sun beam.
  */
 public class SunBeam {
 
@@ -36,9 +35,22 @@ public class SunBeam {
 
 
 	/**
-	 * @param maxHeight
-	 * @param f
-	 * @param g
+	 * Render a sun beam.
+	 *
+	 * @param cos
+	 *            the cosinus of the beam.
+	 * @param sin
+	 *            the sinus of the beam.
+	 * @param maxLengthDrawn
+	 *            the maximum length to draw.
+	 * @param maxR
+	 *            the maximum ratio.
+	 * @param centerX
+	 *            the X center of the beam.
+	 * @param centerY
+	 *            the Y center of the beam.
+	 * @param duration
+	 *            the duration of the beam.
 	 */
 	public SunBeam(float cos, float sin, int maxLengthDrawn, int maxR, int centerX, int centerY, int duration) {
 		this.cos = cos;
@@ -49,13 +61,27 @@ public class SunBeam {
 		this.duration = duration;
 		this.lengthDiff = initialR >> 1;
 		this.rDisplayed = maxR + initialR;
-		restart();
+		startRender = 0;
 	}
 
+	/**
+	 * Restart the render.
+	 */
 	public void restart() {
 		startRender = 0;
 	}
 
+	/**
+	 * Render the beam.
+	 *
+	 * @param g
+	 *            the graphic context to render to.
+	 * @param backgroundColor
+	 *            the background color.
+	 * @param currentTime
+	 *            the current time.
+	 * @return <code>true</code> if the animation is still running.
+	 */
 	public boolean render(GraphicsContext g, int backgroundColor, long currentTime) {
 		boolean isRunning = true;
 		if (startRender == 0) {
@@ -63,7 +89,7 @@ public class SunBeam {
 		} else {
 			long diff = currentTime - startRender;
 			float ratio = Math.min(diff / duration, 1);
-			g.setColor(GradientHelper.blendColors(Colors.WHITE, backgroundColor, ratio));
+			g.setColor(GradientHelper.blendColors(MicroEJColors.WHITE, backgroundColor, ratio));
 			double r = ratio * rDisplayed;
 			double r2 = r + initialR - (ratio * lengthDiff);
 			AntiAliasedShapes aliasedShapes = AntiAliasedShapes.Singleton;

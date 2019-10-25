@@ -10,13 +10,28 @@ package com.microej.spresense.demo.widget.animation;
 import ej.microui.display.GraphicsContext;
 
 /**
- *
+ * An animation of the weather.
  */
 public interface WeatherAnimation {
 
+	/**
+	 * Render the animation.
+	 *
+	 * @param g
+	 *            the graphic context.
+	 * @return <code>true</code> if the animation is still running.
+	 */
 	boolean render(GraphicsContext g);
 
+	/**
+	 * Stops the animation.
+	 */
 	void stop();
 
+	/**
+	 * Get the weather.
+	 *
+	 * @return the weather.
+	 */
 	int getWeather();
 }

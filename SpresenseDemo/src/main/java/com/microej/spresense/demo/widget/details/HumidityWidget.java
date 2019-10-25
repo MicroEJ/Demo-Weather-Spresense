@@ -7,19 +7,27 @@
  */
 package com.microej.spresense.demo.widget.details;
 
-import com.microej.spresense.demo.Model;
-import com.microej.spresense.demo.NLS;
+import com.microej.spresense.demo.model.Model;
 import com.microej.spresense.demo.style.Images;
+import com.microej.spresense.demo.util.NLSUtil;
 
+/**
+ * A widget displaying the humidity.
+ */
 public class HumidityWidget extends DefaultWeatherDetails {
 
+	private static final String MAX_SIZE = "100%"; //$NON-NLS-1$
+
+	/**
+	 * Instantiates a {@link HumidityWidget}.
+	 */
 	public HumidityWidget() {
-		super(Images.HUMIDITY, NLS.getHumidity());
+		super(Images.HUMIDITY, NLSUtil.getHumidity(), MAX_SIZE);
 	}
 
 	@Override
 	protected String getValue() {
-		return Model.getHumidity() + "%";
+		return String.valueOf(Model.getInstance().getHumidity()) + '%';
 	}
 
 }

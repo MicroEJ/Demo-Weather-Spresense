@@ -7,6 +7,17 @@
 -->
 <project name="build-firmware-singleapp" xmlns:ea="antlib:org.apache.easyant">
 	<ea:plugin module="phases-std" revision="0.9" />
+	
+	<ea:import mrid="com.is2t.easyant.plugins#sonar-server;0.+" />
+	<ea:import mrid="org.apache.easyant.plugins#sonar;1.1.+" />
+	
+		
+	<bindtargets targets="-build-microej-javalib:sonar-init,sonar-server:sonar-server,sonar:sonar" extensionPoint="verify" />
+		
+	<target name="-build-microej-javalib:sonar-init">
+			<!-- Creates the commad-separated list of sources for sonar -->
+			<pathconvert refid="src.java.path" property="sonar.sources" pathsep=","/>
+	</target>
 		
 	<target name="platform-checker" extensionOf="abstract-compile:compile-ready" > 
 		<copy todir="${platform-loader.platform.dir}/scripts" overwrite="false">

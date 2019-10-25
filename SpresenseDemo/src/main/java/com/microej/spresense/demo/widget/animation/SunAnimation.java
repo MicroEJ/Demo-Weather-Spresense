@@ -10,20 +10,21 @@ package com.microej.spresense.demo.widget.animation;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.microej.spresense.demo.Model;
+import com.microej.spresense.demo.model.Weather;
 import com.microej.spresense.demo.style.StylePopulator;
 
 import ej.bon.Util;
 import ej.microui.display.GraphicsContext;
 
 /**
- *
+ * A sun animation.
  */
 public class SunAnimation implements WeatherAnimation {
 
-	private static int[] BEAMS_DURATION = { 1750, 1300, 1000 };
-	private static int[] BEAMS_SIZE = { 20, 30, 50 };
-	private static double[][] ANGLES = {
+	private static final double MAX_SIZE_RATIO = 1.2;
+	private static final int[] BEAMS_DURATION = { 1750, 1300, 1000 };
+	private static final int[] BEAMS_SIZE = { 20, 30, 50 };
+	private static final double[][] ANGLES = {
 			{ Math.PI / 2, Math.PI / 5, 4 * Math.PI / 5 },
 			{ Math.PI / 4, 3 * Math.PI / 4 },
 			{ 3 * Math.PI / 8, 5 * Math.PI / 8, Math.PI/7, 6*Math.PI/7 }
@@ -32,6 +33,9 @@ public class SunAnimation implements WeatherAnimation {
 	private final SunBeam[] beams;
 	private boolean run;
 
+	/**
+	 * Instantiates a {@link SunAnimation}.
+	 */
 	public SunAnimation() {
 		run = true;
 		int centerY = StylePopulator.getDisplayHeight() >> 1;
@@ -47,7 +51,7 @@ public class SunAnimation implements WeatherAnimation {
 							centerX, centerY, BEAMS_DURATION[i]));
 				}
 			}
-			maxSize *= 1.2;
+			maxSize *= MAX_SIZE_RATIO;
 		}
 		beams = list.toArray(new SunBeam[list.size()]);
 	}
@@ -77,6 +81,6 @@ public class SunAnimation implements WeatherAnimation {
 
 	@Override
 	public int getWeather() {
-		return Model.SUN;
+		return Weather.SUN;
 	}
 }

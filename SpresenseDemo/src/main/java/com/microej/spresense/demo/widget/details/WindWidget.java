@@ -7,18 +7,26 @@
  */
 package com.microej.spresense.demo.widget.details;
 
-import com.microej.spresense.demo.Model;
-import com.microej.spresense.demo.NLS;
+import com.microej.spresense.demo.model.Model;
 import com.microej.spresense.demo.style.Images;
+import com.microej.spresense.demo.util.NLSUtil;
 
+/**
+ * Widget displaying the wind.
+ */
 public class WindWidget extends DefaultWeatherDetails {
 
+	private static final String MAX_SIZE = "88";
+
+	/**
+	 * Instantiates a {@link WindWidget}.
+	 */
 	public WindWidget() {
-		super(Images.WIND, NLS.getWind());
+		super(Images.WIND, NLSUtil.getWind(), MAX_SIZE + NLSUtil.getSpeedSymbol());
 	}
 
 	@Override
 	protected String getValue() {
-		return Model.getWind() + NLS.getSpeedSymbol();
+		return Model.getInstance().getWind() + NLSUtil.getSpeedSymbol();
 	}
 }

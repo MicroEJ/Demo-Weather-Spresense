@@ -1,3 +1,4 @@
-SpresenseDemo/AUDIO/rain.mp3
-SpresenseDemo/AUDIO/sunny.mp3
-SpresenseDemo/AUDIO/wind.mp3
+SpresenseDemo/filesystem/AUDIO/rain.mp3
+SpresenseDemo/filesystem/AUDIO/sunny.mp3
+SpresenseDemo/filesystem/AUDIO/wind.mp3
+SpresenseDemo/dropins/Spresense-Sony-CM4hardfp_GCC48-1.0.4.jpf

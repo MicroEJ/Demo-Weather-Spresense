@@ -11,6 +11,7 @@ import com.microej.spresense.demo.widget.HourlyDetail;
 import com.microej.spresense.demo.widget.MainBackground;
 import com.microej.spresense.demo.widget.PaddedBackground;
 
+import ej.library.ui.MicroEJColors;
 import ej.microui.display.Display;
 import ej.microui.display.GraphicsContext;
 import ej.mwt.Composite;
@@ -29,33 +30,50 @@ import ej.style.selector.combinator.AndCombinator;
 import ej.style.util.EditableStyle;
 import ej.style.util.StyleHelper;
 
+/**
+ * Populator for the stylesheet.
+ */
 public class StylePopulator {
+
+	private static final int DATE_MARGIN = 18;
+
+	private static final int TOP_OFFSET = 8;
+
+	/**
+	 * Number of detail hour values to display.
+	 */
+	public static final int COUNT_OF_HOUR_VALUES = 3;
+
+	/**
+	 * Outline used for the demo.
+	 */
+	public static final int DEFAULT_OUTLINE = 5;
 
 	private static int displayHeight = 0;
 	private static int displayWidth = 0;
 
-	public static final int TOP_OFFSET = 8;
-	public static final int DEFAULT_OUTLINE = 5;
-
 	private StylePopulator() {
 	}
 
+	/**
+	 * Populate the stylesheet.
+	 */
 	public static void populate() {
 		Stylesheet stylesheet = StyleHelper.getStylesheet();
 
 		EditableStyle style = new EditableStyle();
-		style.setBackground(new MainBackground(Colors.GREY_LIGHT));
-		style.setBackgroundColor(Colors.WHITE);
+		style.setBackground(new MainBackground(MicroEJColors.CONCRETE));
+		style.setBackgroundColor(MicroEJColors.WHITE);
 		style.setPadding(new ComplexOutline(0, DEFAULT_OUTLINE, DEFAULT_OUTLINE, DEFAULT_OUTLINE));
-		stylesheet.addRule(new ClassSelector(ClassSelectors.MAINBACKGROUND), style);
+		stylesheet.addRule(new ClassSelector(ClassSelectors.MAIN_BACKGROUND), style);
 
 		style.clear();
-		style.setBackgroundColor(Colors.WHITE);
-		style.setBorderColor(Colors.GREY_LIGHT);
+		style.setBackgroundColor(MicroEJColors.WHITE);
+		style.setBorderColor(MicroEJColors.CONCRETE);
 		style.setBackground(new PlainBackground());
 		style.setDimension(new FixedDimension(getDisplayWidth(),
 				getTopHeight()));
-		stylesheet.addRule(new ClassSelector(ClassSelectors.TOPBACKGROUND), style);
+		stylesheet.addRule(new ClassSelector(ClassSelectors.TOP_BACKGROUND), style);
 
 		style.clear();
 		style.setAlignment(GraphicsContext.HCENTER_VCENTER);
@@ -64,7 +82,7 @@ public class StylePopulator {
 		style.clear();
 		style.setFontProfile(FontProfiles.SMALL);
 		style.setAlignment(GraphicsContext.HCENTER_BOTTOM);
-		style.setForegroundColor(Colors.GREY_LIGHT);
+		style.setForegroundColor(MicroEJColors.CONCRETE);
 		stylesheet.addRule(new ClassSelector(ClassSelectors.WEATHER_DETAILS), style);
 
 		style.clear();
@@ -75,20 +93,20 @@ public class StylePopulator {
 		stylesheet.addRule(new ClassSelector(ClassSelectors.CIRCLE), style);
 
 		style.clear();
-		style.setForegroundColor(Colors.BLACK);
+		style.setForegroundColor(MicroEJColors.CONCRETE_BLACK_75);
 		style.setFontProfile(FontProfiles.MEDIUM_BOLD);
 		stylesheet.addRule(new ClassSelector(ClassSelectors.DAY), style);
 
 		style.clear();
-		style.setForegroundColor(Colors.BLACK);
+		style.setForegroundColor(MicroEJColors.CONCRETE_BLACK_75);
 		style.setBackground(new PaddedBackground(new ComplexOutline(DEFAULT_OUTLINE, 0, 0, 0)));
 		style.setFontProfile(FontProfiles.HUGE);
 		stylesheet.addRule(new ClassSelector(ClassSelectors.MAIN_TEMPERATURE), style);
 
 		style.clear();
-		style.setForegroundColor(Colors.GREY_LIGHT);
+		style.setForegroundColor(MicroEJColors.CONCRETE);
 		style.setFontProfile(FontProfiles.MEDIUM);
-		style.setMargin(new ComplexOutline(0, 0, 18, 0));
+		style.setMargin(new ComplexOutline(0, 0, DATE_MARGIN, 0));
 		stylesheet.addRule(new ClassSelector(ClassSelectors.DATE_DETAILS), style);
 
 		style.clear();
@@ -97,29 +115,30 @@ public class StylePopulator {
 		stylesheet.addRule(new TypeOrSubtypeSelector(Composite.class), style);
 
 		style.clear();
-		style.setPadding(new ComplexOutline(0, 0, 0, 8));
+		style.setPadding(new ComplexOutline(0, 0, 0, TOP_OFFSET));
 		stylesheet.addRule(new ClassSelector(ClassSelectors.HOURLY_TEMPERATURE), style);
 
 		Selector hourly = new TypeSelector(HourlyDetail.class);
 		style.clear();
 		style.setFontProfile(FontProfiles.MEDIUM_BOLD);
-		style.setForegroundColor(Colors.BLACK);
+		style.setForegroundColor(MicroEJColors.CONCRETE_BLACK_75);
 		stylesheet.addRule(new AndCombinator(hourly, new FirstChildSelector()), style);
 
-		style.setForegroundColor(Colors.GREY);
+		style.setForegroundColor(MicroEJColors.CONCRETE_BLACK_25);
 		stylesheet.addRule(new AndCombinator(hourly, new NthChildSelector(1)), style);
 
-		style.setForegroundColor(Colors.GREY_LIGHT);
+		style.setForegroundColor(MicroEJColors.CONCRETE);
 		stylesheet.addRule(new AndCombinator(hourly, new NthChildSelector(2)), style);
 
 		style.clear();
-		style.setForegroundColor(Colors.CORAL);
+		style.setForegroundColor(MicroEJColors.CORAL);
 		style.setAlignment(GraphicsContext.HCENTER_VCENTER);
 		stylesheet.addRule(new ClassSelector(ClassSelectors.ICON), style);
 
 		style.clear();
-		style.setForegroundColor(Colors.BLACK);
+		style.setForegroundColor(MicroEJColors.CONCRETE_BLACK_75);
 		style.setFontProfile(FontProfiles.SMALL);
+		style.setAlignment(GraphicsContext.RIGHT_VCENTER);
 		stylesheet.addRule(new ClassSelector(ClassSelectors.WEATHER_VALUE), style);
 
 		style.clear();
@@ -128,10 +147,20 @@ public class StylePopulator {
 		stylesheet.addRule(new ClassSelector(ClassSelectors.TEST), style);
 	}
 
+	/**
+	 * Gets the top height.
+	 *
+	 * @return the top height.
+	 */
 	public static int getTopHeight() {
-		return (getDisplayHeight() - MainBackground.CIRCLE_DIAMETER) / 2 + TOP_OFFSET;
+		return ((getDisplayHeight() - MainBackground.CIRCLE_DIAMETER) >> 1) + TOP_OFFSET;
 	}
 
+	/**
+	 * Gets the display height.
+	 *
+	 * @return the display height.
+	 */
 	public static int getDisplayHeight() {
 		if (displayHeight == 0) {
 			displayHeight = Display.getDefaultDisplay().getHeight();
@@ -139,6 +168,11 @@ public class StylePopulator {
 		return displayHeight;
 	}
 
+	/**
+	 * Gets the display width.
+	 *
+	 * @return the display width.
+	 */
 	public static int getDisplayWidth() {
 		if (displayWidth == 0) {
 			displayWidth = Display.getDefaultDisplay().getWidth();

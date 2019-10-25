@@ -7,42 +7,62 @@
  */
 package com.microej.spresense.demo;
 
-import com.microej.spresense.demo.fake.FakeWeatherProvider;
+import java.util.logging.Logger;
+
+import com.microej.spresense.demo.audio.AudioManager;
+import com.microej.spresense.demo.model.Model;
 import com.microej.spresense.demo.style.StylePopulator;
 import com.microej.spresense.demo.widget.MainFrame;
 
 import ej.animation.Animation;
 import ej.animation.Animator;
-import ej.audio.AudioPlayer;
 import ej.components.dependencyinjection.ServiceLoaderFactory;
 import ej.microui.MicroUI;
 import ej.widget.StyledDesktop;
 import ej.widget.StyledPanel;
 
 
+/**
+ * Entry point of the demo.
+ */
 public class SpresenseDemo {
-	private static long INIT = 1557844987038L;
 
+	/**
+	 * Logger used for the demo.
+	 */
+	public static final Logger LOGGER = Logger.getLogger("SpresenseDemo"); //$NON-NLS-1$
+	private static final long INIT_TIME = 1557844987038L;
 
+	private SpresenseDemo() {
+		// Forbid instantiation.
+	}
+
+	/**
+	 * Entry point.
+	 *
+	 * @param args
+	 *            not used.
+	 */
 	public static void main(String[] args) {
-		AudioPlayer.getInstance().launch();
-		if (System.currentTimeMillis() < INIT) {
-			ej.bon.Util.setCurrentTimeMillis(INIT);
+		// Set the base time to avoid starting in 1970.
+		if (System.currentTimeMillis() < INIT_TIME) {
+			ej.bon.Util.setCurrentTimeMillis(INIT_TIME);
 		}
-		FakeWeatherProvider.getWeather(0, 0);
+		// Request frequent update of the time following the UI animation.
 		ServiceLoaderFactory.getServiceLoader().getService(Animator.class).startAnimation(new Animation() {
 
 			@Override
 			public boolean tick(long currentTimeMillis) {
-				Model.getTime().updateCurrentTime();
+				Model.getInstance().getTime().updateCurrentTime();
 				return true;
 			}
 		});
+		// Starts the audio
+		AudioManager.INSTANCE.start();
 
-
+		// Starts the UI
 		MicroUI.start();
 		StylePopulator.populate();
-
 		StyledDesktop desktop = new StyledDesktop();
 		StyledPanel panel = new StyledPanel();
 		panel.setWidget(new MainFrame());
@@ -50,8 +70,4 @@ public class SpresenseDemo {
 		panel.showFullScreen(desktop);
 	}
 
-
-
-	private SpresenseDemo() {
-	}
 }
