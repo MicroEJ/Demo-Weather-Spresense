@@ -10,7 +10,7 @@ package com.microej.spresense.demo.widget.details;
 import com.microej.spresense.demo.model.Model;
 import com.microej.spresense.demo.model.Time;
 import com.microej.spresense.demo.style.Images;
-import com.microej.spresense.demo.util.NLSUtil;
+import com.microej.spresense.demo.util.NlsHelper;
 
 import ej.components.dependencyinjection.ServiceLoaderFactory;
 
@@ -25,14 +25,14 @@ public class SunriseWidget extends DefaultWeatherDetails {
 	 * Instantiates a {@link SunriseWidget}.
 	 */
 	public SunriseWidget() {
-		super(Images.SUNRISE, NLSUtil.getSunrise(), MAX_SIZE);
+		super(Images.SUNRISE, NlsHelper.getSunrise(), MAX_SIZE);
 	}
 
 	@Override
 	protected String getValue() {
 		Model model = ServiceLoaderFactory.getServiceLoader().getService(Model.class);
 		Time sunrise = model.getSunriseTime();
-		return NLSUtil.getFullHourFormat(sunrise);
+		return NlsHelper.getFullHourFormat(sunrise);
 	}
 
 }

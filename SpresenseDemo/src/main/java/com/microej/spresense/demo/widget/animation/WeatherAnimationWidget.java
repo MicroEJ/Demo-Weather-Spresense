@@ -10,10 +10,10 @@ package com.microej.spresense.demo.widget.animation;
 import java.util.Observable;
 import java.util.Observer;
 
-import com.microej.spresense.demo.model.DemoModel;
 import com.microej.spresense.demo.model.Model;
 import com.microej.spresense.demo.model.Weather;
 import com.microej.spresense.demo.style.StylePopulator;
+import com.microej.spresense.demo.util.WidgetHelper;
 import com.microej.spresense.demo.widget.MainBackground;
 
 import ej.animation.Animation;
@@ -37,7 +37,7 @@ public class WeatherAnimationWidget extends StyledWidget implements Animation, O
 	@Override
 	public void renderContent(GraphicsContext g, Style style, Rectangle bounds) {
 		Model model = ServiceLoaderFactory.getServiceLoader().getService(Model.class);
-		g.setColor(DemoModel.getColor(model.getTime()));
+		g.setColor(WidgetHelper.getColor(model.getTime()));
 		g.setBackgroundColor(g.getColor());
 		g.fillRect(0, 0, bounds.getWidth(), bounds.getHeight());
 

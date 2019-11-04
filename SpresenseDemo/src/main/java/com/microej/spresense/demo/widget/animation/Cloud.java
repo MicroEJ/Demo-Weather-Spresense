@@ -8,7 +8,7 @@
 package com.microej.spresense.demo.widget.animation;
 
 import com.microej.spresense.demo.style.StylePopulator;
-import com.microej.spresense.demo.util.Util;
+import com.microej.spresense.demo.util.WidgetHelper;
 
 import ej.color.GradientHelper;
 import ej.library.ui.MicroEJColors;
@@ -98,11 +98,11 @@ public class Cloud {
 
 	private void generateValues() {
 		startRender = 0;
-		xInitial = Util.RANDOM.nextInt(StylePopulator.getDisplayWidth()) - diameter;
+		xInitial = WidgetHelper.RANDOM.nextInt(StylePopulator.getDisplayWidth()) - diameter;
 		int minY = diameter >> 2;
-			y = Util.RANDOM.nextInt(StylePopulator.getTopHeight() - minY) + minY - diameter / 2;
-			travelLength = diameter + Util.RANDOM.nextInt(StylePopulator.getDisplayWidth());
-			duration = MIN_DURATION + Util.RANDOM.nextInt(DURATION);
+			y = WidgetHelper.RANDOM.nextInt(StylePopulator.getTopHeight() - minY) + minY - diameter / 2;
+			travelLength = diameter + WidgetHelper.RANDOM.nextInt(StylePopulator.getDisplayWidth());
+			duration = MIN_DURATION + WidgetHelper.RANDOM.nextInt(DURATION);
 	}
 
 	private static float getRatio(float wantedRatio, float animationRatio) {

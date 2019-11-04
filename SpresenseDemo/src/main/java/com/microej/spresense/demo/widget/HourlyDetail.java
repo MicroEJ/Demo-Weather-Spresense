@@ -9,8 +9,8 @@ package com.microej.spresense.demo.widget;
 
 import com.microej.spresense.demo.model.Model;
 import com.microej.spresense.demo.style.ClassSelectors;
-import com.microej.spresense.demo.util.NLSUtil;
-import com.microej.spresense.demo.util.Util;
+import com.microej.spresense.demo.util.NlsHelper;
+import com.microej.spresense.demo.util.WidgetHelper;
 
 import ej.components.dependencyinjection.ServiceLoaderFactory;
 import ej.widget.basic.Label;
@@ -39,8 +39,8 @@ public class HourlyDetail extends Dock {
 		this.temperature = new Label();
 		this.hour = new Label();
 		this.hour.addClassSelector(ClassSelectors.DATE_DETAILS);
-		addBottom(Util.addWrapper(this.hour));
-		setCenter(Util.addWrapper(this.temperature));
+		addBottom(WidgetHelper.addWrapper(this.hour));
+		setCenter(WidgetHelper.addWrapper(this.temperature));
 	}
 
 	/**
@@ -58,7 +58,7 @@ public class HourlyDetail extends Dock {
 			day = (day % (DAY_IN_WEEK - 1)) + 1;
 		}
 		Model model = ServiceLoaderFactory.getServiceLoader().getService(Model.class);
-		Util.update(this.temperature, String.valueOf(model.getTemperature(day, hour)) + NLSUtil.getTemperatureSymbol());
-		Util.update(this.hour, String.valueOf(NLSUtil.getHourFormat(hour)) + ' ' + NLSUtil.getHourSymbol(hour));
+		WidgetHelper.update(this.temperature, String.valueOf(model.getTemperature(day, hour)) + NlsHelper.getTemperatureSymbol());
+		WidgetHelper.update(this.hour, String.valueOf(NlsHelper.getHourFormat(hour)) + ' ' + NlsHelper.getHourSymbol(hour));
 	}
 }

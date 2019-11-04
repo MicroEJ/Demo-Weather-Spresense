@@ -12,7 +12,7 @@ import java.util.Observer;
 
 import com.microej.spresense.demo.model.Model;
 import com.microej.spresense.demo.style.ClassSelectors;
-import com.microej.spresense.demo.util.Util;
+import com.microej.spresense.demo.util.WidgetHelper;
 
 import ej.components.dependencyinjection.ServiceLoaderFactory;
 import ej.widget.basic.Image;
@@ -32,7 +32,7 @@ public class WeatherDetails extends Dock implements Observer {
 	 */
 	public WeatherDetails(String icon) {
 		Image image = new Image(icon);
-		Wrapper wrapper = Util.addWrapper(image);
+		Wrapper wrapper = WidgetHelper.addWrapper(image);
 		wrapper.addClassSelector(ClassSelectors.ICON);
 		setCenter(wrapper);
 	}

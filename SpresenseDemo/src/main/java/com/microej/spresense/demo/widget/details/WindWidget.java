@@ -9,7 +9,7 @@ package com.microej.spresense.demo.widget.details;
 
 import com.microej.spresense.demo.model.Model;
 import com.microej.spresense.demo.style.Images;
-import com.microej.spresense.demo.util.NLSUtil;
+import com.microej.spresense.demo.util.NlsHelper;
 
 import ej.components.dependencyinjection.ServiceLoaderFactory;
 
@@ -24,12 +24,12 @@ public class WindWidget extends DefaultWeatherDetails {
 	 * Instantiates a {@link WindWidget}.
 	 */
 	public WindWidget() {
-		super(Images.WIND, NLSUtil.getWind(), MAX_SIZE + NLSUtil.getSpeedSymbol());
+		super(Images.WIND, NlsHelper.getWind(), MAX_SIZE + NlsHelper.getSpeedSymbol());
 	}
 
 	@Override
 	protected String getValue() {
 		Model model = ServiceLoaderFactory.getServiceLoader().getService(Model.class);
-		return model.getWindSpeed() + NLSUtil.getSpeedSymbol();
+		return model.getWindSpeed() + NlsHelper.getSpeedSymbol();
 	}
 }

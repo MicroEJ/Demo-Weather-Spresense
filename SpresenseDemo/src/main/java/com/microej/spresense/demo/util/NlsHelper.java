@@ -11,9 +11,9 @@ import com.microej.spresense.demo.generated.nls.Spresense;
 import com.microej.spresense.demo.model.Time;
 
 /**
- * Support for the NLS management.
+ * Convenient class for NLS management.
  */
-public class NLSUtil {
+public class NlsHelper {
 
 	private static final int MONTH_OFFSET = 5;
 	private static final int YEAR_OFFSET = 4;
@@ -29,7 +29,7 @@ public class NLSUtil {
 	private static String[] weekdays;
 	private static String weekdayLocale;
 
-	private NLSUtil() {
+	private NlsHelper() {
 		// Forbid instantiation.
 	}
 

@@ -10,8 +10,8 @@ package com.microej.spresense.demo.widget.details;
 import com.microej.spresense.demo.model.Model;
 import com.microej.spresense.demo.style.ClassSelectors;
 import com.microej.spresense.demo.style.Images;
-import com.microej.spresense.demo.util.NLSUtil;
-import com.microej.spresense.demo.util.Util;
+import com.microej.spresense.demo.util.NlsHelper;
+import com.microej.spresense.demo.util.WidgetHelper;
 import com.microej.spresense.demo.widget.MaxSizeLabel;
 
 import ej.components.dependencyinjection.ServiceLoaderFactory;
@@ -34,7 +34,7 @@ public class GPSWidget extends WeatherDetails {
 	public GPSWidget() {
 		super(Images.GPS);
 		Flow latFlow = new Flow();
-		String[] latLongText = new String[] { NLSUtil.getLat(), NLSUtil.getLon() };
+		String[] latLongText = new String[] { NlsHelper.getLat(), NlsHelper.getLon() };
 		MaxSizeLabel latitudeLabel = new MaxSizeLabel(latLongText[0]);
 		latitudeLabel.setWords(latLongText);
 		latFlow.add(latitudeLabel);
@@ -43,7 +43,7 @@ public class GPSWidget extends WeatherDetails {
 		this.latitudeValue.addClassSelector(ClassSelectors.WEATHER_VALUE);
 		latFlow.add(this.latitudeValue);
 		Flow lonFlow = new Flow();
-		String[] longLongText = new String[] { NLSUtil.getLat(), NLSUtil.getLon() };
+		String[] longLongText = new String[] { NlsHelper.getLat(), NlsHelper.getLon() };
 		MaxSizeLabel longitudeLabel = new MaxSizeLabel(longLongText[1]);
 		longitudeLabel.setWords(longLongText);
 		lonFlow.add(longitudeLabel);
@@ -55,14 +55,14 @@ public class GPSWidget extends WeatherDetails {
 		split.setHorizontal(false);
 		split.setFirst(latFlow);
 		split.setLast(lonFlow);
-		addBottom(Util.addWrapper(split));
+		addBottom(WidgetHelper.addWrapper(split));
 	}
 
 	@Override
 	protected void update() {
 		Model model = ServiceLoaderFactory.getServiceLoader().getService(Model.class);
-		Util.update(this.latitudeValue, paddValue(model.getLatitude()));
-		Util.update(this.longitudeValue, paddValue(model.getLongitude()));
+		WidgetHelper.update(this.latitudeValue, paddValue(model.getLatitude()));
+		WidgetHelper.update(this.longitudeValue, paddValue(model.getLongitude()));
 	}
 
 	private static String paddValue(float value) {
