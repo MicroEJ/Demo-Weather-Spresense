@@ -7,7 +7,7 @@
  */
 package com.microej.spresense.demo.util;
 
-import com.microej.example.nls.helloworld.generated.Spresense;
+import com.microej.spresense.demo.generated.nls.Spresense;
 import com.microej.spresense.demo.model.Time;
 
 /**
