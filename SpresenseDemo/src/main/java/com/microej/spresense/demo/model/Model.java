@@ -33,10 +33,8 @@ public class Model extends Observable {
 
 	private static final float DEFAULT_LATITUDE = 35.628f;
 	private static final float DEFAULT_LONGITUDE = 139.74f;
-	/**
-	 * Time of the machine.
-	 */
-	private final Time time = new Time(0, 0, 0, 0, 0);
+
+	private final FastForwardTime time;
 	private static GnssManager gnssManager;
 
 	private static final Model INSTANCE;
@@ -57,7 +55,8 @@ public class Model extends Observable {
 	private Thread gnssThread;
 
 	private Model() {
-		gnssThread = new Thread(new Runnable() {
+		this.time = new FastForwardTime();
+		this.gnssThread = new Thread(new Runnable() {
 			@Override
 			public void run() {
 				Thread.currentThread().setName("GNSS poller"); //$NON-NLS-1$
@@ -86,7 +85,7 @@ public class Model extends Observable {
 			}
 		});
 
-		pollingThread = new Thread(new Runnable() {
+		this.pollingThread = new Thread(new Runnable() {
 
 			@Override
 			public void run() {
@@ -106,7 +105,6 @@ public class Model extends Observable {
 		updateValues();
 	}
 
-
 	/**
 	 * Gets the iNSTANCE.
 	 *
@@ -121,10 +119,9 @@ public class Model extends Observable {
 	 *
 	 * @return the time.
 	 */
-	public Time getTime() {
-		return time;
+	public FastForwardTime getTime() {
+		return this.time;
 	}
-
 
 	/**
 	 * Gets the temperature.
@@ -132,7 +129,7 @@ public class Model extends Observable {
 	 * @return the temperature.
 	 */
 	public int getTemperature() {
-		return temperature;
+		return this.temperature;
 	}
 
 	private void setTemperature(int temperature) {
@@ -177,8 +174,7 @@ public class Model extends Observable {
 		}
 
 		float fullFilment = ((hour % base) * MIN_IN_HOUR + minute) / (base * (float) MIN_IN_HOUR);
-		return GradientHelper.blendColors(Colors.WEEK[colorPosition],
-				Colors.WEEK[nextColorPosition], fullFilment);
+		return GradientHelper.blendColors(Colors.WEEK[colorPosition], Colors.WEEK[nextColorPosition], fullFilment);
 	}
 
 	/**
@@ -200,7 +196,7 @@ public class Model extends Observable {
 	 * @return the wind.
 	 */
 	public int getWind() {
-		return wind;
+		return this.wind;
 	}
 
 	private void setWind(int wind) {
@@ -216,7 +212,7 @@ public class Model extends Observable {
 	 * @return the humidity.
 	 */
 	public int getHumidity() {
-		return wind;
+		return this.wind;
 	}
 
 	private void setHumidity(int humidity) {
@@ -232,7 +228,7 @@ public class Model extends Observable {
 	 * @return the sunrise time.
 	 */
 	public Time getSunrise() {
-		return sunrise;
+		return this.sunrise;
 	}
 
 	private void setSunrise(Time sunrise) {
@@ -248,7 +244,7 @@ public class Model extends Observable {
 	 * @return the latitude, a default value if none found.
 	 */
 	public float getLatitude() {
-		return latitude;
+		return this.latitude;
 	}
 
 	private void setLatitude(float latitude) {
@@ -264,7 +260,7 @@ public class Model extends Observable {
 	 * @return the longitude, a default value if none found.
 	 */
 	public float getLongitude() {
-		return longitude;
+		return this.longitude;
 	}
 
 	private void setLongitude(float longitude) {
@@ -280,12 +276,12 @@ public class Model extends Observable {
 	 * @return the weather.
 	 */
 	public int getWeather() {
-		return weather;
+		return this.weather;
 	}
 
 	private void start() {
-		gnssThread.start();
-		pollingThread.start();
+		this.gnssThread.start();
+		this.pollingThread.start();
 	}
 
 	private void setWeather(int weather) {
@@ -296,12 +292,12 @@ public class Model extends Observable {
 	}
 
 	private void updateValues() {
-		setTemperature(FakeDataProvider.getTemperature(time.getDayOfWeek(), time.getHour()));
-		setWind(FakeDataProvider.getWind(time.getDayOfWeek(), time.getHour()));
-		setHumidity(FakeDataProvider.getHumidity(time.getDayOfWeek(), time.getHour()));
-		setSunrise(FakeDataProvider.getSunrise(time.getDayOfWeek()));
+		setTemperature(FakeDataProvider.getTemperature(this.time.getDayOfWeek(), this.time.getHour()));
+		setWind(FakeDataProvider.getWind(this.time.getDayOfWeek(), this.time.getHour()));
+		setHumidity(FakeDataProvider.getHumidity(this.time.getDayOfWeek(), this.time.getHour()));
+		setSunrise(FakeDataProvider.getSunrise(this.time.getDayOfWeek()));
 		setLatitude((gnssManager == null) ? DEFAULT_LATITUDE : gnssManager.getLatitude());
 		setLongitude((gnssManager == null) ? DEFAULT_LONGITUDE : gnssManager.getLongitude());
-		setWeather(FakeDataProvider.getType(time.getDayOfWeek(), time.getHour()));
+		setWeather(FakeDataProvider.getType(this.time.getDayOfWeek(), this.time.getHour()));
 	}
 }
