@@ -33,39 +33,39 @@ public class GPSWidget extends WeatherDetails {
 	 */
 	public GPSWidget() {
 		super(Images.GPS);
-		Flow latFlow = new Flow();
+		Flow latituteFlow = new Flow();
 		String[] latLongText = new String[] { NlsHelper.getLat(), NlsHelper.getLon() };
 		MaxSizeLabel latitudeLabel = new MaxSizeLabel(latLongText[0]);
 		latitudeLabel.setWords(latLongText);
-		latFlow.add(latitudeLabel);
+		latituteFlow.add(latitudeLabel);
 		this.latitudeValue = new MaxSizeLabel();
 		this.latitudeValue.setWords(MAX_VALUE);
 		this.latitudeValue.addClassSelector(ClassSelectors.WEATHER_VALUE);
-		latFlow.add(this.latitudeValue);
-		Flow lonFlow = new Flow();
-		String[] longLongText = new String[] { NlsHelper.getLat(), NlsHelper.getLon() };
-		MaxSizeLabel longitudeLabel = new MaxSizeLabel(longLongText[1]);
-		longitudeLabel.setWords(longLongText);
-		lonFlow.add(longitudeLabel);
+		latituteFlow.add(this.latitudeValue);
+		Flow longitudeFlow = new Flow();
+		String[] longitudeLongText = new String[] { NlsHelper.getLat(), NlsHelper.getLon() };
+		MaxSizeLabel longitudeLabel = new MaxSizeLabel(longitudeLongText[1]);
+		longitudeLabel.setWords(longitudeLongText);
+		longitudeFlow.add(longitudeLabel);
 		this.longitudeValue = new MaxSizeLabel();
 		this.longitudeValue.setWords(MAX_VALUE);
 		this.longitudeValue.addClassSelector(ClassSelectors.WEATHER_VALUE);
-		lonFlow.add(this.longitudeValue);
+		longitudeFlow.add(this.longitudeValue);
 		Split split = new Split();
 		split.setHorizontal(false);
-		split.setFirst(latFlow);
-		split.setLast(lonFlow);
+		split.setFirst(latituteFlow);
+		split.setLast(longitudeFlow);
 		addBottom(WidgetHelper.addWrapper(split));
 	}
 
 	@Override
 	protected void update() {
 		Model model = ServiceLoaderFactory.getServiceLoader().getService(Model.class);
-		WidgetHelper.update(this.latitudeValue, paddValue(model.getLatitude()));
-		WidgetHelper.update(this.longitudeValue, paddValue(model.getLongitude()));
+		WidgetHelper.update(this.latitudeValue, padValue(model.getLatitude()));
+		WidgetHelper.update(this.longitudeValue, padValue(model.getLongitude()));
 	}
 
-	private static String paddValue(float value) {
+	private static String padValue(float value) {
 		String endValue = String.valueOf(value);
 		int dot = endValue.indexOf('.');
 		int paddingWidth = endValue.length() - dot - 1;

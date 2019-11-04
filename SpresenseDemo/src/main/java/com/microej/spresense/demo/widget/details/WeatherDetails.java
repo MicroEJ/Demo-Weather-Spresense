@@ -20,9 +20,9 @@ import ej.widget.composed.Wrapper;
 import ej.widget.container.Dock;
 
 /**
- * Widget displaying the weather detail.
+ * Widget displaying the weather details.
  */
-public class WeatherDetails extends Dock implements Observer {
+public abstract class WeatherDetails extends Dock implements Observer {
 
 	/**
 	 * Instantiates a {@link WeatherDetails}.
@@ -38,11 +38,9 @@ public class WeatherDetails extends Dock implements Observer {
 	}
 
 	/**
-	 * Update the displayed value.
+	 * Updates the displayed value.
 	 */
-	protected void update() {
-		// Nothing to do.
-	}
+	protected abstract void update();
 
 	@Override
 	public void showNotify() {

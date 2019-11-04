@@ -16,7 +16,7 @@ import com.microej.spresense.demo.model.Time;
 public class NlsHelper {
 
 	private static final int MONTH_OFFSET = 5;
-	private static final int YEAR_OFFSET = 4;
+	private static final int YEAR_OFFSET = 9;
 	private static final int HALF_DAY = 12;
 	private static final char AM = 0x1;
 	private static final char PM = 0x2;
@@ -65,7 +65,10 @@ public class NlsHelper {
 	 * @return the full hour as a string.
 	 */
 	public static String getFullHourFormat(Time time) {
-		return addPadding(get12Hour(time.getHour())) + ':' + addPadding(time.getMinute());
+		StringBuilder builder = new StringBuilder();
+		addPadding(builder, get12Hour(time.getHour())).append(':');
+		addPadding(builder, time.getMinute());
+		return builder.toString();
 	}
 
 	/**
@@ -172,13 +175,32 @@ public class NlsHelper {
 			lastUpdate = timeId;
 			initWeekDays();
 			day = weekdays[time.getDayOfWeek() - 1];
-			date = addPadding(time.getMonth() + 1) + '.' + addPadding(time.getDay()) + '.' + time.getYear();
+			date = buildDateString(time);
 		}
 	}
 
-	private static String addPadding(int day) {
-		String value = String.valueOf(day);
-		return (value.length() == 1) ? '0' + value : value;
+	private static String buildDateString(Time time) {
+		StringBuilder builder = new StringBuilder();
+		addPadding(builder, time.getMonth() + 1).append('.');
+		addPadding(builder, time.getDay()).append('.');
+		addPadding(builder, time.getYear());
+		return builder.toString();
+	}
+
+	private static StringBuilder addPadding(StringBuilder builder, int value) {
+		String stringValue = String.valueOf(value);
+		if (stringValue.length() == 1) {
+			builder.append('0');
+		}
+
+		builder.append(stringValue);
+
+		return builder;
+	}
+
+	private static String addPadding(int value) {
+		String stringValue = String.valueOf(value);
+		return (stringValue.length() == 1 ? '0' + stringValue : stringValue);
 	}
 
 	/**

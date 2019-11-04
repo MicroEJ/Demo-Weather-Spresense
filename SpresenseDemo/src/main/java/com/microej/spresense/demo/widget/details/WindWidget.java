@@ -14,7 +14,7 @@ import com.microej.spresense.demo.util.NlsHelper;
 import ej.components.dependencyinjection.ServiceLoaderFactory;
 
 /**
- * Widget displaying the wind.
+ * Widget displaying the wind speed.
  */
 public class WindWidget extends DefaultWeatherDetails {
 

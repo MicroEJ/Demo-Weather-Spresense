@@ -18,6 +18,7 @@ import com.microej.spresense.demo.widget.MainBackground;
 
 import ej.animation.Animation;
 import ej.animation.Animator;
+import ej.components.dependencyinjection.ServiceLoader;
 import ej.components.dependencyinjection.ServiceLoaderFactory;
 import ej.microui.display.GraphicsContext;
 import ej.microui.display.shape.AntiAliasedShapes;
@@ -69,17 +70,19 @@ public class WeatherAnimationWidget extends StyledWidget implements Animation, O
 	public void showNotify() {
 		super.showNotify();
 		startAnimation();
-		Model model = ServiceLoaderFactory.getServiceLoader().getService(Model.class);
+		ServiceLoader serviceLoader = ServiceLoaderFactory.getServiceLoader();
+		Model model = serviceLoader.getService(Model.class);
 		model.addObserver(this);
-		ServiceLoaderFactory.getServiceLoader().getService(Animator.class).startAnimation(this);
+		serviceLoader.getService(Animator.class).startAnimation(this);
 	}
 
 	@Override
 	public void hideNotify() {
 		super.hideNotify();
-		Model model = ServiceLoaderFactory.getServiceLoader().getService(Model.class);
+		ServiceLoader serviceLoader = ServiceLoaderFactory.getServiceLoader();
+		Model model = serviceLoader.getService(Model.class);
 		model.deleteObserver(this);
-		ServiceLoaderFactory.getServiceLoader().getService(Animator.class).stopAnimation(this);
+		serviceLoader.getService(Animator.class).stopAnimation(this);
 	}
 
 	@Override

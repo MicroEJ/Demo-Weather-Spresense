@@ -17,6 +17,7 @@ import com.microej.spresense.demo.util.WidgetHelper;
 import ej.animation.Animation;
 import ej.animation.Animator;
 import ej.components.dependencyinjection.ServiceLoaderFactory;
+import ej.mwt.Widget;
 import ej.widget.basic.Label;
 import ej.widget.container.Dock;
 import ej.widget.container.Grid;
@@ -79,10 +80,13 @@ public class DateDetails extends CenterContainer implements Animation {
 		int hour = time.getHour();
 		int day = time.getDayOfWeek();
 		WidgetHelper.update(this.hour, NlsHelper.getFullHourFormat(time) + NlsHelper.getHourSymbol(hour));
-		WidgetHelper.update(this.mainTemperature, String.valueOf(model.getTemperature()) + NlsHelper.getTemperatureSymbol());
+		WidgetHelper.update(this.mainTemperature,
+				String.valueOf(model.getTemperature()) + NlsHelper.getTemperatureSymbol());
 
-		for (int i = 0; i < this.nextHours.getWidgets().length; i++) {
-			HourlyDetail widget = (HourlyDetail) this.nextHours.getWidgets()[i];
+		Widget[] widgets = this.nextHours.getWidgets();
+		int widgetCount = widgets.length;
+		for (int i = 0; i < widgetCount; i++) {
+			HourlyDetail widget = (HourlyDetail) widgets[i];
 			widget.update(day, hour);
 		}
 	}

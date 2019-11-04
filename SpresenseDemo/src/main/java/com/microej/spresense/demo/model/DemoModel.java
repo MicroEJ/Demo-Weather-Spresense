@@ -124,7 +124,7 @@ public class DemoModel extends Model {
 
 	@Override
 	public int getTemperature(int day, int hour) {
-		return generateValue(this.time.getDayOfWeek(), this.time.getHour(), DIFF_TEMPERATURE, MIN_TEMPERATURE);
+		return generateValue(day, hour, DIFF_TEMPERATURE, MIN_TEMPERATURE);
 	}
 
 	private void updateTemperature() {

@@ -44,7 +44,7 @@ public class HourlyDetail extends Dock {
 	}
 
 	/**
-	 * update the detail.
+	 * Updates the detail.
 	 *
 	 * @param day
 	 *            the day.
@@ -58,7 +58,9 @@ public class HourlyDetail extends Dock {
 			day = (day % (DAY_IN_WEEK - 1)) + 1;
 		}
 		Model model = ServiceLoaderFactory.getServiceLoader().getService(Model.class);
-		WidgetHelper.update(this.temperature, String.valueOf(model.getTemperature(day, hour)) + NlsHelper.getTemperatureSymbol());
-		WidgetHelper.update(this.hour, String.valueOf(NlsHelper.getHourFormat(hour)) + ' ' + NlsHelper.getHourSymbol(hour));
+		WidgetHelper.update(this.temperature,
+				String.valueOf(model.getTemperature(day, hour)) + NlsHelper.getTemperatureSymbol());
+		WidgetHelper.update(this.hour,
+				String.valueOf(NlsHelper.getHourFormat(hour)) + ' ' + NlsHelper.getHourSymbol(hour));
 	}
 }
