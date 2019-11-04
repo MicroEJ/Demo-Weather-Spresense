@@ -7,12 +7,12 @@
  */
 package com.microej.spresense.demo.widget;
 
-
 import com.microej.spresense.demo.model.Model;
 import com.microej.spresense.demo.style.ClassSelectors;
 import com.microej.spresense.demo.util.NLSUtil;
 import com.microej.spresense.demo.util.Util;
 
+import ej.components.dependencyinjection.ServiceLoaderFactory;
 import ej.widget.basic.Label;
 import ej.widget.container.Dock;
 
@@ -36,11 +36,11 @@ public class HourlyDetail extends Dock {
 	public HourlyDetail(int offset) {
 		this.offset = offset;
 
-		temperature = new Label();
-		hour = new Label();
-		hour.addClassSelector(ClassSelectors.DATE_DETAILS);
-		addBottom(Util.addWrapper(hour));
-		setCenter(Util.addWrapper(temperature));
+		this.temperature = new Label();
+		this.hour = new Label();
+		this.hour.addClassSelector(ClassSelectors.DATE_DETAILS);
+		addBottom(Util.addWrapper(this.hour));
+		setCenter(Util.addWrapper(this.temperature));
 	}
 
 	/**
@@ -52,14 +52,13 @@ public class HourlyDetail extends Dock {
 	 *            the hour.
 	 */
 	public void update(int day, int hour) {
-		hour += offset;
+		hour += this.offset;
 		if (hour >= HOUR_IN_DAY) {
 			hour -= HOUR_IN_DAY;
 			day = (day % (DAY_IN_WEEK - 1)) + 1;
 		}
-		Util.update(temperature,
-				String.valueOf(Model.getInstance().getTemperature(day, hour)) + NLSUtil.getTemperatureSymbol());
-		Util.update(this.hour,
-				String.valueOf(NLSUtil.getHourFormat(hour)) + ' ' + NLSUtil.getHourSymbol(hour));
+		Model model = ServiceLoaderFactory.getServiceLoader().getService(Model.class);
+		Util.update(this.temperature, String.valueOf(model.getTemperature(day, hour)) + NLSUtil.getTemperatureSymbol());
+		Util.update(this.hour, String.valueOf(NLSUtil.getHourFormat(hour)) + ' ' + NLSUtil.getHourSymbol(hour));
 	}
 }

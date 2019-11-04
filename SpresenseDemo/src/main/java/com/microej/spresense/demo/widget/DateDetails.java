@@ -39,32 +39,32 @@ public class DateDetails extends CenterContainer implements Animation {
 	 */
 	public DateDetails() {
 		Dock dateDock = new Dock();
-		day = new MaxSizeLabel();
-		day.setWords(NLSUtil.getWeekdays());
-		day.addClassSelector(ClassSelectors.DAY);
-		dateDock.setCenter(Util.addWrapper(day));
-		date = new Label();
-		date.addClassSelector(ClassSelectors.DATE_DETAILS);
-		dateDock.addBottom(Util.addWrapper(date));
+		this.day = new MaxSizeLabel();
+		this.day.setWords(NLSUtil.getWeekdays());
+		this.day.addClassSelector(ClassSelectors.DAY);
+		dateDock.setCenter(Util.addWrapper(this.day));
+		this.date = new Label();
+		this.date.addClassSelector(ClassSelectors.DATE_DETAILS);
+		dateDock.addBottom(Util.addWrapper(this.date));
 		setFirst(dateDock);
 
-		nextHours = new Grid(true, StylePopulator.COUNT_OF_HOUR_VALUES);
+		this.nextHours = new Grid(true, StylePopulator.COUNT_OF_HOUR_VALUES);
 		for (int i = 1; i <= StylePopulator.COUNT_OF_HOUR_VALUES; i++) {
-			nextHours.add(new HourlyDetail(HOUR_SEPERATION * i));
+			this.nextHours.add(new HourlyDetail(HOUR_SEPERATION * i));
 		}
-		nextHours.addClassSelector(ClassSelectors.HOURLY_TEMPERATURE);
+		this.nextHours.addClassSelector(ClassSelectors.HOURLY_TEMPERATURE);
 
-		setLast(nextHours);
+		setLast(this.nextHours);
 		Dock centerDock = new Dock();
-		mainTemperature = new MaxSizeLabel();
+		this.mainTemperature = new MaxSizeLabel();
 		String[] str = new String[1];
 		str[0] = MAX_TEMPERATURE + NLSUtil.getTemperatureSymbol();
-		mainTemperature.setWords(str);
-		mainTemperature.addClassSelector(ClassSelectors.MAIN_TEMPERATURE);
-		centerDock.setCenter(Util.addWrapper(mainTemperature));
-		hour = new Label();
-		hour.addClassSelector(ClassSelectors.DATE_DETAILS);
-		centerDock.addBottom(Util.addWrapper(hour));
+		this.mainTemperature.setWords(str);
+		this.mainTemperature.addClassSelector(ClassSelectors.MAIN_TEMPERATURE);
+		centerDock.setCenter(Util.addWrapper(this.mainTemperature));
+		this.hour = new Label();
+		this.hour.addClassSelector(ClassSelectors.DATE_DETAILS);
+		centerDock.addBottom(Util.addWrapper(this.hour));
 		centerDock.addClassSelector(ClassSelectors.CIRCLE);
 		setCenter(centerDock);
 
@@ -72,19 +72,17 @@ public class DateDetails extends CenterContainer implements Animation {
 	}
 
 	private void update() {
-		Time time = Model.getInstance().getTime();
+		Model model = ServiceLoaderFactory.getServiceLoader().getService(Model.class);
+		Time time = model.getTime();
 		Util.update(this.day, NLSUtil.getDay(time));
 		Util.update(this.date, NLSUtil.getDate(time));
 		int hour = time.getHour();
 		int day = time.getDayOfWeek();
-		Util.update(this.hour,
-				NLSUtil.getFullHourFormat(time)
-				+ NLSUtil.getHourSymbol(hour));
-		Util.update(mainTemperature,
-				String.valueOf(Model.getInstance().getTemperature()) + NLSUtil.getTemperatureSymbol());
+		Util.update(this.hour, NLSUtil.getFullHourFormat(time) + NLSUtil.getHourSymbol(hour));
+		Util.update(this.mainTemperature, String.valueOf(model.getTemperature()) + NLSUtil.getTemperatureSymbol());
 
-		for (int i = 0; i < nextHours.getWidgets().length; i++) {
-			HourlyDetail widget = (HourlyDetail) nextHours.getWidgets()[i];
+		for (int i = 0; i < this.nextHours.getWidgets().length; i++) {
+			HourlyDetail widget = (HourlyDetail) this.nextHours.getWidgets()[i];
 			widget.update(day, hour);
 		}
 	}

@@ -70,7 +70,8 @@ public class SpresenseDemo {
 
 			@Override
 			public boolean tick(long currentTimeMillis) {
-				Model.getInstance().getTime().updateCurrentTime();
+				Model model = ServiceLoaderFactory.getServiceLoader().getService(Model.class);
+				model.getTime().updateCurrentTime();
 				return true;
 			}
 		});

@@ -14,6 +14,7 @@ import com.microej.spresense.demo.model.Model;
 import com.microej.spresense.demo.style.ClassSelectors;
 import com.microej.spresense.demo.util.Util;
 
+import ej.components.dependencyinjection.ServiceLoaderFactory;
 import ej.widget.basic.Image;
 import ej.widget.composed.Wrapper;
 import ej.widget.container.Dock;
@@ -47,13 +48,15 @@ public class WeatherDetails extends Dock implements Observer {
 	public void showNotify() {
 		super.showNotify();
 		update();
-		Model.getInstance().addObserver(this);
+		Model model = ServiceLoaderFactory.getServiceLoader().getService(Model.class);
+		model.addObserver(this);
 	}
 
 	@Override
 	public void hideNotify() {
 		super.hideNotify();
-		Model.getInstance().deleteObserver(this);
+		Model model = ServiceLoaderFactory.getServiceLoader().getService(Model.class);
+		model.deleteObserver(this);
 	}
 
 	@Override

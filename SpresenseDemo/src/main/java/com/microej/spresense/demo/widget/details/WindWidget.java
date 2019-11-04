@@ -11,6 +11,8 @@ import com.microej.spresense.demo.model.Model;
 import com.microej.spresense.demo.style.Images;
 import com.microej.spresense.demo.util.NLSUtil;
 
+import ej.components.dependencyinjection.ServiceLoaderFactory;
+
 /**
  * Widget displaying the wind.
  */
@@ -27,6 +29,7 @@ public class WindWidget extends DefaultWeatherDetails {
 
 	@Override
 	protected String getValue() {
-		return Model.getInstance().getWind() + NLSUtil.getSpeedSymbol();
+		Model model = ServiceLoaderFactory.getServiceLoader().getService(Model.class);
+		return model.getWindSpeed() + NLSUtil.getSpeedSymbol();
 	}
 }

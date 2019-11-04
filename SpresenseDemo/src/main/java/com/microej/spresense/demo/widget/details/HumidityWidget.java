@@ -11,6 +11,8 @@ import com.microej.spresense.demo.model.Model;
 import com.microej.spresense.demo.style.Images;
 import com.microej.spresense.demo.util.NLSUtil;
 
+import ej.components.dependencyinjection.ServiceLoaderFactory;
+
 /**
  * A widget displaying the humidity.
  */
@@ -27,7 +29,8 @@ public class HumidityWidget extends DefaultWeatherDetails {
 
 	@Override
 	protected String getValue() {
-		return String.valueOf(Model.getInstance().getHumidity()) + '%';
+		Model model = ServiceLoaderFactory.getServiceLoader().getService(Model.class);
+		return String.valueOf(model.getHumidity()) + '%';
 	}
 
 }

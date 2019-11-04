@@ -16,6 +16,7 @@ import com.microej.spresense.demo.model.Model;
 
 import ej.audio.AudioFile;
 import ej.audio.AudioPlayer;
+import ej.components.dependencyinjection.ServiceLoaderFactory;
 
 /**
  * A manager playing the audio of the current weather.
@@ -46,61 +47,63 @@ public class AudioManager extends Thread implements Observer {
 	private boolean run;
 
 	private AudioManager() {
-		audioPlayer = AudioPlayer.getInstance();
-		volume = MIN_AUDIO_VOLUME;
+		this.audioPlayer = AudioPlayer.getInstance();
+		this.volume = MIN_AUDIO_VOLUME;
 	}
-
 
 	@Override
 	public synchronized void start() {
-		Model.getInstance().addObserver(this);
-		audioPlayback = new AudioPlayback(audioPlayer);
-		volume = MIN_AUDIO_VOLUME;
-		audioPlayer.setVolume(volume);
-		run = true;
+		Model model = ServiceLoaderFactory.getServiceLoader().getService(Model.class);
+		model.addObserver(this);
+		this.audioPlayback = new AudioPlayback(this.audioPlayer);
+		this.volume = MIN_AUDIO_VOLUME;
+		this.audioPlayer.setVolume(this.volume);
+		this.run = true;
 		super.start();
 	}
 
 	@Override
 	public void run() {
-		nextWeather = Model.getInstance().getWeather();
+		Model model = ServiceLoaderFactory.getServiceLoader().getService(Model.class);
+		this.nextWeather = model.getWeather();
 		updateSoundFile();
-		audioPlayback.start();
-		while (run) {
-			nextWeather = Model.getInstance().getWeather();
-			if (nextWeather != currentWeather) {
-				if (volume <= MIN_AUDIO_VOLUME) {
+		this.audioPlayback.start();
+		while (this.run) {
+			this.nextWeather = model.getWeather();
+			if (this.nextWeather != this.currentWeather) {
+				if (this.volume <= MIN_AUDIO_VOLUME) {
 					setVolume(MIN_AUDIO_VOLUME);
 					updateSoundFile();
 				} else {
-					setVolume(Math.max(volume - AUDIO_STEPS, MIN_AUDIO_VOLUME));
+					setVolume(Math.max(this.volume - AUDIO_STEPS, MIN_AUDIO_VOLUME));
 				}
 				sleep();
-			} else if (volume < MAX_AUDIO_VOLUME) {
-				setVolume(Math.min(volume + AUDIO_STEPS, MAX_AUDIO_VOLUME));
+			} else if (this.volume < MAX_AUDIO_VOLUME) {
+				setVolume(Math.min(this.volume + AUDIO_STEPS, MAX_AUDIO_VOLUME));
 				sleep();
 			} else {
 				setVolume(MAX_AUDIO_VOLUME);
-				synchronized (weatherMutex) {
-					while (nextWeather == Model.getInstance().getWeather()) {
+				synchronized (this.weatherMutex) {
+					while (this.nextWeather == model.getWeather()) {
 						try {
-							weatherMutex.wait();
+							this.weatherMutex.wait();
 						} catch (InterruptedException e) {
-							run = false;
+							this.run = false;
 							SpresenseDemo.LOGGER.log(Level.INFO, e.getMessage(), e);
 						}
 					}
 				}
 			}
 		}
-		audioPlayback.stop();
+		this.audioPlayback.stop();
 	}
 
 	@Override
 	public void update(Observable o, Object arg) {
-		synchronized (weatherMutex) {
-			if (nextWeather != Model.getInstance().getWeather()) {
-				weatherMutex.notifyAll();
+		synchronized (this.weatherMutex) {
+			Model model = ServiceLoaderFactory.getServiceLoader().getService(Model.class);
+			if (this.nextWeather != model.getWeather()) {
+				this.weatherMutex.notifyAll();
 			}
 		}
 	}
@@ -110,20 +113,20 @@ public class AudioManager extends Thread implements Observer {
 			Thread.sleep(CHANGE_RATE);
 		} catch (InterruptedException e) {
 			SpresenseDemo.LOGGER.log(Level.INFO, e.getMessage(), e);
-			run = false;
+			this.run = false;
 		}
 	}
 
 	private void setVolume(int newVolume) {
-		if (volume != newVolume) {
-			volume = newVolume;
-			audioPlayer.setVolume(volume);
+		if (this.volume != newVolume) {
+			this.volume = newVolume;
+			this.audioPlayer.setVolume(this.volume);
 		}
 	}
 
 	private synchronized void updateSoundFile() {
-		currentWeather = nextWeather;
-		audioPlayback.setFile(new AudioFile(FOLDER + FILES[currentWeather - 1] + EXTENTION, AudioFile.AS_CHANNEL_STEREO,
-				AudioFile.BITLENGTH_16, MP3_FRAMERATE, AudioFile.AUDIO_CODEC_MP3));
+		this.currentWeather = this.nextWeather;
+		this.audioPlayback.setFile(new AudioFile(FOLDER + FILES[this.currentWeather - 1] + EXTENTION,
+				AudioFile.AS_CHANNEL_STEREO, AudioFile.BITLENGTH_16, MP3_FRAMERATE, AudioFile.AUDIO_CODEC_MP3));
 	}
 }

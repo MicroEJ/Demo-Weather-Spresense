@@ -12,6 +12,8 @@ import com.microej.spresense.demo.model.Time;
 import com.microej.spresense.demo.style.Images;
 import com.microej.spresense.demo.util.NLSUtil;
 
+import ej.components.dependencyinjection.ServiceLoaderFactory;
+
 /**
  * Widget displaying the sunrise time.
  */
@@ -28,7 +30,8 @@ public class SunriseWidget extends DefaultWeatherDetails {
 
 	@Override
 	protected String getValue() {
-		Time sunrise = Model.getInstance().getSunrise();
+		Model model = ServiceLoaderFactory.getServiceLoader().getService(Model.class);
+		Time sunrise = model.getSunriseTime();
 		return NLSUtil.getFullHourFormat(sunrise);
 	}
 

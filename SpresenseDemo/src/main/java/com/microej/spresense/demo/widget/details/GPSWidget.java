@@ -14,6 +14,7 @@ import com.microej.spresense.demo.util.NLSUtil;
 import com.microej.spresense.demo.util.Util;
 import com.microej.spresense.demo.widget.MaxSizeLabel;
 
+import ej.components.dependencyinjection.ServiceLoaderFactory;
 import ej.widget.container.Flow;
 import ej.widget.container.Split;
 
@@ -37,19 +38,19 @@ public class GPSWidget extends WeatherDetails {
 		MaxSizeLabel latitudeLabel = new MaxSizeLabel(latLongText[0]);
 		latitudeLabel.setWords(latLongText);
 		latFlow.add(latitudeLabel);
-		latitudeValue = new MaxSizeLabel();
-		latitudeValue.setWords(MAX_VALUE);
-		latitudeValue.addClassSelector(ClassSelectors.WEATHER_VALUE);
-		latFlow.add(latitudeValue);
+		this.latitudeValue = new MaxSizeLabel();
+		this.latitudeValue.setWords(MAX_VALUE);
+		this.latitudeValue.addClassSelector(ClassSelectors.WEATHER_VALUE);
+		latFlow.add(this.latitudeValue);
 		Flow lonFlow = new Flow();
 		String[] longLongText = new String[] { NLSUtil.getLat(), NLSUtil.getLon() };
 		MaxSizeLabel longitudeLabel = new MaxSizeLabel(longLongText[1]);
 		longitudeLabel.setWords(longLongText);
 		lonFlow.add(longitudeLabel);
-		longitudeValue = new MaxSizeLabel();
-		longitudeValue.setWords(MAX_VALUE);
-		longitudeValue.addClassSelector(ClassSelectors.WEATHER_VALUE);
-		lonFlow.add(longitudeValue);
+		this.longitudeValue = new MaxSizeLabel();
+		this.longitudeValue.setWords(MAX_VALUE);
+		this.longitudeValue.addClassSelector(ClassSelectors.WEATHER_VALUE);
+		lonFlow.add(this.longitudeValue);
 		Split split = new Split();
 		split.setHorizontal(false);
 		split.setFirst(latFlow);
@@ -59,8 +60,9 @@ public class GPSWidget extends WeatherDetails {
 
 	@Override
 	protected void update() {
-		Util.update(latitudeValue, paddValue(Model.getInstance().getLatitude()));
-		Util.update(longitudeValue, paddValue(Model.getInstance().getLongitude()));
+		Model model = ServiceLoaderFactory.getServiceLoader().getService(Model.class);
+		Util.update(this.latitudeValue, paddValue(model.getLatitude()));
+		Util.update(this.longitudeValue, paddValue(model.getLongitude()));
 	}
 
 	private static String paddValue(float value) {
@@ -71,7 +73,7 @@ public class GPSWidget extends WeatherDetails {
 		for (int i = dot; i < MAX_VALUE[0].length() - PADDING.length(); i++) {
 			string.insert(0, ' ');
 		}
-		if(dot==-1) {
+		if (dot == -1) {
 			string.append(PADDING);
 		} else {
 			if (paddingWidth < PADDING.length()) {
