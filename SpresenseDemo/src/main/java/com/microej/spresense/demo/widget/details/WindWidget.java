@@ -16,7 +16,7 @@ import com.microej.spresense.demo.util.NLSUtil;
  */
 public class WindWidget extends DefaultWeatherDetails {
 
-	private static final String MAX_SIZE = "88";
+	private static final String MAX_SIZE = "88"; //$NON-NLS-1$
 
 	/**
 	 * Instantiates a {@link WindWidget}.

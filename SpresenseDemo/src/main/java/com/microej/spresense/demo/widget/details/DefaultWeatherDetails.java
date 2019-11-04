@@ -21,26 +21,28 @@ public abstract class DefaultWeatherDetails extends WeatherDetails {
 	private final MaxSizeLabel value;
 
 	/**
-	 * Instatiates a {@link DefaultWeatherDetails}.
+	 * Instantiates a {@link DefaultWeatherDetails}.
 	 *
 	 * @param icon
-	 *            the icons of the value.
+	 *            the path to the icon to be displayed by this widget.
 	 * @param title
-	 *            the title.
+	 *            a text representing the title of this widget.
+	 * @param maxSizeText
+	 *            a string representing the longest possible text to be displayed by the widget.
 	 */
 	public DefaultWeatherDetails(String icon, String title, String maxSizeText) {
 		super(icon);
 		Label titleLabel = new Label(title);
-		value = new MaxSizeLabel();
-		value.setWords(new String[] { maxSizeText });
-		addBottom(Util.addWrapper(value));
+		this.value = new MaxSizeLabel();
+		this.value.setWords(new String[] { maxSizeText });
+		addBottom(Util.addWrapper(this.value));
 		addBottom(Util.addWrapper(titleLabel));
-		value.addClassSelector(ClassSelectors.WEATHER_VALUE);
+		this.value.addClassSelector(ClassSelectors.WEATHER_VALUE);
 	}
 
 	@Override
 	protected void update() {
-		Util.update(value, getValue());
+		Util.update(this.value, getValue());
 	}
 
 	/**

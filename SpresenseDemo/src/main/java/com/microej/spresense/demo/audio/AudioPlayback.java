@@ -20,7 +20,7 @@ import ej.audio.AudioPlayer;
  */
 public class AudioPlayback extends Thread {
 
-	private static final String COULD_NOT_PAUSE_PLAYER = "Could not pause player.";
+	private static final String COULD_NOT_PAUSE_PLAYER = "Could not pause player."; //$NON-NLS-1$
 	private static final int LOOP_INTERVAL = 30;
 	private final AudioPlayer audioPlayer;
 	private AudioFile file;
@@ -45,9 +45,9 @@ public class AudioPlayback extends Thread {
 		if (!file.equals(this.file)) {
 			this.file = file;
 			try {
-				audioPlayer.pause();
+				this.audioPlayer.pause();
 			} catch (IOException e) {
-				SpresenseDemo.LOGGER.log(Level.INFO, COULD_NOT_PAUSE_PLAYER, e); //$NON-NLS-1$
+				SpresenseDemo.LOGGER.log(Level.INFO, COULD_NOT_PAUSE_PLAYER, e);
 			}
 		}
 	}
@@ -57,16 +57,16 @@ public class AudioPlayback extends Thread {
 		AudioFile file = this.file;
 		while (file != null) {
 			try {
-				audioPlayer.play(file, LOOP_INTERVAL);
+				this.audioPlayer.play(file, LOOP_INTERVAL);
 			} catch (IOException e) {
 				SpresenseDemo.LOGGER.log(Level.WARNING, "Could not play " + file.getName(), e); //$NON-NLS-1$
 			}
 			file = this.file;
 		}
 		try {
-			audioPlayer.pause();
+			this.audioPlayer.pause();
 		} catch (IOException e) {
-			SpresenseDemo.LOGGER.log(Level.INFO, COULD_NOT_PAUSE_PLAYER, e); //$NON-NLS-1$
+			SpresenseDemo.LOGGER.log(Level.INFO, COULD_NOT_PAUSE_PLAYER, e);
 		}
 	}
 
@@ -74,6 +74,6 @@ public class AudioPlayback extends Thread {
 	 * Stops the playback.
 	 */
 	public synchronized void stop() {
-		file = null;
+		this.file = null;
 	}
 }
