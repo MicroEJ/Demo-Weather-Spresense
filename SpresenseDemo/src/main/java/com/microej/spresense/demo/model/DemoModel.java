@@ -13,6 +13,9 @@ import java.util.logging.Level;
 
 import com.microej.spresense.demo.SpresenseDemo;
 
+import ej.bon.Timer;
+import ej.bon.TimerTask;
+import ej.components.dependencyinjection.ServiceLoaderFactory;
 import ej.gnss.GnssManager;
 
 /**
@@ -54,15 +57,17 @@ public class DemoModel extends Model {
 	private float latitude;
 	private float longitude;
 	private int weather;
-	private Thread pollingThread;
 	private Thread gnssThread;
 	private final FastForwardTime time;
+	private TimerTask pollingTask;
 
 	/**
 	 * Constructs a model that will provide pseudo-random data for demonstration purposes.
 	 */
 	public DemoModel() {
 		this.time = new FastForwardTime();
+		// The GnssManager#readPosition() position is synchronous and will block until a position is read. A new
+		// thread is used to wait for it.
 		this.gnssThread = new Thread(new Runnable() {
 			@Override
 			public void run() {
@@ -91,24 +96,6 @@ public class DemoModel extends Model {
 			}
 		});
 
-		this.pollingThread = new Thread(new Runnable() {
-
-			@Override
-			public void run() {
-				boolean run = true;
-				while (run) {
-					updateValues();
-					notifyObservers();
-					try {
-						Thread.sleep(DATA_POLLING_RATE);
-					} catch (InterruptedException e) {
-						SpresenseDemo.LOGGER.log(Level.FINER, e.getMessage(), e);
-						run = false;
-					}
-				}
-			}
-		});
-		updateValues();
 		start();
 	}
 
@@ -213,8 +200,18 @@ public class DemoModel extends Model {
 	}
 
 	private void start() {
+		updateValues();
+		this.pollingTask = new TimerTask() {
+
+			@Override
+			public void run() {
+				updateValues();
+				notifyObservers();
+			}
+		};
+		ServiceLoaderFactory.getServiceLoader().getService(Timer.class).schedule(this.pollingTask, DATA_POLLING_RATE,
+				DATA_POLLING_RATE);
 		this.gnssThread.start();
-		this.pollingThread.start();
 	}
 
 	private void updateValues() {

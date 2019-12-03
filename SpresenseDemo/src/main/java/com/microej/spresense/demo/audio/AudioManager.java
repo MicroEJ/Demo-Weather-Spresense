@@ -45,6 +45,7 @@ public class AudioManager extends Thread implements Observer {
 	private int nextWeather;
 	private int volume;
 	private boolean run;
+	private Model model;
 
 	private AudioManager() {
 		this.audioPlayer = AudioPlayer.getInstance();
@@ -53,8 +54,8 @@ public class AudioManager extends Thread implements Observer {
 
 	@Override
 	public synchronized void start() {
-		Model model = ServiceLoaderFactory.getServiceLoader().getService(Model.class);
-		model.addObserver(this);
+		this.model = ServiceLoaderFactory.getServiceLoader().getService(Model.class);
+		this.model.addObserver(this);
 		this.audioPlayback = new AudioPlayback(this.audioPlayer);
 		this.volume = MIN_AUDIO_VOLUME;
 		this.audioPlayer.setVolume(this.volume);
@@ -64,38 +65,46 @@ public class AudioManager extends Thread implements Observer {
 
 	@Override
 	public void run() {
-		Model model = ServiceLoaderFactory.getServiceLoader().getService(Model.class);
-		this.nextWeather = model.getWeather();
+		this.nextWeather = this.model.getWeather();
+		// Set initial file.
 		updateSoundFile();
 		this.audioPlayback.start();
 		while (this.run) {
-			this.nextWeather = model.getWeather();
+			this.nextWeather = this.model.getWeather();
 			if (this.nextWeather != this.currentWeather) {
 				if (this.volume <= MIN_AUDIO_VOLUME) {
 					setVolume(MIN_AUDIO_VOLUME);
+					// Switch to the current weather sound.
 					updateSoundFile();
 				} else {
+					// Decrease the volume before updating file.
 					setVolume(Math.max(this.volume - AUDIO_STEPS, MIN_AUDIO_VOLUME));
 				}
 				sleep();
 			} else if (this.volume < MAX_AUDIO_VOLUME) {
+				// Increase the volume.
 				setVolume(Math.min(this.volume + AUDIO_STEPS, MAX_AUDIO_VOLUME));
 				sleep();
 			} else {
+				// Currently playing the right sound at the maximum volume. Wait for a change.
 				setVolume(MAX_AUDIO_VOLUME);
-				synchronized (this.weatherMutex) {
-					while (this.nextWeather == model.getWeather()) {
-						try {
-							this.weatherMutex.wait();
-						} catch (InterruptedException e) {
-							this.run = false;
-							SpresenseDemo.LOGGER.log(Level.INFO, e.getMessage(), e);
-						}
-					}
-				}
+				waitForNextWeather();
 			}
 		}
 		this.audioPlayback.stop();
+	}
+
+	private void waitForNextWeather() {
+		synchronized (this.weatherMutex) {
+			while (this.nextWeather == this.model.getWeather()) {
+				try {
+					this.weatherMutex.wait();
+				} catch (InterruptedException e) {
+					this.run = false;
+					SpresenseDemo.LOGGER.log(Level.INFO, e.getMessage(), e);
+				}
+			}
+		}
 	}
 
 	@Override
