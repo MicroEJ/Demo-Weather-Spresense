@@ -16,6 +16,7 @@ import com.microej.spresense.demo.model.Model;
 
 import ej.audio.AudioFile;
 import ej.audio.AudioPlayer;
+import ej.components.dependencyinjection.ServiceLoaderFactory;
 
 /**
  * A manager playing the audio of the current weather.
@@ -44,63 +45,74 @@ public class AudioManager extends Thread implements Observer {
 	private int nextWeather;
 	private int volume;
 	private boolean run;
+	private Model model;
 
 	private AudioManager() {
-		audioPlayer = AudioPlayer.getInstance();
-		volume = MIN_AUDIO_VOLUME;
+		this.audioPlayer = AudioPlayer.getInstance();
+		this.volume = MIN_AUDIO_VOLUME;
 	}
-
 
 	@Override
 	public synchronized void start() {
-		Model.getInstance().addObserver(this);
-		audioPlayback = new AudioPlayback(audioPlayer);
-		volume = MIN_AUDIO_VOLUME;
-		audioPlayer.setVolume(volume);
-		run = true;
+		this.model = ServiceLoaderFactory.getServiceLoader().getService(Model.class);
+		this.model.addObserver(this);
+		this.audioPlayback = new AudioPlayback(this.audioPlayer);
+		this.volume = MIN_AUDIO_VOLUME;
+		this.audioPlayer.setVolume(this.volume);
+		this.run = true;
 		super.start();
 	}
 
 	@Override
 	public void run() {
-		nextWeather = Model.getInstance().getWeather();
+		this.nextWeather = this.model.getWeather();
+		// Set initial file.
 		updateSoundFile();
-		audioPlayback.start();
-		while (run) {
-			nextWeather = Model.getInstance().getWeather();
-			if (nextWeather != currentWeather) {
-				if (volume <= MIN_AUDIO_VOLUME) {
+		this.audioPlayback.start();
+		while (this.run) {
+			this.nextWeather = this.model.getWeather();
+			if (this.nextWeather != this.currentWeather) {
+				if (this.volume <= MIN_AUDIO_VOLUME) {
 					setVolume(MIN_AUDIO_VOLUME);
+					// Switch to the current weather sound.
 					updateSoundFile();
 				} else {
-					setVolume(Math.max(volume - AUDIO_STEPS, MIN_AUDIO_VOLUME));
+					// Decrease the volume before updating file.
+					setVolume(Math.max(this.volume - AUDIO_STEPS, MIN_AUDIO_VOLUME));
 				}
 				sleep();
-			} else if (volume < MAX_AUDIO_VOLUME) {
-				setVolume(Math.min(volume + AUDIO_STEPS, MAX_AUDIO_VOLUME));
+			} else if (this.volume < MAX_AUDIO_VOLUME) {
+				// Increase the volume.
+				setVolume(Math.min(this.volume + AUDIO_STEPS, MAX_AUDIO_VOLUME));
 				sleep();
 			} else {
+				// Currently playing the right sound at the maximum volume. Wait for a change.
 				setVolume(MAX_AUDIO_VOLUME);
-				synchronized (weatherMutex) {
-					while (nextWeather == Model.getInstance().getWeather()) {
-						try {
-							weatherMutex.wait();
-						} catch (InterruptedException e) {
-							run = false;
-							SpresenseDemo.LOGGER.log(Level.INFO, e.getMessage(), e);
-						}
-					}
+				waitForNextWeather();
+			}
+		}
+		this.audioPlayback.stop();
+	}
+
+	private void waitForNextWeather() {
+		synchronized (this.weatherMutex) {
+			while (this.nextWeather == this.model.getWeather()) {
+				try {
+					this.weatherMutex.wait();
+				} catch (InterruptedException e) {
+					this.run = false;
+					SpresenseDemo.LOGGER.log(Level.INFO, e.getMessage(), e);
 				}
 			}
 		}
-		audioPlayback.stop();
 	}
 
 	@Override
 	public void update(Observable o, Object arg) {
-		synchronized (weatherMutex) {
-			if (nextWeather != Model.getInstance().getWeather()) {
-				weatherMutex.notifyAll();
+		synchronized (this.weatherMutex) {
+			Model model = ServiceLoaderFactory.getServiceLoader().getService(Model.class);
+			if (this.nextWeather != model.getWeather()) {
+				this.weatherMutex.notifyAll();
 			}
 		}
 	}
@@ -110,20 +122,20 @@ public class AudioManager extends Thread implements Observer {
 			Thread.sleep(CHANGE_RATE);
 		} catch (InterruptedException e) {
 			SpresenseDemo.LOGGER.log(Level.INFO, e.getMessage(), e);
-			run = false;
+			this.run = false;
 		}
 	}
 
 	private void setVolume(int newVolume) {
-		if (volume != newVolume) {
-			volume = newVolume;
-			audioPlayer.setVolume(volume);
+		if (this.volume != newVolume) {
+			this.volume = newVolume;
+			this.audioPlayer.setVolume(this.volume);
 		}
 	}
 
 	private synchronized void updateSoundFile() {
-		currentWeather = nextWeather;
-		audioPlayback.setFile(new AudioFile(FOLDER + FILES[currentWeather - 1] + EXTENTION, AudioFile.AS_CHANNEL_STEREO,
-				AudioFile.BITLENGTH_16, MP3_FRAMERATE, AudioFile.AUDIO_CODEC_MP3));
+		this.currentWeather = this.nextWeather;
+		this.audioPlayback.setFile(new AudioFile(FOLDER + FILES[this.currentWeather - 1] + EXTENTION,
+				AudioFile.AS_CHANNEL_STEREO, AudioFile.BITLENGTH_16, MP3_FRAMERATE, AudioFile.AUDIO_CODEC_MP3));
 	}
 }

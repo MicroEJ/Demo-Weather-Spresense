@@ -15,7 +15,7 @@ import ej.microui.display.GraphicsContext;
 public interface WeatherAnimation {
 
 	/**
-	 * Render the animation.
+	 * Renders the animation.
 	 *
 	 * @param g
 	 *            the graphic context.
@@ -29,7 +29,7 @@ public interface WeatherAnimation {
 	void stop();
 
 	/**
-	 * Get the weather.
+	 * Gets the weather.
 	 *
 	 * @return the weather.
 	 */

@@ -21,7 +21,6 @@ import ej.microui.MicroUI;
 import ej.widget.StyledDesktop;
 import ej.widget.StyledPanel;
 
-
 /**
  * Entry point of the demo.
  */
@@ -48,15 +47,10 @@ public class SpresenseDemo {
 		if (System.currentTimeMillis() < INIT_TIME) {
 			ej.bon.Util.setCurrentTimeMillis(INIT_TIME);
 		}
-		// Request frequent update of the time following the UI animation.
-		ServiceLoaderFactory.getServiceLoader().getService(Animator.class).startAnimation(new Animation() {
 
-			@Override
-			public boolean tick(long currentTimeMillis) {
-				Model.getInstance().getTime().updateCurrentTime();
-				return true;
-			}
-		});
+		// In this demo, the time flows faster to make the weather changes more engaging
+		simulateFastForwardTime();
+
 		// Starts the audio
 		AudioManager.INSTANCE.start();
 
@@ -68,6 +62,19 @@ public class SpresenseDemo {
 		panel.setWidget(new MainFrame());
 		desktop.show();
 		panel.showFullScreen(desktop);
+	}
+
+	private static void simulateFastForwardTime() {
+		Animator animator = ServiceLoaderFactory.getServiceLoader().getService(Animator.class);
+		animator.startAnimation(new Animation() {
+
+			@Override
+			public boolean tick(long currentTimeMillis) {
+				Model model = ServiceLoaderFactory.getServiceLoader().getService(Model.class);
+				model.getTime().updateCurrentTime();
+				return true;
+			}
+		});
 	}
 
 }

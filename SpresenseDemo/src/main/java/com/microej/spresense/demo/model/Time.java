@@ -7,32 +7,43 @@
  */
 package com.microej.spresense.demo.model;
 
-import java.util.Calendar;
-
 /**
- * A time.
+ * Represents a time with minute-precision.
  */
 public class Time {
-	private static final int MILLIS = 1000;
-	private static final int MILLI_IN_MINUTES = 60 * MILLIS;
-	private static final int MILLI_IN_HOUR = 60 * MILLI_IN_MINUTES;
-	private static final long THRESHOLD = MILLI_IN_HOUR * 24;
-
-	private static final long SPEED = 60 * 60;
-
-	private final Calendar calendar = Calendar.getInstance();
-	private int year;
-	private int month;
-	private int day;
-	private int minute;
-	private int hour;
-	private long currentTime = -1;
-	private long lastUpdate = THRESHOLD + 1;
-	private long offset = 0;
-	private int dayOfWeek;
 
 	/**
-	 * Instantiates a time.
+	 * A field representing the year.
+	 */
+	protected int year;
+
+	/**
+	 * A field representing the month.
+	 */
+	protected int month;
+
+	/**
+	 * A field representing the day.
+	 */
+	protected int day;
+
+	/**
+	 * A field representing the minute.
+	 */
+	protected int minute;
+
+	/**
+	 * A field representing the hour.
+	 */
+	protected int hour;
+
+	/**
+	 * A field representing the day of week.
+	 */
+	protected int dayOfWeek;
+
+	/**
+	 * Constructs an instance of this class given the main date fields.
 	 *
 	 * @param year
 	 *            the current year.
@@ -54,42 +65,12 @@ public class Time {
 	}
 
 	/**
-	 * Update the time using its overspeed.
-	 */
-	public void updateCurrentTime() {
-		long currentTimeMillis = System.currentTimeMillis();
-		if (currentTime == -1) {
-			currentTime = currentTimeMillis;
-			offset = 0;
-		}
-		long elapsed = (currentTimeMillis - currentTime) * SPEED;
-		currentTime = currentTimeMillis;
-		offset += elapsed;
-		lastUpdate += elapsed;
-		if (lastUpdate > THRESHOLD) {
-			long newTime = currentTime + offset;
-			calendar.setTimeInMillis(newTime);
-			year = calendar.get(Calendar.YEAR);
-			month = calendar.get(Calendar.MONTH);
-			day = calendar.get(Calendar.DAY_OF_MONTH);
-			dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
-			hour = calendar.get(Calendar.HOUR_OF_DAY);
-			minute = calendar.get(Calendar.MINUTE);
-			lastUpdate = hour * MILLI_IN_HOUR + minute * MILLI_IN_MINUTES + calendar.get(Calendar.SECOND) * MILLIS
-					+ newTime % MILLIS;
-		} else {
-			hour = (int) (lastUpdate / MILLI_IN_HOUR);
-			minute = (int) ((lastUpdate % MILLI_IN_HOUR) / MILLI_IN_MINUTES);
-		}
-	}
-
-	/**
 	 * Gets the hour.
 	 *
 	 * @return the hour.
 	 */
 	public int getHour() {
-		return hour;
+		return this.hour;
 	}
 
 	/**
@@ -98,7 +79,7 @@ public class Time {
 	 * @return the minute.
 	 */
 	public int getMinute() {
-		return minute;
+		return this.minute;
 	}
 
 	/**
@@ -107,7 +88,7 @@ public class Time {
 	 * @return the day.
 	 */
 	public int getDay() {
-		return day;
+		return this.day;
 	}
 
 	/**
@@ -116,7 +97,7 @@ public class Time {
 	 * @return the month.
 	 */
 	public int getMonth() {
-		return month;
+		return this.month;
 	}
 
 	/**
@@ -125,7 +106,7 @@ public class Time {
 	 * @return the year.
 	 */
 	public int getYear() {
-		return year;
+		return this.year;
 	}
 
 	/**
@@ -134,21 +115,19 @@ public class Time {
 	 * @return the day of week.
 	 */
 	public int getDayOfWeek() {
-		return dayOfWeek;
+		return this.dayOfWeek;
 	}
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + day;
-		result = prime * result + dayOfWeek;
-		result = prime * result + hour;
-		result = prime * result + (int) (lastUpdate ^ (lastUpdate >>> 32));
-		result = prime * result + minute;
-		result = prime * result + month;
-		result = prime * result + (int) (offset ^ (offset >>> 32));
-		result = prime * result + year;
+		result = prime * result + this.day;
+		result = prime * result + this.dayOfWeek;
+		result = prime * result + this.hour;
+		result = prime * result + this.minute;
+		result = prime * result + this.month;
+		result = prime * result + this.year;
 		return result;
 	}
 
@@ -164,28 +143,22 @@ public class Time {
 			return false;
 		}
 		Time other = (Time) obj;
-		if (day != other.day) {
+		if (this.day != other.day) {
 			return false;
 		}
-		if (dayOfWeek != other.dayOfWeek) {
+		if (this.dayOfWeek != other.dayOfWeek) {
 			return false;
 		}
-		if (hour != other.hour) {
+		if (this.hour != other.hour) {
 			return false;
 		}
-		if (lastUpdate != other.lastUpdate) {
+		if (this.minute != other.minute) {
 			return false;
 		}
-		if (minute != other.minute) {
+		if (this.month != other.month) {
 			return false;
 		}
-		if (month != other.month) {
-			return false;
-		}
-		if (offset != other.offset) {
-			return false;
-		}
-		if (year != other.year) {
+		if (this.year != other.year) {
 			return false;
 		}
 		return true;

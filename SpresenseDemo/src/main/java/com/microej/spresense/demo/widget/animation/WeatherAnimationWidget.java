@@ -13,10 +13,12 @@ import java.util.Observer;
 import com.microej.spresense.demo.model.Model;
 import com.microej.spresense.demo.model.Weather;
 import com.microej.spresense.demo.style.StylePopulator;
+import com.microej.spresense.demo.util.WidgetHelper;
 import com.microej.spresense.demo.widget.MainBackground;
 
 import ej.animation.Animation;
 import ej.animation.Animator;
+import ej.components.dependencyinjection.ServiceLoader;
 import ej.components.dependencyinjection.ServiceLoaderFactory;
 import ej.microui.display.GraphicsContext;
 import ej.microui.display.shape.AntiAliasedShapes;
@@ -35,11 +37,12 @@ public class WeatherAnimationWidget extends StyledWidget implements Animation, O
 
 	@Override
 	public void renderContent(GraphicsContext g, Style style, Rectangle bounds) {
-		g.setColor(Model.getColor(Model.getInstance().getTime()));
+		Model model = ServiceLoaderFactory.getServiceLoader().getService(Model.class);
+		g.setColor(WidgetHelper.getColor(model.getTime()));
 		g.setBackgroundColor(g.getColor());
 		g.fillRect(0, 0, bounds.getWidth(), bounds.getHeight());
 
-		if (!animation.render(g)) {
+		if (!this.animation.render(g)) {
 			startAnimation();
 		}
 
@@ -67,15 +70,19 @@ public class WeatherAnimationWidget extends StyledWidget implements Animation, O
 	public void showNotify() {
 		super.showNotify();
 		startAnimation();
-		Model.getInstance().addObserver(this);
-		ServiceLoaderFactory.getServiceLoader().getService(Animator.class).startAnimation(this);
+		ServiceLoader serviceLoader = ServiceLoaderFactory.getServiceLoader();
+		Model model = serviceLoader.getService(Model.class);
+		model.addObserver(this);
+		serviceLoader.getService(Animator.class).startAnimation(this);
 	}
 
 	@Override
 	public void hideNotify() {
 		super.hideNotify();
-		Model.getInstance().deleteObserver(this);
-		ServiceLoaderFactory.getServiceLoader().getService(Animator.class).stopAnimation(this);
+		ServiceLoader serviceLoader = ServiceLoaderFactory.getServiceLoader();
+		Model model = serviceLoader.getService(Model.class);
+		model.deleteObserver(this);
+		serviceLoader.getService(Animator.class).stopAnimation(this);
 	}
 
 	@Override
@@ -85,16 +92,17 @@ public class WeatherAnimationWidget extends StyledWidget implements Animation, O
 	}
 
 	private void startAnimation() {
-		switch (Model.getInstance().getWeather()) {
+		Model model = ServiceLoaderFactory.getServiceLoader().getService(Model.class);
+		switch (model.getWeather()) {
 		case Weather.SUN:
-			animation = new SunAnimation();
+			this.animation = new SunAnimation();
 			break;
 		case Weather.RAIN:
-			animation = new RainAnimation();
+			this.animation = new RainAnimation();
 			break;
 		case Weather.CLOUD:
 		default:
-			animation = new CloudAnimation();
+			this.animation = new CloudAnimation();
 			break;
 		}
 	}
@@ -102,7 +110,8 @@ public class WeatherAnimationWidget extends StyledWidget implements Animation, O
 	@Override
 	public void update(Observable o, Object arg) {
 		WeatherAnimation animation = this.animation;
-		if (animation != null && Model.getInstance().getWeather() != animation.getWeather()) {
+		Model model = ServiceLoaderFactory.getServiceLoader().getService(Model.class);
+		if (animation != null && model.getWeather() != animation.getWeather()) {
 			animation.stop();
 		}
 	}
