@@ -9,7 +9,9 @@ package com.microej.spresense.demo.widget.details;
 
 import com.microej.spresense.demo.model.Model;
 import com.microej.spresense.demo.style.Images;
-import com.microej.spresense.demo.util.NLSUtil;
+import com.microej.spresense.demo.util.NlsHelper;
+
+import ej.components.dependencyinjection.ServiceLoaderFactory;
 
 /**
  * A widget displaying the humidity.
@@ -22,12 +24,13 @@ public class HumidityWidget extends DefaultWeatherDetails {
 	 * Instantiates a {@link HumidityWidget}.
 	 */
 	public HumidityWidget() {
-		super(Images.HUMIDITY, NLSUtil.getHumidity(), MAX_SIZE);
+		super(Images.HUMIDITY, NlsHelper.getHumidity(), MAX_SIZE);
 	}
 
 	@Override
 	protected String getValue() {
-		return String.valueOf(Model.getInstance().getHumidity()) + '%';
+		Model model = ServiceLoaderFactory.getServiceLoader().getService(Model.class);
+		return String.valueOf(model.getHumidity()) + '%';
 	}
 
 }

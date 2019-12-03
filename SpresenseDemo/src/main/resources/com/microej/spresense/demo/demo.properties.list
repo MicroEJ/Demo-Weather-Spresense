@@ -2,4 +2,6 @@
 # This Software has been designed by MicroEJ Corp and all rights have been transferred to Sony Corp.
 # Sony Corp. has granted MicroEJ the right to sub-licensed this Software under the enclosed license terms.
 
-ej.bon.Timer
+# ej.animation.Animator.period=75
+
+com.microej.spresense.demo.model.Model=com.microej.spresense.demo.model.DemoModel

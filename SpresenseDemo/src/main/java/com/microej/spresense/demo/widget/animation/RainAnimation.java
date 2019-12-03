@@ -9,7 +9,7 @@ package com.microej.spresense.demo.widget.animation;
 
 import com.microej.spresense.demo.model.Weather;
 import com.microej.spresense.demo.style.StylePopulator;
-import com.microej.spresense.demo.util.Util;
+import com.microej.spresense.demo.util.WidgetHelper;
 
 import ej.color.GradientHelper;
 import ej.library.ui.MicroEJColors;
@@ -46,7 +46,7 @@ public class RainAnimation implements WeatherAnimation {
 		fastDrops = new RainDrop[dropCount];
 		for(int i=0;i<dropCount;i++) {
 			int length;
-			switch (Util.RANDOM.nextInt(SIZE_COUNT)) {
+			switch (WidgetHelper.RANDOM.nextInt(SIZE_COUNT)) {
 			case 0:
 				length = SMALL;
 				break;
@@ -57,9 +57,9 @@ public class RainAnimation implements WeatherAnimation {
 				length = LARGE;
 				break;
 			}
-			slowDrops[i] = new RainDrop(computeInitalX(), -Util.RANDOM.nextInt(topHeight), length, SPEED - 2);
-			mediumDrops[i] = new RainDrop(computeInitalX(), -Util.RANDOM.nextInt(topHeight), length, SPEED - 1);
-			fastDrops[i] = new RainDrop(computeInitalX(), -Util.RANDOM.nextInt(topHeight), length, SPEED);
+			slowDrops[i] = new RainDrop(computeInitalX(), -WidgetHelper.RANDOM.nextInt(topHeight), length, SPEED - 2);
+			mediumDrops[i] = new RainDrop(computeInitalX(), -WidgetHelper.RANDOM.nextInt(topHeight), length, SPEED - 1);
+			fastDrops[i] = new RainDrop(computeInitalX(), -WidgetHelper.RANDOM.nextInt(topHeight), length, SPEED);
 		}
 	}
 
@@ -94,7 +94,7 @@ public class RainAnimation implements WeatherAnimation {
 	}
 
 	private static int computeInitalX() {
-		return Util.RANDOM.nextInt(StylePopulator.getDisplayWidth() + StylePopulator.getTopHeight());
+		return WidgetHelper.RANDOM.nextInt(StylePopulator.getDisplayWidth() + StylePopulator.getTopHeight());
 	}
 
 	@Override

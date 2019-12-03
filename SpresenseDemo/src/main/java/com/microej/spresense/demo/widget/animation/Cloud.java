@@ -8,7 +8,7 @@
 package com.microej.spresense.demo.widget.animation;
 
 import com.microej.spresense.demo.style.StylePopulator;
-import com.microej.spresense.demo.util.Util;
+import com.microej.spresense.demo.util.WidgetHelper;
 
 import ej.color.GradientHelper;
 import ej.library.ui.MicroEJColors;
@@ -68,28 +68,29 @@ public class Cloud {
 	 */
 	public boolean render(GraphicsContext g, int backgroundColor, long currentTime) {
 		boolean isRunning = true;
-		if (startRender == 0) {
-			startRender = currentTime;
+		if (this.startRender == 0) {
+			this.startRender = currentTime;
 		} else {
-			long diff = currentTime - startRender;
-			isRunning = diff < duration;
+			long diff = currentTime - this.startRender;
+			isRunning = diff < this.duration;
 			if (isRunning) {
 				int clipHeight = g.getClipHeight();
 				int clipWidth = g.getClipWidth();
 				int clipX = g.getClipX();
 				int clipY = g.getClipY();
-				int halfDiameter = diameter / 2;
-				int height = halfDiameter + y;
+				int halfDiameter = this.diameter / 2;
+				int height = halfDiameter + this.y;
 				g.setClip(clipX, clipY, clipWidth, height);
-				float ratio = Math.min(diff / duration, 1);
-				g.setColor(GradientHelper.blendColors(backgroundColor, MicroEJColors.WHITE, getRatio(color, ratio)));
-				AntiAliasedShapes.Singleton.setThickness(THICKNESS);
-				AntiAliasedShapes.Singleton.setFade(FADE);
-				int x = (int) (xInitial + travelLength * ratio);
-				AntiAliasedShapes.Singleton.drawCircle(g, x, y, diameter);
+				float ratio = Math.min(diff / this.duration, 1);
+				g.setColor(
+						GradientHelper.blendColors(backgroundColor, MicroEJColors.WHITE, getRatio(this.color, ratio)));
+				AntiAliasedShapes antiAliasedShapes = AntiAliasedShapes.Singleton;
+				antiAliasedShapes.setThickness(THICKNESS);
+				antiAliasedShapes.setFade(FADE);
+				int x = (int) (this.xInitial + this.travelLength * ratio);
+				antiAliasedShapes.drawCircle(g, x, this.y, this.diameter);
 				g.setClip(clipX, clipY, clipWidth, clipHeight);
-				AntiAliasedShapes.Singleton.drawLine(g, x, y + halfDiameter, x + diameter,
-						y + halfDiameter);
+				antiAliasedShapes.drawLine(g, x, this.y + halfDiameter, x + this.diameter, this.y + halfDiameter);
 			}
 		}
 
@@ -97,12 +98,12 @@ public class Cloud {
 	}
 
 	private void generateValues() {
-		startRender = 0;
-		xInitial = Util.RANDOM.nextInt(StylePopulator.getDisplayWidth()) - diameter;
-		int minY = diameter >> 2;
-			y = Util.RANDOM.nextInt(StylePopulator.getTopHeight() - minY) + minY - diameter / 2;
-			travelLength = diameter + Util.RANDOM.nextInt(StylePopulator.getDisplayWidth());
-			duration = MIN_DURATION + Util.RANDOM.nextInt(DURATION);
+		this.startRender = 0;
+		this.xInitial = WidgetHelper.RANDOM.nextInt(StylePopulator.getDisplayWidth()) - this.diameter;
+		int minY = this.diameter >> 2;
+		this.y = WidgetHelper.RANDOM.nextInt(StylePopulator.getTopHeight() - minY) + minY - this.diameter / 2;
+		this.travelLength = this.diameter + WidgetHelper.RANDOM.nextInt(StylePopulator.getDisplayWidth());
+		this.duration = MIN_DURATION + WidgetHelper.RANDOM.nextInt(DURATION);
 	}
 
 	private static float getRatio(float wantedRatio, float animationRatio) {
