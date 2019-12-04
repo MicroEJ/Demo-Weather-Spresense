@@ -7,7 +7,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
-  - Review.
+  - Typo fix and refactor following review.
+  
+## 1.0.2 - 2019-12-04
+
+### Fixed
+
+  - Add screenshots on readme.
 
 
 ## 1.0.0 - 2019-10-17
