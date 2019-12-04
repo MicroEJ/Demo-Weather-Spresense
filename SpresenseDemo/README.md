@@ -1,6 +1,10 @@
 # Overview
 
-This application demonstrates an user interface with audio and GNSS. 
+This application demonstrates a weather station's user interface with audio and GNSS support. 
+
+![rain](screenshots/rain.png)
+![cloud](screenshots/cloud.png)
+![sun](screenshots/sun.png)
 
 Then entry point (`main`) can be found at `com.microej.spresense.demo.SpresenseDemo`
 
